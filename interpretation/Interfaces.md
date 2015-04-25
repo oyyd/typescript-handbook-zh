@@ -6,7 +6,7 @@ One of TypeScript's core principles is that type-checking focuses on the 'shape'
 The easiest way to see how interfaces work is to start with a simple example:
 让我们来看看下面这个简单的例子，来了解接口是如何工作的：
 
-```
+```js
 function printLabel(labelledObj: {label: string}) {
   console.log(labelledObj.label);
 }
@@ -21,7 +21,7 @@ The type-checker checks the call to 'printLabel'. The 'printLabel' function has 
 We can write the same example again, this time using an interface to describe the requirement of having the 'label' property that is a string:
 让我们重写上面的例子，这次我们将用一个接口来描述这个参数需要有名为'label'的字符串属性的需求：
 
-```
+```js
 interface LabelledValue {
   label: string;
 }
@@ -40,14 +40,14 @@ The interface 'LabelledValue' is a name we can now use to describe the requireme
 It's worth pointing out that the type-checker does not require that these properties come in any sort of order, only that the properties the interface requires are present and have the required type.
 值得指出的是，类型检查器并不要求这些属性遵循一定的顺序。只要接口要求的属性存在，并符合类型即可。
 
-#Optional Properties
+##Optional Properties
 Not all properties of an interface may be required. Some exist under certain conditions or may not be there at all. These optional properties are popular when creating patterns like "option bags" where the user passes an object to a function that only has a couple properties filled in.
 一个接口中的属性并不都是必须的。在一定的条件下，有些属性甚至可以完全不存在。像是“option bags”这种模式中，用户传给函数作为参数的对象，往往只包含部分属性在里面。这时候可选属性就很有用了。
 
 Here's as example of this pattern:
 下面是这种模式的一个例子：
 
-```
+```js
 interface SquareConfig {
   color?: string;
   width?: number;
@@ -68,9 +68,12 @@ var mySquare = createSquare({color: "black"});
 ```
 
 Interfaces with optional properties are written similar to other interfaces, which each optional property denoted with a '?' as part of the property declaration. 
+除了在声明时需要加上'?'作为标识以外，带有可选属性的接口的写法与其他接口相似。
 
 The advantage of optional properties is that you can describe these possibly available properties while still also catching properties that you know are not expected to be available. For example, had we mistyped the name of the property we passed to 'createSquare', we would get an error message letting us know:
+可选参数的优势在于，我们在描述可能存在的属性的同时，仍可以捕捉到那些我们不希望存在的属性。举例来说，如果我们错误地拼写了传给'createSquare'的属性名，会有一条错误信息提示我们：
 
+```js
 interface SquareConfig {
   color?: string;
   width?: number;
@@ -88,17 +91,24 @@ function createSquare(config: SquareConfig): {color: string; area: number} {
 }
 
 var mySquare = createSquare({color: "black"});  
-Function Types
+```
+##Function Types
 Interfaces are capable of describing the wide range of shapes that JavaScript objects can take. In addition to describing an object with properties, interfaces are also capable of describing function types.
+接口可以描述各式各样JavaScript对象的构成。除了描述一个对象的属性以外，接口也可以描述函数类型（的方法）。
 
 To describe a function type with an interface, we give the interface a call signature. This is like a function declaration with only the parameter list and return type given.
+我们给接口一个调用标记来描述函数。它看起来就像是只有参数列表和返回类型的函数定义。
 
+```js
 interface SearchFunc {
   (source: string, subString: string): boolean;
 }
+```
 
 Once defined, we can use this function type interface like we would other interfaces. Here, we show how you can create a variable of a function type and assign it a function value of the same type.
+一旦定义好了以后，我们就可以像其他接口一样使用这个带有函数类型的接口。下面展示了如何创建一个函数变量并给它声明一个同样类型的函数值。
 
+```js
 var mySearch: SearchFunc;
 mySearch = function(source: string, subString: string) {
   var result = source.search(subString);
@@ -109,9 +119,12 @@ mySearch = function(source: string, subString: string) {
     return true;
   }
 }
+```
 
 For function types to correctly type-check, the name of the parameters do not need to match. We could have, for example, written the above example like this:
+为了能对函数类型进行正确的类型检查，参数名称名不需要与接口保持一直。就是说上面的例子也可以这么写：
 
+```js
 var mySearch: SearchFunc;
 mySearch = function(src: string, sub: string) {
   var result = src.search(sub);
@@ -122,30 +135,45 @@ mySearch = function(src: string, sub: string) {
     return true;
   }
 }
+```
 
 Function parameters are checked one at a time, with the type in each corresponding parameter position checked against each other. Here, also, the return type of our function expression is implied by the values it returns (here false and true). Had the function expression returned numbers or strings, the type-checker would have warned us that return type doesn't match the return type described in the SearchFunc interface.
-Array Types
-Similarly to how we can use interfaces to describe function types, we can also describe array types. Array types have an 'index' type that describes the types allowed to index the object, along with the corresponding return type for accessing the index.
+在对函数的参数进行类型检查时，同一时间只会检查一个参数是否与其在接口对应位置上的类型一致。而我们的函数表达式的返回类型也会通过其返回的值对应的类型进行判断（这里是true和false）。如果这里函数返回的是数字或字符串，那类型检查器就会警告我们返回的类型与SearchFunc接口不相符。
 
+##Array Types
+Similarly to how we can use interfaces to describe function types, we can also describe array types. Array types have an 'index' type that describes the types allowed to index the object, along with the corresponding return type for accessing the index.
+我们也可以描述数组类型的接口，它的声明方式与函数类型相似。数组类型会有一个'index'的类型用来表示被允许的索引的类型，以及索引对应的返回值的类型。
+
+```js
 interface StringArray {
   [index: number]: string;
 }
 
 var myArray: StringArray;
 myArray = ["Bob", "Fred"];
+```
 
 There are two types of supported index types: string and number. It is possible to support both types of index, with the restriction that the type returned from the numeric index must be a subtype of the type returned from the string index.
+TypeScript支持两种索引类型：string和number。而同时使用两种类型的索引也是可能的，只要我们保证数字类型的索引所对应的值的类型，必须是字符串索引对应的值的类型的子类型。
 
 While index signatures are a powerful way to describe the array and 'dictionary' pattern, they also enforce that all properties match their return type. In this example, the property does not match the more general index, and the type-checker gives an error:
+虽然索引标识是描述数组和字典类型的数据的好方法，它同时也会强迫其他所有属性都与它们的类型相同。在下面的例子中，'length'属性的类型不符合索引的类型，这会导致类型检查抛出错误：
 
+
+```js
 interface Dictionary {
   [index: string]: string;
   length: number;    // error, the type of 'length' is not a subtype of the indexer
 } 
-Class Types
-Implementing an interface
-One of the most common uses of interfaces in languages like C# and Java, that of explicitly enforcing that a class meets a particular contract, is also possible in TypeScript.
+```
 
+##Class Types
+###Implementing an interface
+One of the most common uses of interfaces in languages like C# and Java, that of explicitly enforcing that a class meets a particular contract, is also possible in TypeScript.
+使一个类符合某种特定的约定，是另一种在C#和Java中很常见的接口的使用方式。在TypeScript中我们也可以这样使用接口。
+
+
+```js
 interface ClockInterface {
     currentTime: Date;
 }
@@ -154,9 +182,12 @@ class Clock implements ClockInterface  {
     currentTime: Date;
     constructor(h: number, m: number) { }
 }
+```
 
 You can also describe methods in an interface that are implemented in the class, as we do with 'setTime' in the below example:
+我们可以在一个接口中描述一个类需要实现的方法。就像下面的例子中的'setTime'方法：
 
+```js
 interface ClockInterface {
     currentTime: Date;
     setTime(d: Date);
@@ -169,11 +200,16 @@ class Clock implements ClockInterface  {
     }
     constructor(h: number, m: number) { }
 }
+```
 
 Interfaces describe the public side of the class, rather than both the public and private side. This prohibits you from using them to check that a class also has particular types for the private side of the class instance.
-Difference between static/instance side of class
-When working with classes and interfaces, it helps to keep in mind that a class has two types: the type of the static side and the type of the instance side. You may notice that if you create an interface with a construct signature and try to create a class that implements this interface you get an error:
+接口之会描述类的公共部分，而不关注私有部分。它不允许我们检查一个类的实例的私有部分。
 
+###Difference between static/instance side of class
+When working with classes and interfaces, it helps to keep in mind that a class has two types: the type of the static side and the type of the instance side. You may notice that if you create an interface with a construct signature and try to create a class that implements this interface you get an error:
+当使用类和接口时，我们应该要记得一个类有静态部分和实例特有的部分。你可能注意到了，如果创建一个带有构造函数标记的接口，并尝试创建一个类来实现这个接口的话，我们会收到个错误：
+
+```js
 interface ClockInterface {
     new (hour: number, minute: number);
 }
@@ -182,11 +218,15 @@ class Clock implements ClockInterface  {
     currentTime: Date;
     constructor(h: number, m: number) { }
 }
+```
 
 This is because when a class implements an interface, only the instance side of the class is checked. Since the constructor sits in the static side, it is not included in this check.
+这是因为当一个类实现了一个接口，只有实例的部分会被进行类型检查。构造函数属于静态的部分，它并不在检查的范围之内。
 
 Instead, you would need to work with the 'static' side of the class directly. In this example, we work with the class directly:
+对应地，我们应该直接检查类的静态部分。就像在下面的例子中，我直接检查类本身：
 
+```js
 interface ClockStatic {
     new (hour: number, minute: number);
 }
@@ -198,9 +238,13 @@ class Clock  {
 
 var cs: ClockStatic = Clock;
 var newClock = new cs(7, 30);
-Extending Interfaces
-Like classes, interfaces can extend each other. This handles the task of copying the members of one interface into another, allowing you more freedom in how you separate your interfaces into reusable components.
+```
 
+##Extending Interfaces
+Like classes, interfaces can extend each other. This handles the task of copying the members of one interface into another, allowing you more freedom in how you separate your interfaces into reusable components.
+同类一样，接口也可以相互扩展。下面的例子将一个接口中的成员拷贝到了另一个接口中。这将允许我们根据自己的意愿将接口分离成可重用的部分。
+
+```js
 interface Shape {
     color: string;
 }
@@ -212,9 +256,12 @@ interface Square extends Shape {
 var square = <Square>{};
 square.color = "blue";
 square.sideLength = 10;
+```
 
 An interface can extend multiple interfaces, creating a combination of all of the interfaces.
+一个接口可以通过扩展多个接口，形成一个多接口的组合。
 
+```js
 interface Shape {
     color: string;
 }
@@ -231,11 +278,16 @@ var square = <Square>{};
 square.color = "blue";
 square.sideLength = 10;
 square.penWidth = 5.0;
-Hybrid Types
+```
+
+##Hybrid Types
 As we mentioned earlier, interfaces can describe the rich types present in real world JavaScript. Because of JavaScript's dynamic and flexible nature, you may occasionally encounter an object that works as a combination of some of the types described above. 
+就像我们之前提到过的，接口可以描述现实世界中的JavaScript所表现的丰富的数据类型。由于JavaScript动态，灵活的特性，我们有时可能会碰到需要综合使用前面描述的接口的使用方法，来处理一个对象的情景。
 
 One such example is an object that acts as both a function and an object, with additional properties:
+举个例子，一个同时可以作为函数，并带有额外属性的对象：
 
+```js
 interface Counter {
     (start: number): string;
     interval: number;
@@ -246,5 +298,7 @@ var c: Counter;
 c(10);
 c.reset();
 c.interval = 5.0;
+```
 
 When interacting with 3rd-party JavaScript, you may need to use patterns like the above to fully-describe the shape of the type.
+当同第三方JavaScript代码进行交互时，我们可能就需要使用上面的模式，以完整地描述一个数据的类型和结构。
