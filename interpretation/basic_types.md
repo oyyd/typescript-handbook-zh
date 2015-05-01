@@ -1,10 +1,12 @@
 #Basic Types
 For programs to be useful, we need to be able to work with some of the simplest units of data: numbers, strings, structures, boolean values, and the like. In TypeScript, we support much the same types as you would expected in JavaScript, with a convenient enumeration type thrown in to help things along.
-程序要跑起来，里不开使用一些基本的数据类型，如：numbers, strings, structures, boolean等。在TypeScript中，所有你在JavaScript中用到的数据类型都会被支持，同时TypeScript还添加了便利的枚举类型（enumeration type）以供使用。
+
+程序要跑起来，离不开使用一些基本的数据类型，如：numbers, strings, structures, boolean等。在TypeScript中，所有你在JavaScript中用到的数据类型都会被支持，同时TypeScript还添加了便利的枚举类型（enumeration type）以供使用。
 
 ##Boolean
 The most basic datatype is the simple true/false value, which JavaScript and TypeScript (as well as other languages) call a 'boolean' value.
-布尔类型（boolean）的真假值是最基本的数据类型，JavaScript和TypeScript（以及其他语言）都支持布尔类型。
+
+真/假值是最基本的数据类型，这种数据类型在JavaScript和TypeScript中（以及其他语言）称为布尔类型（boolean）。
 
 ```js
 var isDone: boolean = false;
@@ -12,7 +14,8 @@ var isDone: boolean = false;
 
 ##Number
 As in JavaScript, all numbers in TypeScript are floating point values. These floating point numbers get the type 'number'.
-同JavaScript中一样，TypeScript中数字数据都是浮点数。这些浮点数都被称作数字类型（number）。
+
+同JavaScript一样，TypeScript中数字数据都是浮点数。这些浮点数都被称作数字类型（number）。
 
 ```js
 var height: number = 6;
@@ -20,7 +23,8 @@ var height: number = 6;
 
 ##String
 Another fundamental part of creating programs in JavaScript for webpages and servers alike is working with textual data. As in other languages, we use the type 'string' to refer to these textual datatypes. Just like JavaScript, TypeScript also uses the double quote (") or single quote (') to surround string data.
-文本类型的数据是网页和服务器等程序的基础之一。同其他语言一样，我们使用字符串（string）来指代这些文本类型的数据。在TypeScript中，你也可以像在JavaScript中一样，使用双引号（""）或单引号（''）来表示字符串。
+
+文本类型的数据是JavaScript编写网页和服务器等程序的基础之一。同其他语言一样，我们使用字符串（string）来指代这些文本类型的数据。在TypeScript中，你也可以像在JavaScript中那样，使用双引号（""）或单引号（''）来表示字符串。
 
 ```js
 var name: string = "bob";
@@ -29,14 +33,16 @@ name = 'smith';
 
 ##Array
 TypeScript, like JavaScript, allows you to work with arrays of values. Array types can be written in one of two ways. In the first, you use the type of the elements followed by '[]' to denote an array of that element type:
-同JavaScript一样，TypeScript中我们也可以使用数组。我们可以使用两种不同的方式来使用数组，第一种是在元素类型后面附上中括号（[]），来表示该数组的中元素的类型。
+
+同JavaScript一样，TypeScript中我们也可以使用数组。我们可以使用两种不同的方式来书写数组。第一种是在元素类型后面附上中括号（[]），来表示该类型的数组：
 
 ```js
 var list:number[] = [1, 2, 3];
 ```
 
 The second way uses a generic array type, Array<elemType>:
-第二种是使用generic array type，形式如Array<elemType>：
+
+第二种是使用泛型数组类型，形式如Array<elemType>：
 
 ```js
 var list:Array<number> = [1, 2, 3];
@@ -44,7 +50,8 @@ var list:Array<number> = [1, 2, 3];
 
 ##枚举（Enum）
 A helpful addition to the standard set of datatypes from JavaScript is the 'enum'. Like languages like C#, an enum is a way of giving more friendly names to sets of numeric values.
-JavaScript所没有的，一种很有用的标准数据类型是枚举类型（enum）。就像C#等语言中一样，枚举提供了一种给数字类型的值设置容易辨别的名字的方法。
+
+TypeScript拓展了JavaScript原生的标准数据类型集，增加了枚举类型（enum）。枚举是一种很有用的数据类型，就像C#等语言中一样，它提供了一种给数字类型的值设置容易辨别的名字的方法。
 
 ```js
 enum Color {Red, Green, Blue};
@@ -52,7 +59,8 @@ var c: Color = Color.Green;
 ```
 
 By default, enums begin numbering their members starting at 0. You can change this by manually setting the value of one its members. For example, we can start the previous example at 1 instead of 0:
-在默认情况下，枚举类型会从0开始计数。我们可以通过人为地设置它的数值来改变默认值。举例来说，上面的例子我们可以设置从1开始计数：
+
+在默认情况下，枚举类型会从0开始标记它的元素。我们可以通过人为地设置元素的数值来改变默认值。例如，上面的例子我们可以设置从1开始计数：
 
 ```js
 enum Color {Red = 1, Green, Blue};
@@ -60,7 +68,8 @@ var c: Color = Color.Green;
 ```
 
 Or, even manually set all the values in the enum:
- 我们甚至可以给所有的枚举元素设置数值：
+
+我们甚至可以给所有的枚举元素设置数值：
 
 ```js
 enum Color {Red = 1, Green = 2, Blue = 4};
@@ -68,7 +77,8 @@ var c: Color = Color.Green;
 ```
 
 A handy feature of enums is that you can also go from a numeric value to the name of that value in the enum. For example, if we had the value 2 but weren't sure which that mapped to in the Color enum above, we could look up the corresponding name:
-枚举类型有一个便捷特性，我们可以直接使用一个枚举类型的名对所对应的值。举例来说，如果我们有一个值为2,但我们不确定这个数值对应枚举类型中的那个元素，那我们可以直接查找这个数值对应的名称：
+
+枚举类型有一个便捷特性，我们也可以直接使用一个枚举元素的名对所对应的值。举例来说，如果我们有一个值为2,但我们不确定这个数值对应枚举类型中的哪个元素，那我们可以直接查找这个数值对应的名称：
 
 ```js
 enum Color {Red = 1, Green, Blue};
@@ -79,7 +89,8 @@ alert(colorName);
 
 ##Any
 We may need to describe the type of variables that we may not know when we are writing the application. These values may come from dynamic content, eg from the user or 3rd party library. In these cases, we want to opt-out of type-checking and let the values pass through compile-time checks. To do so, we label these with the 'any' type:
-当我们在编写应用时，我们可能会需要描述一些我们不清楚其类型的变量类型。因为这些变量的值可能来源于一些动态的内容，比如用户或第三方提供的库。在这类情况下，我们可能就不想检查这些变量的值的类型，就让他们通过编译时的检查。于是我们就可以把它们标识为'any'类型：
+
+当我们编写应用时，我们可能会需要描述一些类型不明确的变量。因为这些变量的值可能来源于一些动态的内容，比如用户或第三方提供的库。在这类情况下，我们可能想省却这些变量值的类型检查，就让它们直接通过编译时的检查。于是我们就可以把它们标识为'any'类型：
 
 ```js
 var notSure: any = 4;
@@ -88,10 +99,12 @@ notSure = false; // okay, definitely a boolean
 ```
 
 The 'any' type is a powerful way to work with existing JavaScript, allowing you to gradually opt-in and opt-out of type-checking during compilation.
-'any'类型是我们处理已有的JavaScript代码的一种强大的方式。它允许我们在编译阶段时，逐增加或绕过类型检查。
+
+'any'类型是我们处理已有的JavaScript代码的一种强大的方式。它允许我们在编译过程中，增加或绕过类型检查。
 
 
 The 'any' type is also handy if you know some part of the type, but perhaps not all of it. For example, you may have an array but the array has a mix of different types:
+
 当我们知道一部分数据类型，却又不确定全部的数据类型时，使用'any'可以让我们方便不少。比如你有一个数组，但是这个数组中的元素属于不同的数据类型，那你可以这么做：
 
 ```js
@@ -102,6 +115,7 @@ list[1] = 100;
 
 ##Void
 Perhaps the opposite in some ways to 'any' is 'void', the absence of having any type at all. You may commonly see this as the return type of functions that do not return a value:
+
 与'any'对应的数据类型是'void'，它代表缺省类型。没有返回值的函数就可以认为是'void'类型：
 
 ```js
