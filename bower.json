@@ -1,0 +1,18 @@
+{
+  "name": "typescript-handbook-zh",
+  "version": "0.1.0",
+  "authors": [
+    "oyyd <oyydoibh@gmail.com>"
+  ],
+  "description": "TypeScript handbook in chinese.",
+  "main": "index.html",
+  "keywords": [
+    "TypeScript"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "requirejs": "~2.1.17",
+    "highlightjs": "~8.5.0",
+    "markdown-js": "~0.6.2"
+  }
+}
