@@ -1,0 +1,12 @@
+.thz .hide{
+  display: none;
+}
+
+.thz .check-ori{
+  cursor: pointer;
+  font-size: 10px;
+}
+
+.thz p{
+  font-size: 18px;
+}
