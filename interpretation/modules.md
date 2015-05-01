@@ -171,8 +171,9 @@ The compiler will automatically order the output file based on the reference tag
 tsc --out sample.js Validation.ts LettersOnlyValidator.ts ZipCodeValidator.ts Test.ts
 ```
 
-Alternatively, we can use per-file compilation (the default) to emit one JavaScript file for each input file. If multiple JS files get produced, we'll need to use <script> tags on our webpage to load each emitted file in the appropriate order, for example:
-另外，我们也可以使用每个文件分别输出的编译方式（这是默认选项）。生成多个JS文件以后，我们需要在网页上用<script>标签按恰当的顺序加载每个文件，像是下面的例子：
+Alternatively, we can use per-file compilation (the default) to emit one JavaScript file for each input file. If multiple JS files get produced, we'll need to use &lt;script&gt; tags on our webpage to load each emitted file in the appropriate order, for example:
+
+另外，我们也可以使用每个文件分别输出的编译方式（这是默认选项）。生成多个JS文件以后，我们需要在网页上用&lt;script&gt;标签按恰当的顺序加载每个文件，像是下面的例子：
 
 **MyTestPage.html (excerpt)**
 

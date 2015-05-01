@@ -11,8 +11,8 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "requirejs": "~2.1.17",
     "highlightjs": "~8.5.0",
-    "markdown-js": "~0.6.2"
+    "jquery": "~2.1.4",
+    "marked": "~0.3.3"
   }
 }
