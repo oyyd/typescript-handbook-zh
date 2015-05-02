@@ -1,9 +1,11 @@
 #Classes
 Traditional JavaScript focuses on functions and prototype-based inheritance as the basic means of building up reusable components, but this may feel a bit awkward to programmers more comfortable with an object-oriented approach, where classes inherit functionality and objects are built from these classes. Starting with ECMAScript 6, the next version of JavaScript, JavaScript programmers will be able to build their applications using this object-oriented class-based approach. In TypeScript, we allow developers to use these techniques now, and compile them down to JavaScript that works across all major browsers and platforms, without having to wait for the next version of JavaScript.
-传统的JavaScript专注于使用函数和基于原型的继承作为构建可重用部件的基本方法。然而这对于习惯于面向对象方法的程序员来说显得有点别扭，因为继承机理和对象都构建于类之上。从下一个版本的JavaScript，即ECMAScript 6开始，JavaScript程序员将可以用基于类的面向对象的方式来构建应用。而TypeScript则允许开发者现在就使用这些新技术，并将它们编译成可在主流浏览器和平台上运行的JavaScript，而不必等待下一个版本的JavaScript。
+
+传统的JavaScript专注于使用函数和基于原型的继承作为构建可重用部件的基本方法。然而这对于习惯于面向对象方法的程序员来说显得有点别扭，在面向对象编程中类继承功能并生成对象。从下一个版本的JavaScript，即ECMAScript 6开始，JavaScript程序员将可以用基于类的面向对象的方式来构建应用。而TypeScript则允许开发者现在就使用这些新技术，并将它们编译成可在主流浏览器和平台上运行的JavaScript，而不必等待下一个版本的JavaScript。
 
 ##Classes
 Let's take a look at a simple class-based example:
+
 让我们来看一个基于类的简单例子：
 
 ```js
@@ -21,19 +23,24 @@ var greeter = new Greeter("world");
 ```
 
 The syntax should look very familiar if you've used C# or Java before. We declare a new class 'Greeter'. This class has three members, a property called 'greeting', a constructor, and a method 'greet'. 
-如果你曾经使用过C#或java，那语法看起来应该很熟悉。我们声明了一个有三个成员的类'Greeter'，包括一个名为'greeting'的属性，一个构造函数和一个方法'greet'。
+
+如果你曾经使用过C#或Java，那应该对上面的语法很熟悉。我们声明了一个有三个成员的类'Greeter'，即'greeting'属性、构造函数和'greet'方法。
 
 You'll notice that in the class when we refer to one of the members of the class we prepend 'this.'. This denotes that it's a member access.
-我们注意到这个类中的一个成员函数中使用了'this.'前缀，这是用来获取其成员（实例？）的。
+
+你会注意到当我们在类中用到某个成员时，我们使用了'this.'前缀，表明了这是一次对类成员的访问。
 
 In the last line we construct an instance of the Greeter class using 'new'. This calls into the constructor we defined earlier, creating a new object with the Greeter shape, and running the constructor to initialize it.
-代码的最后一行，我们用'new'操作符构建了一个Greeter类的实例。它调取了我们先前定义的构造函数，创建了一个Greeter类型的新对象，并执行构造函数初始化了这个对象。
+
+代码的最后一行，我们用'new'操作符构建了一个Greeter类的实例。构造过程是：调用我们先前定义的构造函数，创建了一个Greeter类型的新对象，并执行构造函数初始化了这个对象。
 
 ##Inheritance
 In TypeScript, we can use common object-oriented patterns. Of course, one of the most fundamental patterns in class-based programming is being able to extend existing classes to create new ones using inheritance.
-我们可以在TypeScript中使用常见的面向对象的模式。当然在使用类的编程中，最基本的一个模式便是通过继承来扩展已有的类，以创建新的类。
+
+我们可以在TypeScript中使用常见的面向对象的模式。当然在基于类的编程中，最基本的一个模式便是通过继承来扩展已有的类，以创建新的类。
 
 Let's take a look at an example:
+
 让我们来看一个例子：
 
 ```js
@@ -69,10 +76,12 @@ tom.move(34);
 ```
 
 This example covers quite a bit of the inheritance features in TypeScript that are common to other languages. Here we see using the 'extends' keywords to create a subclass. You can see this where 'Horse' and 'Snake' subclass the base class 'Animal' and gain access to its features.
-这个例子涵盖了不少在其他语言中常见的，同时也属于TypeScript的特性。我们看到这里使用了'extends'关键字来创建一个子类。这里的'Horse'和'Snake'子类基于'Animal'并拥有一些额外的特性。
+
+这个例子涵盖了不少在其他语言中常见的，同时也属于TypeScript的继承特性。我们看到这里使用了'extends'关键字来创建一个子类。这里的'Horse'和'Snake'继承基类'Animal'并能访问基类的成员。
 
 The example also shows off being able to override methods in the base class with methods that are specialized for the subclass. Here both 'Snake' and 'Horse' create a 'move' method that overrides the 'move' from 'Animal', giving it functionality specific to each class.
-这个例子同时也展示了我们可以通过对子类进行专门的定义来重写超类（？）中的方法。这里的'Snake'和'Horse'都创建了一个重写'Animal'中的'move'的方法，来给予每个类特定的功能。
+
+这个例子同时也展示了我们可以通过对子类进行专门的定义来重写超类（？）中的方法。这里的'Snake'和'Horse'都创建了一个'move'方法,重写了'Animal'中的'move'方法，从而给予每个类特定的功能。
 
 ##Private/Public modifiers
 ###Public by default
