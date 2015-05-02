@@ -189,6 +189,7 @@ interface Dictionary {
 ##Class Types
 ###Implementing an interface
 One of the most common uses of interfaces in languages like C# and Java, that of explicitly enforcing that a class meets a particular contract, is also possible in TypeScript.
+
 使一个类符合某种特定的约定，是另一种在C#和Java中很常见的接口的使用方式。在TypeScript中我们也可以这样使用接口。
 
 
@@ -204,6 +205,7 @@ class Clock implements ClockInterface  {
 ```
 
 You can also describe methods in an interface that are implemented in the class, as we do with 'setTime' in the below example:
+
 我们可以在一个接口中描述一个类需要实现的方法。就像下面的例子中的'setTime'方法：
 
 ```js
@@ -222,10 +224,12 @@ class Clock implements ClockInterface  {
 ```
 
 Interfaces describe the public side of the class, rather than both the public and private side. This prohibits you from using them to check that a class also has particular types for the private side of the class instance.
-接口之会描述类的公共部分，而不关注私有部分。它不允许我们检查一个类的实例的私有部分。
+
+接口只能描述类的公共部分，而不关注私有部分。这种机制不允许我们通过接口来检查一个类的实例的私有部分。
 
 ###Difference between static/instance side of class
 When working with classes and interfaces, it helps to keep in mind that a class has two types: the type of the static side and the type of the instance side. You may notice that if you create an interface with a construct signature and try to create a class that implements this interface you get an error:
+
 当使用类和接口时，我们应该要记得一个类有静态部分和实例特有的部分。你可能注意到了，如果创建一个带有构造函数标记的接口，并尝试创建一个类来实现这个接口的话，我们会收到个错误：
 
 ```js
@@ -240,9 +244,11 @@ class Clock implements ClockInterface  {
 ```
 
 This is because when a class implements an interface, only the instance side of the class is checked. Since the constructor sits in the static side, it is not included in this check.
-这是因为当一个类实现了一个接口，只有实例的部分会被进行类型检查。构造函数属于静态的部分，它并不在检查的范围之内。
+
+这是因为当一个类实现了一个接口，只有实例的部分会被进行检查。构造函数属于静态的部分，它并不在检查的范围之内。
 
 Instead, you would need to work with the 'static' side of the class directly. In this example, we work with the class directly:
+
 对应地，我们应该直接检查类的静态部分。就像在下面的例子中，我直接检查类本身：
 
 ```js
@@ -261,7 +267,8 @@ var newClock = new cs(7, 30);
 
 ##Extending Interfaces
 Like classes, interfaces can extend each other. This handles the task of copying the members of one interface into another, allowing you more freedom in how you separate your interfaces into reusable components.
-同类一样，接口也可以相互扩展。下面的例子将一个接口中的成员拷贝到了另一个接口中。这将允许我们根据自己的意愿将接口分离成可重用的部分。
+
+同类一样，接口也可以相互扩展。扩展机制负责将一个接口中的成员拷贝到另一个接口中，这将允许我们根据自己的意愿把接口分离成可重用的组件。
 
 ```js
 interface Shape {
@@ -278,7 +285,8 @@ square.sideLength = 10;
 ```
 
 An interface can extend multiple interfaces, creating a combination of all of the interfaces.
-一个接口可以通过扩展多个接口，形成一个多接口的组合。
+
+一个接口可以扩展多个接口，从而形成一个多接口的组合。
 
 ```js
 interface Shape {
@@ -301,9 +309,11 @@ square.penWidth = 5.0;
 
 ##Hybrid Types
 As we mentioned earlier, interfaces can describe the rich types present in real world JavaScript. Because of JavaScript's dynamic and flexible nature, you may occasionally encounter an object that works as a combination of some of the types described above. 
-就像我们之前提到过的，接口可以描述现实世界中的JavaScript所表现的丰富的数据类型。由于JavaScript动态，灵活的特性，我们有时可能会碰到需要综合使用前面描述的接口的使用方法，来处理一个对象的情景。
+
+就像我们之前提到过的，接口可以描述现实世界中的JavaScript所表现的丰富的数据类型。由于JavaScript动态、灵活的特性，我们有时可能会碰到需要综合使用前面描述的接口的使用方法，来处理一个对象的情景。
 
 One such example is an object that acts as both a function and an object, with additional properties:
+
 举个例子，一个同时可以作为函数，并带有额外属性的对象：
 
 ```js
@@ -320,4 +330,5 @@ c.interval = 5.0;
 ```
 
 When interacting with 3rd-party JavaScript, you may need to use patterns like the above to fully-describe the shape of the type.
+
 当同第三方JavaScript代码进行交互时，我们可能就需要使用上面的模式，以完整地描述一个数据的类型和结构。
