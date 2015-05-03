@@ -387,17 +387,19 @@ var sq = new polygons.Square(); // Same as 'new Shapes.Polygons.Square()'
 
 $Notice that we don't use the require keyword; instead we assign directly from the qualified name of the symbol we're importing. This is similar to using var, but also works on the type and namespace meanings of the imported symbol. Importantly, for values, import is a distinct reference from the original symbol, so changes to an aliased var will not be reflected in the original variable.
 $$注意我们没有使用require关键字，而是直接赋值为我们导入对象的限定名。这和var的使用方式相似，但它同时也对所导入对象的类型以及
-命名空间起作用。重要的是，对于值来说，import是独立于原对象的一个引用，所以对引用变量的修改不会反映在原变量上。
+命名空间起作用。重要的是，对于值来说，import是独立于原对象的一个引用，所以对别名变量的修改不会反映在原变量上。
 
 ##Optional Module Loading and Other Advanced Loading Scenarios
 $In some cases, you may want to only load a module under some conditions. In TypeScript, we can use the pattern shown below to implement this and other advanced loading scenarios to directly invoke the module loaders without losing type safety.
-$$在某些场景下，你可能需要在某些条件成立的情况下再加载某一个模块。在TypeScript中，我们可以用后面展示的方式，在保障数据类型保持安全的前提下，直接触发模块加载器，以满足这种需求及其他特殊的模块加载场景。
+$$在某些场景下，你可能需要在某些条件成立的情况下再加载某一个模块。在TypeScript中，我们可以用后面展示的模式，在保障数据
+类型安全的前提下，直接触发模块加载器，以满足这种需求及其他特殊的模块加载场景。
 
 $The compiler detects whether each module is used in the emitted JavaScript. For modules that are only used as part of the type system, no require calls are emitted. This culling of unused references is a good performance optimization, and also allows for optional loading of those modules.
-$$编译器会检测在生成的JavaScript中，是否每个模块都被用到了。对于那些只会作用于类型系统的模块来说，我们并不需要调用require。这种挑选出未被使用的引用的做法对性能大有脾益，并且也允许我们加载这些可选的模块（?）。
+$$编译器会检测在生成的JavaScript中，是否每个模块都被用到了。对于那些只会用于类型系统的模块来说，我们并不需要调用require。这种挑选出未被使用的引用的做法对性能大有脾益，并且也允许我们选择性地加载这些模块（?）。
 
 $The core idea of the pattern is that the import id = require('...') statement gives us access to the types exposed by the external module. The module loader is invoked (through require) dynamically, as shown in the if blocks below. This leverages the reference-culling optimization so that the module is only loaded when needed. For this pattern to work, it's important that the symbol defined via import is only used in type positions (i.e. never in a position that would be emitted into the JavaScript).
-$$这一模式的核心思想在于用import id = require('...')获取外部模块暴露出来的类型。就像下面的if语句块那样，模块加载器会被（require）动态触发。由于模块只有在被需要时才会被加载，所以这种做法能够充分发挥reference-culling对性能的提升作用。而要让这种模式能够起作用，关键在于保证我们用import定义的标识只用在类型上（即编译时不会生成JavaScript代码）。
+$$这一模式的核心思想在于用import id = require('...')获取外部模块暴露出来的类型。就像下面的if语句块那样，模块加载器会被（require）动态触发。
+通过利用引用筛选（reference-culling）优化，使得模块可以按需加载。而要让这种模式能够起作用，关键在于保证我们通过import定义的标识只用在类型上（即编译时不会生成JavaScript代码）。
 
 $To maintain type safety, we can use the typeof keyword. The typeof keyword, when used in a type position, produces the type of a value, in this case the type of the external module.
 $$我们可以用typeof关键字来保证类型的安全。用在类型位置上的typeof关键字会生成一个值对应的类型，在这个例子中对应的是外部模块的类型。
@@ -427,11 +429,13 @@ if (needZipValidation) {
 
 ##Working with Other JavaScript Libraries
 $To describe the shape of libraries not written in TypeScript, we need to declare the API that the library exposes. Because most JavaScript libraries expose only a few top-level objects, modules are a good way to represent them. We call declarations that don't define an implementation "ambient". Typically these are defined in .d.ts files. If you're familiar with C/C++, you can think of these as .h files or 'extern'. Let's look at a few examples with both internal and external examples.
-$$为了描述非TypeScript的库的数据的类型，我们需要声明这个库所暴露出来的API。因为大多数JavaScript的库只会暴露出来一些顶层的对象，所以用模块的形式来表示这些库是很合适的。我们在声明的时候，并没有定义一个实现环境。通常这些都被定义在.d.ts的文件中。如果你对C/C++很熟悉的话，你可以把它们当作是.h文件或是"外部的" 。接下来让我们来看一些内部模块和外部模块的例子。
+$$为了描述非TypeScript的库的数据的类型和结构，我们需要声明这个库所暴露出来的API。因为大多数JavaScript的库只会暴露出来一些顶层的对象，所以用模块的形式来表示这些库是很合适的。
+我们在声明的时候，并没有定义一个实现环境。通常这些都被定义在.d.ts的文件中。如果你对C/C++很熟悉的话，你可以把它们当作是.h文件或是"extern" 。接下来让我们来看一些内部模块和外部模块的例子。
 
 ###Ambient Internal Modules
 $The popular library D3 defines its functionality in a global object called 'D3'. Because this library is loaded through a script tag (instead of a module loader), its declaration uses internal modules to define its shape. For the TypeScript compiler to see this shape, we use an ambient internal module declaration. For example:
-$$很流行的库D3把它的功能都定义在了一个名为'D3'的全局对象中。由于这个库是通过一个script标签加载进来的（而不是通过模块加载器），它的声明使用了内部模块来定义它的结构。我们用一个ambient内部模块声明来让TypeScript的编译器可以了解它的结构。举个例子：
+$$很流行的D3库把它的功能都定义在了一个名为'D3'的全局对象中。由于这个库是通过script标签加载的（而不是通过模
+块加载器），它的声明使用了内部模块来定义它的结构。我们用一个ambient内部模块声明来让TypeScript的编译器可以了解它的结构。举个例子：
 
 **D3.d.ts (simplified excerpt)**
 
@@ -459,7 +463,8 @@ declare var d3: D3.Base;
 
 ###Ambient External Modules
 $In node.js, most tasks are accomplished by loading one or more modules. We could define each module in its own .d.ts file with top-level export declarations, but it's more convenient to write them as one larger .d.ts file. To do so, we use the quoted name of the module, which will be available to a later import. For example:
-$$node.js中的大多数的任务是通过加载一个或多个模块来完成的。虽然我们可以在每个文件对应的.d.ts文件中，用顶层输出声明定义这个模块，但把他们写成一个更大的.d.ts文件会更简洁。我们会使用模块的引用名称来实现这一点，这个名称可以在后面的import中使用。举个例子：
+$$node.js中的大多数的任务是通过加载一个或多个模块来完成的。虽然我们可以在每个模块对应的.d.ts文件中，用顶层输出（export）
+声明来定义这个模块，但把它们写成一个更大的.d.ts文件会更方便。我们会使用模块的引用名称来实现这一点，这个名称可以在后面的import中使用。举个例子：
 
 **node.d.ts (simplified excerpt)**
 
@@ -482,7 +487,7 @@ declare module "path" {
 ```
 
 $Now we can /// <reference> node.d.ts and then load the modules using e.g. import url = require('url');.
-$$现在我们可以用"/// <reference>"来引用node.d.ts并用import url = require('url')来读取模块。
+$$现在我们可以用"/// <reference>"来引用node.d.ts并用类似import url = require('url')的语句来加载相应模块。
 
 ```js
 ///<reference path="node.d.ts"/>
@@ -493,7 +498,7 @@ var myUrl = url.parse("http://www.typescriptlang.org");
 
 ##Pitfalls of Modules
 $In this section we'll describe various common pitfalls in using internal and external modules, and how to avoid them.
-$$我们将在这一部分讲述使用内部模块和外部模块时常见的误区，以及如何避免它们。
+$$我们将在这一部分讲述使用内部模块和外部模块时常见的陷阱，以及如何避免它们。
 
 ###/// <reference> to an external module
 $A common mistake is to try to use the /// <reference> syntax to refer to an external module file, rather than using import. To understand the distinction, we first need to understand the three ways that the compiler can locate the type information for an external module.
