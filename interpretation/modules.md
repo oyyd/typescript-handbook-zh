@@ -47,7 +47,8 @@ $As we add more validators, we're going to want to have some kind of organizatio
 $$当我们添加更多的验证方法时，我们会想要有某种组织我们的代码的方式，好让我们能够追踪我们创建的类型，同时也不用担心与其他对象在命名上有冲突。我们将把所创建的对象包裹进一个模块中，而非将它们放在全局环境，取一堆不同的名字。
 
 $In this example, we've moved all the Validator-related types into a module called Validation. Because we want the interfaces and classes here to be visible outside the module, we preface them with export. Conversely, the variables lettersRegexp and numberRegexp are implementation details, so they are left unexported and will not be visible to code outside the module. In the test code at the bottom of the file, we now need to qualify the names of the types when used outside the module, e.g. Validation.LettersOnlyValidator.
-$$在这个例子中，我们已经把所有和验证相关的类型都放进了一个名为'Validation'的模块中。为了让这里的接口和类在模块外部也是可见的，我们用关键词export做开头修饰它们。相反的，变量'lettersRegexp'和'numberRegexp'都是验证实现的细节部分，我们将保持它们的非输出的状态，使其在外部不可见。在文件最后的测试代码中，我们在这个模块的外部测试了验证类型的名字，如：Validation.LettersOnlyValidator。
+$$在这个例子中，我们已经把所有和验证相关的类型都放进了一个名为'Validation'的模块中。为了让这里的接口和类在模块外部也是可见的，我们用关键词export做开头修饰它们。相反的，变量'lettersRegexp'和'numberRegexp'都是验证实现的细节部分，我们将保持它们的非输出的状态，使其在外部不可见。正如文件最后的测试代码，当用在模块外面时，
+我们需要限定验证类型的名字，如：Validation.LettersOnlyValidator。
 
 **Modularized Validators**
 
@@ -274,7 +275,7 @@ $$编译器会根据编译时指定的类型，为node.js (commonjs)或require.j
 多关于在生成的代码中定义和依赖的调用到底做了什么，你可以查看每个模块加载器的文档。
 
 $This simple example shows how the names used during importing and exporting get translated into the module loading code.
-$$下面这个例子展示了在import和export阶段所使用的名称是如何被翻译成其他模块加载器的代码的。
+$$下面这个例子展示了在import和export过程中所使用的名称是如何被翻译成模块加载代码的。
 
 **SimpleModule.ts**
 
@@ -301,13 +302,14 @@ exports.t = m.something + 1;
 
 ##Export =
 $In the previous example, when we consumed each validator, each module only exported one value. In cases like this, it's cumbersome to work with these symbols through their qualified name when a single identifier would do just as well.
-$$在前面的例子中，每次我们输出一个validator时，每个模块都只暴露出一个值。而实际上对于这种一个模块只要输出一个值情况，这样的做法是十分笨重的。
+$$在前面的例子中，每次我们使用一个validator时，每个模块都只输出一个值。像这种情况，用一个标识符就可以做的很好但却
+仍要使用限定名，这会显得很笨重。
 
 $The export = syntax specifies a single object that is exported from the module. This can be a class, interface, module, function, or enum. When imported, the exported symbol is consumed directly and is not qualified by any name.
-$$"export ="的句法可以指定一个模块要输出的一个对象。这个对象可以是个类，也可以是接口，模块，函数或是枚举类型。而当这个模块被输入时，模块输出的内容就可以被直接使用，而不需要再加上任何（模块）名称。
+$$"export ="的句法可以指定模块要输出的单一对象。这个对象可以是类，接口，模块，函数或枚举类型。而当这个模块被输入时，模块的输出符号就可以被直接使用，而不需要再加上任何（模块）名称来限定。
 
 $Below, we've simplified the Validator implementations to only export a single object from each module using the export = syntax. This simplifies the consumption code – instead of referring to 'zip.ZipCodeValidator', we can simply refer to 'zipValidator'.
-$$下面的例子中，我们用"export ="句法简化了前面Validator的实现，每个模块只会输出一个对象。这样的做法简化了使用模块的代码——我们可以直接引用'zipValidator'而不需要用'zip.ZipCodeValidator'。
+$$下面的例子中，我们用"export ="句法简化了前面Validator的实现，每个模块只会输出一个对象。这种做法简化了使用模块的代码——我们可以直接引用'zipValidator'而不需要用'zip.ZipCodeValidator'。
 
 **Validation.ts**
 
@@ -367,7 +369,7 @@ strings.forEach(s => {
 
 ##Alias
 $Another way that you can simplify working with either kind of module is to use import q = x.y.z to create shorter names for commonly-used objects. Not to be confused with the import x = require('name') syntax used to load external modules, this syntax simply creates an alias for the specified symbol. You can use these sorts of imports (commonly referred to as aliases) for any kind of identifier, including objects created from external module imports.
-$$另一种用模块简化我们工作的方式是用"import q = x.y.z"来为对象创建短一些的名称。"import q = x.y.z"和用于加载外部模块的"import x = require('name')"是不一样的，它只会为指定的符号创建一个别名。我们可以将这类import（通常只是被引用作为别名）用于任何类型标识符上，包括从外部模块的输入中创建的对象。
+$$另一种用模块简化我们工作的方式是用"import q = x.y.z"来为常用对象创建短一些的名称。"import q = x.y.z"和用于加载外部模块的"import x = require('name')"是不一样的，它只会为指定的符号创建一个别名。我们可以将这类import（通常只是被引用作为别名）用于任何类型标识符上，包括从外部模块的输入中创建的对象。
 
 **Basic Aliasing**
 
@@ -384,7 +386,8 @@ var sq = new polygons.Square(); // Same as 'new Shapes.Polygons.Square()'
 ```
 
 $Notice that we don't use the require keyword; instead we assign directly from the qualified name of the symbol we're importing. This is similar to using var, but also works on the type and namespace meanings of the imported symbol. Importantly, for values, import is a distinct reference from the original symbol, so changes to an aliased var will not be reflected in the original variable.
-$$注意我们不使用require关键字，而是直接赋值为我们输入的限定名的符号。这和变量的使用方式相似，但它同时也对数据类型以及起命名空间作用的输入符号起作用。
+$$注意我们没有使用require关键字，而是直接赋值为我们导入对象的限定名。这和var的使用方式相似，但它同时也对所导入对象的类型以及
+命名空间起作用。重要的是，对于值来说，import是独立于原对象的一个引用，所以对引用变量的修改不会反映在原变量上。
 
 ##Optional Module Loading and Other Advanced Loading Scenarios
 $In some cases, you may want to only load a module under some conditions. In TypeScript, we can use the pattern shown below to implement this and other advanced loading scenarios to directly invoke the module loaders without losing type safety.
