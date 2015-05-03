@@ -1,0 +1,23 @@
+{
+  "name": "typescript-handbook-zh",
+  "version": "0.1.0",
+  "description": "TypeScript chinese",
+  "main": "index.js",
+  "devDependencies": {
+    "gulp": "^3.8.11",
+    "marked": "^0.3.3"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/oyyd/typescript-handbook-zh.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/oyyd/typescript-handbook-zh/issues"
+  },
+  "homepage": "https://github.com/oyyd/typescript-handbook-zh"
+}

@@ -1,19 +1,5 @@
 (function() {
   var prefix = '/interpretation/';
-  var files = [
-    'basic_types',
-    'interfaces',
-    // 'classes',
-    // 'modules',
-    // 'functions',
-    // 'generics',
-    // 'common_errors',
-    // 'mixins',
-    // 'declaration_merging',
-    // 'type_inference',
-    // 'type_compatibility',
-    // 'writing_.d.ts_files'
-  ];
 
   var isOriginal = function(node) {
     if ($(node).text()[0] === '$') {
@@ -22,58 +8,20 @@
     return false;
   };
 
-  var oriRegexp = /<p>\$.*<\/p>/g;
-  var renderer = new marked.Renderer();
-  var pRenderer = renderer.paragraph;
-  var headingRenderer = renderer.heading;
-
-  renderer.paragraph = function(text) {
-    if (text[0] === '$' && text.indexOf('$$') > -1) {
-      var arr = text.split('$$');
-      var oriStr = arr[0].slice(1);
-      var translationStr = arr[1];
-      return '<div role="item">' +
-        '<p>' + translationStr + '<span class="check-ori" role="check-ori">[查看此处原文]</span></p>' +
-        '<p role="ori" class="hide">' + oriStr + '</p>' +
-        '</div>';
-    } else {
-      return pRenderer(text);
-    }
-  };
-
-  renderer.heading = function(text, lvl) {
-    return '<h' + lvl + '>' +
-      '<a name="' + text + '" class="anchor" href="#' + text + '">' +
-      '<span class="header-link"></span></a>' +
-      text + '</h' + lvl + '>';
-  };
-
-  var genDOM = function(markdown) {
-    var html = marked(markdown, {
-      renderer: renderer
-    });
-    return html;
-  };
-
   var $container = $('[role="container"]'),
-    $files = $container.find('[role="file-content"]');
+    $files = $container.find('[role="file-content"]'),
+    $nav = $container.find('[role="side-bar-nav"]');
 
-  var getFile = function(name) {
-    var $file = $('<div data-name="' + name + '"></div>');
-    $.get(prefix + name + '.md').done(function(text) {
-      $file.html(genDOM(text));
+  var getFiles = function(cb) {
+    $.get(prefix + 'dest/content.html').done(function(html){
+      var $file = $('<div role="content"></div>');
+      $file.html(html);
       $files.append($file);
       bindEvents($file);
-    }).fail(function() {
-      console.log('failed to load ' + name);
+      cb && cb();
+    }).fail(function(){
+      console.err('failed to load content');
     });
-  }
-
-  var getFiles = function() {
-    for (var index in files) {
-      var name = files[index];
-      getFile(name);
-    }
   };
 
   var bindEvents = function($e) {
@@ -82,14 +30,54 @@
       $p.toggleClass('hide');
     });
   };
+   
+  var initHighlight = function(){
+    $files.find('pre code').each(function(i, block){
+      hljs.highlightBlock(block);
+    });  
+  };
 
-  var init = function() {
-    marked.setOptions({
-      highlight: function(code) {
-        return hljs.highlightAuto(code).value;
+  var initSideNav = function(){
+    var $titles = $files.find('.section-title');
+    var navItems = [];
+    var section = null;
+    
+    $titles.each(function(){      
+      var title = this;
+      console.log(title);      
+      var nodeName = title.nodeName.toLowerCase(); 
+      if(nodeName === 'h1'){
+        if(section){
+          navItems.push(section);
+        }
+        section = {
+          title : $(title).text(),
+          subTitles : []          
+        };      
+      } else if(nodeName === 'h2'){
+        section.subTitles.push($(title).text());
       }
-    })
-    getFiles();
+    });
+    
+    console.log(navItems);
+    
+    for(var index in navItems){
+      var section = navItems[index];
+      var $section = $('<div></div>');
+      $section.append($('<h3>'+section.title+'</h3>'));
+      for(var index in section.subTitles){
+        var subTitle = section.subTitles[index];
+        $section.append($('<h5>'+subTitle+'</h5>'));        
+      }
+      $nav.append($section);
+    }
+  };
+    
+  var init = function() {    
+    getFiles(function(){
+      initHighlight();      
+      initSideNav();
+    });
   };
 
   init();

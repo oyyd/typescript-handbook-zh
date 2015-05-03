@@ -175,7 +175,7 @@ $One of the most common uses of interfaces in languages like C# and Java, that o
 $$使一个类符合某种特定的约定，是另一种在C#和Java中很常见的接口的使用方式。在TypeScript中我们也可以这样使用接口。
 
 
-``js
+```js
 interface ClockInterface {
     currentTime: Date;
 }

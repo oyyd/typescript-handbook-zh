@@ -3,16 +3,33 @@
   <head>
     <title>TypeScript Handbook中文</title>
     <link rel="stylesheet" href="lib/highlightjs/styles/default.css"/>
-    <link rel="stylesheet" href="css/style.css"/>    
+    <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css"></link>    
+    <link rel="stylesheet" href="css/style.css"/>
     <script src="lib/jquery/dist/jquery.min.js"></script>
-    <script src="lib/marked/marked.min.js"></script>
+    <script src="lib/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="lib/highlightjs/highlight.pack.js"></script>
   </head>
   <body>
     <div role="container" class="thz">
-      <h1>TypeScript Handbook中文</h1>
-      <div role="file-content">        
-      </div>      
+      <nav class="navbar navbar-default thz-nav">
+        <div class="container-fluid">
+          <div class="header">
+            <img src="img/logo_small.png"></img>
+            <h1 class="title">Handbook中文</h1>
+          </div>
+        </div>
+      </nav>
+      <div role="content-container" class="content-container">
+        <div role="side-bar" class="col-md-3 side-bar">
+          <nav class="side-bar-nav" role="side-bar-nav">
+<!--            <ul class="nav nav-pills nav-stacked" role="nav-items">
+              
+            </ul>            -->
+          </nav>
+        </div>
+        <div role="file-content" class="col-md-9">        
+        </div>        
+      </div>
     </div>
     <script src="js/main.js"></script>    
   </body>
