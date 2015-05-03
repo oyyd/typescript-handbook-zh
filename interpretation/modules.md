@@ -87,7 +87,7 @@ strings.forEach(s => {
 });
 ```
 
-##分割成多个文件(Splitting Across Files)
+##Splitting Across Files
 $As our application grows, we'll want to split the code across multiple files to make it easier to maintain.
 $$当我们的应用变大时，我们会想要将代码分割成多个文件，好使其更容易维护。
 

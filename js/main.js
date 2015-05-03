@@ -10,11 +10,12 @@
 
   var $container = $('[role="container"]'),
     $files = $container.find('[role="file-content"]'),
-    $nav = $container.find('[role="side-bar-nav"]');
+    $sideBar = $container.find('[role="side-bar"]'),
+    $nav = $sideBar.find('[role="side-bar-nav"]');
 
   var getFiles = function(cb) {
     $.get(prefix + 'dest/content.html').done(function(html){
-      var $file = $('<div role="content"></div>');
+      var $file = $('<div role="content" class="content"></div>');
       $file.html(html);
       $files.append($file);
       bindEvents($file);
@@ -27,7 +28,7 @@
   var bindEvents = function($e) {
     $e.find('[role="check-ori"]').click(function() {
       var $p = $(this).parents('div[role="item"]').find('p[role="ori"]');
-      $p.toggleClass('hide');
+      $p.is(':visible')?$p.fadeOut():$p.fadeIn();
     });
   };
    
@@ -58,19 +59,36 @@
         section.subTitles.push($(title).text());
       }
     });
-    
-    console.log(navItems);
+    if(section){
+      navItems.push(section);
+    }
     
     for(var index in navItems){
       var section = navItems[index];
-      var $section = $('<div></div>');
-      $section.append($('<h3>'+section.title+'</h3>'));
+      var $section = $('<div role="item" class="item"></div>');
+      $section.append($('<h3><a href="#'+section.title+'">'+section.title+'</a></h3>'));
+      var $list = $('<div role="list" class="list"></div>');
+      $section.append($list);
       for(var index in section.subTitles){
         var subTitle = section.subTitles[index];
-        $section.append($('<h5>'+subTitle+'</h5>'));        
+        $list.append($('<h5><a href="#'+subTitle+'">'+subTitle+'</a></h5>'));        
       }
       $nav.append($section);
     }
+    
+    var $items = $nav.find('[role="item"]');
+    $items.click(function(){
+      $items.removeClass('active');
+      $(this).addClass('active');
+    });
+    
+    $(window).scroll(function(){
+      if($(document).scrollTop()>83){
+        $sideBar.addClass('scroll');
+      }else{
+        $sideBar.removeClass('scroll');
+      }
+    });
   };
     
   var init = function() {    

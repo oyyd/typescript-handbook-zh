@@ -1,4 +1,4 @@
-#接口（Interfaces）
+#Interfaces
 
 $One of TypeScript's core principles is that type-checking focuses on the 'shape' that values have. This is sometimes called "duck typing" or "structural subtyping". In TypeScript, interfaces fill the role of naming these types, and are a powerful way of defining contracts within your code as well as contracts with code outside of your project. 
 $$类型检查将集中关注于数据的“形状”是TypeScript的核心原则之一。这有时又被称作“duck typing”或“structural subtyping”。在TypeScript中，接口起到了罗列这些数据类型的作用，并且接口也是定义你的代码内部，或你的代码和其他项目代码之间的规则的有效方法。
