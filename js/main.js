@@ -1,5 +1,5 @@
 (function() {
-  var prefix = '/interpretation/'
+  var prefix = '/interpretation/';
   var files = [
     'basic_types',
     'interfaces',
