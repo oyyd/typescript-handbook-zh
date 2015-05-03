@@ -72,15 +72,15 @@ $This example covers quite a bit of the inheritance features in TypeScript that 
 $$这个例子涵盖了不少在其他语言中常见的，同时也属于TypeScript的继承特性。我们看到这里使用了'extends'关键字来创建一个子类。这里的'Horse'和'Snake'继承基类'Animal'并能访问基类的成员。
 
 $The example also shows off being able to override methods in the base class with methods that are specialized for the subclass. Here both 'Snake' and 'Horse' create a 'move' method that overrides the 'move' from 'Animal', giving it functionality specific to each class.
-$$这个例子同时也展示了我们可以通过对子类进行专门的定义来重写超类（？）中的方法。这里的'Snake'和'Horse'都创建了一个'move'方法,重写了'Animal'中的'move'方法，从而给予每个类特定的功能。
+$$这个例子同时也展示了我们可以通过对子类进行专门的定义来重写基类中的方法。这里的'Snake'和'Horse'都创建了一个'move'方法,重写了'Animal'中的'move'方法，从而给予每个类特定的功能。
 
 ##Private/Public modifiers
 ###Public by default
 $You may have noticed in the above examples we haven't had to use the word 'public' to make any of the members of the class visible. Languages like C# require that each member be explicitly labelled 'public' to be visible. In TypeScript, each member is public by default. 
-$$你肯能已经注意到了，在前面的例子中，我们都没有用'public'来使类的成员可见。像是在C#这类的语言中，每个对外部可见的成员都需要我们用'public'进行明确地标识。而在TypeScript中，每个成员都默认为公有的。
+$$你可能已经注意到了，在前面的例子中，我们都没有用关键词'public'来使类的成员可见。像是在C#这类语言中，每个对外部可见的成员都需要用'public'进行明确地标识。而在TypeScript中，每个成员都默认为公有的。
 
 $You may still mark members a private, so you control what is publicly visible outside of your class. We could have written the 'Animal' class from the previous section like so:
-$$你仍旧可以通过将成员标识为私有的，以使其对外部不可见。我们可以像下面这样实现前面的'Animal'：
+$$你可能已经注意到了，在前面的例子中，我们都没有用关键词'public'来使类的成员可见。像是在C#这类语言中，每个对外部可见的成员都需要用'public'进行明确地标识。而在TypeScript中，每个成员都默认为公有的。
 
 ```js
 class Animal {
@@ -94,8 +94,7 @@ class Animal {
 
 ###Understanding private
 $TypeScript is a structural type system. When we compare two different types, regardless of where they came from, if the types of each member are compatible, then we say the types themselves are compatible. 
-TypeScript是结构性类型系统（structural type system）。
-$$当我们比较两种不同的数据类型时，我们会忽略它们是怎么来的。只要它们的没一个成员都相互兼容，我们就说这两种类型是兼容的。
+$$TypeScript是结构型类型系统（structural type system）。当我们比较两种不同的数据类型时，我们会忽略它们是怎么来的。只要它们的每一个成员是一致的，我们就说这两种类型是一致的。
 
 $When comparing types that have 'private' members, we treat these differently. For two types to be considered compatible, if one of them has a private member, then the other must have a private member that originated in the same declaration. 
 $$而当比较拥有私有成员的类型时，情况会稍有不同。当比较两种类型是否兼容时，如果其中一种类型拥有私有成员，那么只有当另一种类型也对应拥有具有相同定义的私有成员时，我们才说这两种类型是兼容的。
@@ -127,11 +126,11 @@ animal = employee; //error: Animal and Employee are not compatible
 ```
 
 $In this example, we have an 'Animal' and a 'Rhino', with 'Rhino' being a subclass of 'Animal'. We also have a new class 'Employee' that looks identical to 'Animal' in terms of shape. We create some instances of these classes and then try to assign them to each other to see what will happen. Because 'Animal' and 'Rhino' share the private side of their shape from the same declaration of 'private name: string' in 'Animal', they are compatible. However, this is not the case for 'Employee'. When we try to assign from an 'Employee' to 'Animal' we get an error that these types are not compatible. Even though 'Employee' also has a private member called 'name', it is not the same one as the one created in 'Animal'. 
-$$在这个例子中，我们有一个'Animal'和一个'Animal'的子类——'Rhino'。同时我们也有一个看起来和'Animal'结构一样的'Employee'。我们生成了这些类的实例并尝试把它们互相赋值给对方，看看会产生什么结果。因为'Animal'和'Rhino'的'private name: string'声明的来源相同，私有部分相同，所以我们说它们是兼容的。而'Employee'的不同。当尝试将一个'Employee'的实例赋值给'Animal'类型的变量时，我们会得到这些类型不兼容的错误。尽管'Employee'同样有一个名为'name'的私有成员，但它不同与'Animal'中的'name'来源不同。
+$$在这个例子中，我们有一个'Animal'和一个'Animal'的子类——'Rhino'。同时我们也有一个看起来和'Animal'结构一样的'Employee'。我们生成了这些类的实例并尝试把它们互相赋值给对方，看看会产生什么结果。因为'Animal'和'Rhino'的'private name: string'声明的来源相同，私有部分相同，所以我们说它们是兼容的。而'Employee'的不同。当尝试将一个'Employee'的实例赋值给'Animal'类型的变量时，我们会得到这些类型不兼容的错误。尽管'Employee'同样有一个名为'name'的私有成员，但它与'Animal'中的'name'来源不同。
 
 ###Parameter properties
 $The keywords 'public' and 'private' also give you a shorthand for creating and initializing members of your class, by creating parameter properties. The properties let you can create and initialize a member in one step. Here's a further revision of the previous example. Notice how we drop 'theName' altogether and just use the shortened 'private name: string' parameter on the constructor to create and initialize the 'name' member.
-$$'public'和'private'关键字同样也提供给了我们通过创建属性参数，来创建和初始化类的成员的简写的方法。这些属性允许你在一部之内就创建并初始化一个成员。下面是前面例子更进一步的版本。注意这里我们没有用'theName'，而是直接在构造函数里声明了个'private name: string'的参数，并创建和初始化了'name'成员。
+$$'public'和'private'关键字同样也提供了通过创建参数属性，来创建和初始化类的成员的简捷方法。这些属性允许你通过一个步骤就创建并初始化一个成员。下面是前面例子更进一步的版本。注意这里我们没有用'theName'，而是直接在构造函数里声明了个'private name: string'的参数，并创建和初始化了'name'成员。
 
 ```js
 class Animal {
@@ -147,7 +146,7 @@ $$这种使用'private'的方法创建并初始化了一个私有成员。使用
 
 ##Accessors
 $TypeScript supports getters/setters as a way of intercepting accesses to a member of an object. This gives you a way of having finer-grained control over how a member is accessed on each object.
-$$TypeScript支持用getters/setters作为与对象中的成员进行交互的方式。这是我们获取对象中的成员的好方法。
+$$TypeScript支持用getters/setters作为与对象中的成员进行交互的方式。这给我们提供了控制对象的成员访问的好方法。
 
 $Let's convert a simple class to use 'get' and 'set'. First, let's start with an example without getters and setters.
 $$让我们通过'get'和'set'来转化一个类。首先是一个没有getters和setters的例子。
@@ -165,10 +164,10 @@ if (employee.fullName) {
 ```
 
 $While allowing people to randomly set fullName directly is pretty handy, this might get us in trouble if we people can change names on a whim. 
-$$虽然允许我们直接任意地设置fullName会很方便，但如果胡乱地设置它的值，这种方式可能反而会给我们来带麻烦。
+$$虽然允许我们直接任意地设置fullName会很方便，但如果胡乱地设置它的值，反而可能会给我们来带麻烦。
 
 $In this version, we check to make sure the user has a secret passcode available before we allow them to modify the employee. We do this by replacing the direct access to fullName with a 'set' that will check the passcode. We add a corresponding 'get' to allow the previous example to continue to work seamlessly.
-$$在下面这个版本的例子中，在允许用户修改雇员的信息之前，我们会检查并确保用户提供了密码。我们是用一个'set'方法替代了直接获取'fullName'的方式，并进行了密码的检查。同时我们也对应地添加了一个'get'方法来保证前面例子的代码在这里也能继续运行。
+$$在下面这个版本的例子中，在允许用户修改雇员的信息之前，我们会检查并确保用户提供了密码。我们是用一个'set'方法替代了直接访问'fullName'的方式，并进行了密码的检查。同时我们也对应地添加了一个'get'方法来保证前面例子的代码在这里也能继续运行。
 
 
 ```js
@@ -206,7 +205,7 @@ $$注意：要使用存取器，我们需要设置编译器以生成ECMAScript 5
 
 ##Static Properties
 $Up to this point, we've only talked about the instance members of the class, those that show up on the object when its instantiated. We can also create static members of a class, those that are visible on the class itself rather than on the instances. In this example, we use 'static' on the origin, as it's a general value for all grids. Each instance accesses this value through prepending the name of the class. Similarly to prepending 'this.' in front of instance accesses, here we prepend 'Grid.' in front of static accesses.
-$$到目前为止，我们都在谈论类的实例上的成员，他们只有在被初始化之后才能在对象上被获取。但我们也可以给一个类创建静态成员，这些静态成员在类上就是可见的，而不需要在实例生成后才能获得。在这个例子中，由于'origin'是所有'grids'都具备的一个通用的值，所以我们用'static'来声明'origin'。每一个实例都可以通过在成员名之前加上类的名字来获得静态成员，和'this'很相似。这里我们在获取静态成员时，在前面加上了'Grid.'。
+$$到目前为止，我们都在谈论类的实例上的成员，它们只有在对象被实例化后才能从该对象获取。但我们也可以给一个类创建静态成员，这些静态成员在类上就是可见的，而不需要在实例生成后才能获得。在这个例子中，由于'origin'是所有'grids'都具备的一个通用的值，所以我们用'static'来声明'origin'。每一个实例都可以通过在成员名之前加上类的名字来获得静态成员，和'this.'前缀很相似。这里我们在获取静态成员时，在前面加上了'Grid.'。
 
 ```js
 class Grid {
@@ -229,7 +228,7 @@ alert(grid2.calculateDistanceFromOrigin({x: 10, y: 10}));
 ##Advanced Techniques
 ###Constructor functions
 $When you declare a class in TypeScript, you are actually creating multiple declarations at the same time. The first is the type of the instance of the class.
-$$当你在TypeScript中声明一个类时，你实际上是同时创建了多个定义。其中你第一个创建的便是类生成的实例的类型。
+$$当你在TypeScript中声明一个类时，你实际上是同时创建了多个定义。其中第一个创建的便是类生成的实例的类型。
 
 ```js
 class Greeter {
@@ -248,10 +247,10 @@ alert(greeter.greet());
 ```
 
 $Here, when we say 'var greeter: Greeter', we're using Greeter as the type of instances of the class Greeter. This is almost second nature to programmers from other object-oriented languages. 
-$$这里的'var greeter: Greeter'表示我们把greeter当作是Greeter的实例。这么做都快成为习惯面向对象语言的程序员的习性了。
+$$这里的'var greeter: Greeter'表示我们把Greeter当作Greeter实例的类型。这么做都快成为习惯面向对象语言的程序员的习性了。
 
 $We're also creating another value that we call the constructor function. This is the function that is called when we 'new' up instances of the class. To see what this looks like in practice, let's take a look at the JavaScript created by the above example:
-$$我们也创建了一个我们称作构造函数的函数。这是当我们'new'一个实例时会被调用的方法。让我们看看前面例子的代码所编译成的JavaScript来看看这实际上是怎么回事。
+$$我们也创建了一个我们称作构造函数的函数。当我们'new'一个实例时这个方法就会被调用。让我们看看前面例子的代码所编译成的JavaScript来看看这到底是怎么回事。
 
 ```js
 var Greeter = (function () {
@@ -303,11 +302,11 @@ $In this example, 'greeter1' works similarly to before. We instantiate the 'Gree
 $$在这个例子中，'greeter1'运行得和之前差不多。我们生成了'Greeter'类的实例并使用了这个实例对象。这种用法我们之前已经见过了。
 
 $Next, we then use the class directly. Here we create a new variable called 'greeterMaker'. This variable will hold the class itself, or said another way its constructor function. Here we use 'typeof Greeter', that is "give me the type of the Greeter class itself" rather than the instance type. Or, more precisely, "give me the type of the symbol called Greeter", which is the type of the constructor function. This type will contain all of the static members of Greeter along with the constructor that creates instances of the Greeter class. We show this by using 'new' on 'greeterMaker', creating new instances of 'Greeter' and invoking them as before.
-$$接着，我们直接使用这个类。我们创建了一个名为'greeterMaker'的新变量。这个变量上获得的是这个类本身，或者应该说是这个类的构造函数。这里我们用'typeof Greeter'的意义是"给我Greeter类本身的类型"而不是指实例的类型。或者更准确地来讲应该是"给我这个名为Greeter的标识的类型"，即构造函数的类型。Greeter类型（的变量）会包含所有Greeter的静态成员，这些静态成员是在创建Greeter类的实例的构造函数的上面。为了展示这一点，我们在'greeterMaker'上使用'new'来创建'Greeter'的新实例，并像之前那样使用他们。
+$$接着，我们直接使用这个类。我们创建了一个名为'greeterMaker'的新变量。这个变量获得的是这个类本身，或者应该说是这个类的构造函数。这里我们用'typeof Greeter'的意义是"给我Greeter类本身的类型"而不是指实例的类型。或者更准确地来讲应该是"给我这个名为Greeter的标识的类型"，即构造函数的类型。Greeter类型（的变量）会包含所有Greeter的静态成员，这些静态成员是在创建Greeter类的实例的构造函数的里面。为了展示这一点，我们在'greeterMaker'上使用'new'来创建'Greeter'的新实例，并像之前那样使用他们。
 
 ###Using a class as an interface
 $As we said in the previous section, a class declaration creates two things: a type representing instances of the class and a constructor function. Because classes create types, you can use them in the same places you would be able to use interfaces.
-$$就像我们前面说过的，一个类的声明会创造两个东西：一种代表这个类的实例的类型和一个构造函数。因为类会创造类型，所以我们可以在接口中使用它们。
+$$就像我们前面说过的，一个类的声明会创造两个东西：一种代表这个类的实例的类型和一个构造函数。因为类会创造类型，所以可以使用接口的地方也可以使用类。
 
 ```js
 class Point {
