@@ -1,5 +1,24 @@
+/*global*/
+body{
+  position: relative;
+  font-family: SegoeUILight, 'Segoe UI Light', SegoeUI, 'Segoe UI', Arial, sans-serif;
+}
+
+.thz .header{
+  text-align: center;
+}
+
+.thz pre code{
+  background: none;
+}
+
 .thz .hide{
   display: none;
+}
+
+.thz h1.section-title{
+  font: 27pt;
+  color: rgb(66, 139, 202);
 }
 
 .thz .check-ori{
@@ -9,4 +28,25 @@
 
 .thz p{
   font-size: 18px;
+  line-height: 1.8em;
+}
+
+/*header*/
+.thz .thz-nav{
+  padding: 10px 0;
+}
+
+.thz .content-container{
+  padding: 0 10px;
+}
+
+.thz .content-container .side-bar-nav{
+  position: relative;
+}
+
+.thz .thz-nav .title{
+  font-size: 22px;
+  vertical-align: bottom;
+  display: inline-block;
+  padding-left: 7px;
 }

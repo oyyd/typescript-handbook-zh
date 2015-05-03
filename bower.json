@@ -13,6 +13,6 @@
   "devDependencies": {
     "highlightjs": "~8.5.0",
     "jquery": "~2.1.4",
-    "marked": "~0.3.3"
+    "bootstrap": "~3.3.4"
   }
 }
