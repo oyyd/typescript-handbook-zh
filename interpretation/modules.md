@@ -502,16 +502,17 @@ $$我们将在这一部分讲述使用内部模块和外部模块时常见的陷
 
 ###/// <reference> to an external module
 $A common mistake is to try to use the /// <reference> syntax to refer to an external module file, rather than using import. To understand the distinction, we first need to understand the three ways that the compiler can locate the type information for an external module.
-$$试图用"/// <reference>"句法来引用一个外部模块的文件而不使用import是一种常见的错误。为了理解它们之间的差异，我们首先需要了解编译器定位一个外部模块中的类型信息的三种方式。
+$$试图用"/// <reference>"句法来引用一个外部模块的文件而不使用import是一种常见的错误。为了理解它们之间的差异，我们
+首先需要了解编译器定位外部模块中类型信息的三种方式。
 
 $The first is by finding a .ts file named by an import x = require(...); declaration. That file should be an implementation file with top-level import or export declarations.
-$$第一种方式是通过"import x = require(...);"声明查找对应的.ts文件。这个文件应该是个有具体实现的文件，并在顶层有import和export声明。
+$$第一种方式是通过"import x = require(...);"声明查找对应的.ts文件。这个文件应该是带有顶层import或export声明的实现文件。
 
 $The second is by finding a .d.ts file, similar to above, except that instead of being an implementation file, it's a declaration file (also with top-level import or export declarations).
-$$第二种方式是查找一个.d.ts文件。这种做法与第一种做法相似，但这个文件是个声明文件（同样有顶层的import或export声明），它没有具体的实现的代码。
+$$第二种方式是查找一个.d.ts文件。这种做法与第一种做法相似，但这个文件是个声明文件（同样有顶层的import或export声明），并没有具体的实现的代码。
 
 $The final way is by seeing an "ambient external module declaration", where we 'declare' a module with a matching quoted name.
-$$最后一种方式是查看一个"ambient外部文件声明"。它用一个配对的引用名称'声明'了一个模块。
+$$最后一种方式是查看"ambient外部模块声明"，在该声明中我们用一个相匹配的引用名称'声明'了一个模块。
 **myModules.d.ts**
 
 ```js
