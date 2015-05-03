@@ -43,7 +43,7 @@ $$第二种是使用泛型数组类型，形式如Array<elemType>：
 var list:Array<number> = [1, 2, 3];
 ```
 
-##枚举（Enum）
+##Enum
 $A helpful addition to the standard set of datatypes from JavaScript is the 'enum'. Like languages like C#, an enum is a way of giving more friendly names to sets of numeric values.
 $$TypeScript拓展了JavaScript原生的标准数据类型集，增加了枚举类型（enum）。枚举是一种很有用的数据类型，就像C#等语言中一样，它提供了一种给数字类型的值设置容易辨别的名字的方法。
 

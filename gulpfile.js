@@ -30,7 +30,7 @@ renderer.paragraph = function(text) {
     var translationStr = arr[1];
     return '<div role="item">' +
       '<p>' + translationStr + '<span class="check-ori" role="check-ori">[查看此处原文]</span></p>' +
-      '<p role="ori" class="hide">' + oriStr + '</p>' +
+      '<p role="ori" class="ori">' + oriStr + '</p>' +
       '</div>';
   } else {
     return pRenderer(text);
@@ -48,7 +48,7 @@ gulp.task('build', function(){
 	var result = '';
 	for(var index in mdFilesArr){
 		var filePath = prefix + mdFilesArr[index] + '.md';
-		result += fs.readFileSync(filePath, {encoding: 'utf8'});	
+		result += fs.readFileSync(filePath, {encoding: 'utf8'}) + '\n---\n';	
 	}
 	
 	result = marked(result, {
