@@ -81,15 +81,17 @@ This example covers quite a bit of the inheritance features in TypeScript that a
 
 The example also shows off being able to override methods in the base class with methods that are specialized for the subclass. Here both 'Snake' and 'Horse' create a 'move' method that overrides the 'move' from 'Animal', giving it functionality specific to each class.
 
-这个例子同时也展示了我们可以通过对子类进行专门的定义来重写超类（？）中的方法。这里的'Snake'和'Horse'都创建了一个'move'方法,重写了'Animal'中的'move'方法，从而给予每个类特定的功能。
+这个例子同时也展示了我们可以通过对子类进行专门的定义来重写基类中的方法。这里的'Snake'和'Horse'都创建了一个'move'方法,重写了'Animal'中的'move'方法，从而给予每个类特定的功能。
 
 ##Private/Public modifiers
 ###Public by default
 You may have noticed in the above examples we haven't had to use the word 'public' to make any of the members of the class visible. Languages like C# require that each member be explicitly labelled 'public' to be visible. In TypeScript, each member is public by default. 
-你肯能已经注意到了，在前面的例子中，我们都没有用'public'来使类的成员可见。像是在C#这类的语言中，每个对外部可见的成员都需要我们用'public'进行明确地标识。而在TypeScript中，每个成员都默认为公有的。
+
+你可能已经注意到了，在前面的例子中，我们都没有用关键词'public'来使类的成员可见。像是在C#这类语言中，每个对外部可见的成员都需要用'public'进行明确地标识。而在TypeScript中，每个成员都默认为公有的。
 
 You may still mark members a private, so you control what is publicly visible outside of your class. We could have written the 'Animal' class from the previous section like so:
-你仍旧可以通过将成员标识为私有的，以使其对外部不可见。我们可以像下面这样实现前面的'Animal'：
+
+你仍旧可以将成员标识为私有的，以使其对外部不可见。我们可以像下面这样实现前面的'Animal'：
 
 ```js
 class Animal {
@@ -103,12 +105,15 @@ class Animal {
 
 ###Understanding private
 TypeScript is a structural type system. When we compare two different types, regardless of where they came from, if the types of each member are compatible, then we say the types themselves are compatible. 
-TypeScript是结构性类型系统（structural type system）。当我们比较两种不同的数据类型时，我们会忽略它们是怎么来的。只要它们的没一个成员都相互兼容，我们就说这两种类型是兼容的。
+
+TypeScript是结构型类型系统（structural type system）。当我们比较两种不同的数据类型时，我们会忽略它们是怎么来的。只要它们的每一个成员是一致的，我们就说这两种类型是一致的。
 
 When comparing types that have 'private' members, we treat these differently. For two types to be considered compatible, if one of them has a private member, then the other must have a private member that originated in the same declaration. 
+
 而当比较拥有私有成员的类型时，情况会稍有不同。当比较两种类型是否兼容时，如果其中一种类型拥有私有成员，那么只有当另一种类型也对应拥有具有相同定义的私有成员时，我们才说这两种类型是兼容的。
 
 Let's look at an example to better see how this plays out in practice:
+
 为了更好地理解这是怎么回事，我们可以看看下面的例子：
 
 ```js
