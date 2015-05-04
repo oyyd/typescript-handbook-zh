@@ -1,12 +1,17 @@
 #Generics
-A major part of software engineering is building components that not only have well-defined and consistent APIs, but are also reusable. Components that are capable of working on the data of today as well as the data of tomorrow will give you the most flexible capabilities for building up large software systems.
+$A major part of software engineering is building components that not only have well-defined and consistent APIs, but are also reusable. Components that are capable of working on the data of today as well as the data of tomorrow will give you the most flexible capabilities for building up large software systems.
+$$构建部件是软件工程重要的一部分。这些部件不仅要有精心设计过的，高一致性的API，同时也要可重复使用。如果我们的部件能够同时适用于现在和未来
+的需求的话，我们构建大型软件系统就会有足够的灵活性。 
 
-In languages like C# and Java, one of the main tools in the toolbox for creating reusable components is 'generics', that is, being able to create a component that can work over a variety of types rather than a single one. This allows users to consume these components and use their own types.
+$In languages like C# and Java, one of the main tools in the toolbox for creating reusable components is 'generics', that is, being able to create a component that can work over a variety of types rather than a single one. This allows users to consume these components and use their own types.
+$$在像C#和Java这样的语言中创建可重用的部件时，泛型('generics')是我们最常用的工具之一。它允许我们创建一个可同时作用在多种数据类型的部件。
+这就使得用户在使用这些部件时可以用它们自己定义的类型。
 
 ##Hello World of Generics
-To start off, let's do the "hello world" of generics: the identity function. The identity function is a function that will return back whatever is passed in. You can think of this in a similar way to the 'echo' command. 
+$To start off, let's do the "hello world" of generics: the identity function. The identity function is a function that will return back whatever is passed in. You can think of this in a similar way to the 'echo' command. 
+$$让我们用泛型中的"hello world"：identity函数来作为开始的例子。这个identity函数可以返回任何传入给它的参数。你可以把它想成是'echo'命令。
 
-Without generics, we would either have to give the identity function a specific type:
+$Without generics, we would either have to give the identity function a specific type:
 
 ```js
 function identity(arg: number): number {
