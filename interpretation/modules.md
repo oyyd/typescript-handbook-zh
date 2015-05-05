@@ -530,7 +530,7 @@ import m = require("SomeModule");
 ```
 
 $The reference tag here allows us to locate the declaration file that contains the declaration for the ambient external module. This is how the node.d.ts file that several of the TypeScript samples use is consumed, for example.
-$$这里的引用标签允许我们定位包含这个ambient外部模块的声明的声明文件。这是不少TypeScript样例中的node.d.ts文件的用法。
+$$这里的引用标签使得我们能够定位包含ambient外部模块的声明的声明文件。这是不少TypeScript样例中的node.d.ts文件的用法。
 
 ###Needless Namespacing
 $If you're converting a program from internal modules to external modules, it can be easy to end up with a file that looks like this:
@@ -546,7 +546,7 @@ export module Shapes {
 ```
 
 $The top-level module here Shapes wraps up Triangle and Square for no reason. This is confusing and annoying for consumers of your module:
-$$在这个顶层模块中，用Shapes包裹起Triangle和Square是没有必要的。因为这对于你的模块的使用者来说会很费解和麻烦：
+$$在这个例子中，顶层模块Shapes无缘无故地包裹起Triangle和Square。这么做会让该模块的使用者感到很费解和麻烦：
 
 **shapeConsumer.ts**
 
@@ -555,11 +555,11 @@ import shapes = require('./shapes');
 var t = new shapes.Shapes.Triangle(); // shapes.Shapes?
 ```
 
-$A key feature of external modules in TypeScript is that two different external modules will never contribute names to the same scope. Because the consumer of an external module decides what name to assign it, there's no need to proactively wrap up the exported symbols in a namespace.
-$$TypeScript中的外部模块的一个重要的特性，是两个不同的外部模块永远不会让名称声明到同一个作用域上。因为外部模块的用户可以决定使用这个模块时的名称。所以你没有必要事先把要暴露出来的标识用一个命名空间包裹起来。
+$A key feature of external modules in TypeScript is that two different external modules will never contribute names to the same scope. Because the consumer of an external module decides what name to assign it, there's no need to proactively wrap up the exported symbols in a namespace.  
+$$TypeScript中的外部模块有一个重要的特性，即两个不同的外部模块永远不能把名称附着到同一个作用域上。因为外部模块的用户可以决定使用这个模块时的名称。所以你没有必要事先把要暴露出来的标识用一个命名空间包裹起来。
 
 $To reiterate why you shouldn't try to namespace your external module contents, the general idea of namespacing is to provide logical grouping of constructs and to prevent name collisions. Because the external module file itself is already a logical grouping, and its top-level name is defined by the code that imports it, it's unnecessary to use an additional module layer for exported objects.
-$$这里重申一下为什么我们不应该给外部模块的内容一个命名空间。命名空间是为了提供一个有逻辑意义的分组结构，并防止命名冲突。因为外部模块文件本身就已经是根据逻辑进行分组的了，并且它顶层的名称也是由输入它的代码所定义的，所以我们没有必要在输出对象时给他加一个额外的模块层。
+$$这里重申一下为什么我们不应该把外部模块放在命名空间里。命名空间是为了提供一个有逻辑意义的分组结构，并防止命名冲突。因为外部模块文件本身就已经是逻辑分组，并且它的顶层名称是由引入（import）它的代码所定义的，所以我们没有必要用额外的模块层来包裹这些输出对象。
 
 $Revised Example:
 $$修改后的例子：
@@ -580,4 +580,4 @@ var t = new shapes.Triangle();
 
 ###Trade-offs for External Modules
 $Just as there is a one-to-one correspondence between JS files and modules, TypeScript has a one-to-one correspondence between external module source files and their emitted JS files. One effect of this is that it's not possible to use the --out compiler switch to concatenate multiple external module source files into a single JavaScript file.
-$$就像JS文件和模块之间有一一对应的关系那样，TypeScript的外部模块的源码文件和它们生成的JS文件之间也有一一对应的关系。而这中做法所带来的一个影响就是，我们不可能用--out的编译器开关把多个外部文件源码编译连接进同一个JavaScript文件中去。
+$$就像JS文件和模块之间有一一对应的关系那样，TypeScript的外部模块的源码文件和它们生成的JS文件之间也有一一对应的关系。这种做法会产生一个副作用，即我们不可能用--out编译器开关把多个外部文件源码编译连接进同一个JavaScript文件中去。
