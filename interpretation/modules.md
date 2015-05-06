@@ -387,17 +387,19 @@ var sq = new polygons.Square(); // Same as 'new Shapes.Polygons.Square()'
 
 $Notice that we don't use the require keyword; instead we assign directly from the qualified name of the symbol we're importing. This is similar to using var, but also works on the type and namespace meanings of the imported symbol. Importantly, for values, import is a distinct reference from the original symbol, so changes to an aliased var will not be reflected in the original variable.
 $$注意我们没有使用require关键字，而是直接赋值为我们导入对象的限定名。这和var的使用方式相似，但它同时也对所导入对象的类型以及
-命名空间起作用。重要的是，对于值来说，import是独立于原对象的一个引用，所以对引用变量的修改不会反映在原变量上。
+命名空间起作用。重要的是，对于值来说，import是独立于原对象的一个引用，所以对别名变量的修改不会反映在原变量上。
 
 ##Optional Module Loading and Other Advanced Loading Scenarios
 $In some cases, you may want to only load a module under some conditions. In TypeScript, we can use the pattern shown below to implement this and other advanced loading scenarios to directly invoke the module loaders without losing type safety.
-$$在某些场景下，你可能需要在某些条件成立的情况下再加载某一个模块。在TypeScript中，我们可以用后面展示的方式，在保障数据类型保持安全的前提下，直接触发模块加载器，以满足这种需求及其他特殊的模块加载场景。
+$$在某些场景下，你可能需要在某些条件成立的情况下再加载某一个模块。在TypeScript中，我们可以用后面展示的模式，在保障数据
+类型安全的前提下，直接触发模块加载器，以满足这种需求及其他特殊的模块加载场景。
 
 $The compiler detects whether each module is used in the emitted JavaScript. For modules that are only used as part of the type system, no require calls are emitted. This culling of unused references is a good performance optimization, and also allows for optional loading of those modules.
-$$编译器会检测在生成的JavaScript中，是否每个模块都被用到了。对于那些只会作用于类型系统的模块来说，我们并不需要调用require。这种挑选出未被使用的引用的做法对性能大有脾益，并且也允许我们加载这些可选的模块（?）。
+$$编译器会检测在生成的JavaScript中，是否每个模块都被用到了。对于那些只会用于类型系统的模块来说，我们并不需要调用require。这种挑选出未被使用的引用的做法对性能大有脾益，并且也允许我们选择性地加载这些模块（?）。
 
 $The core idea of the pattern is that the import id = require('...') statement gives us access to the types exposed by the external module. The module loader is invoked (through require) dynamically, as shown in the if blocks below. This leverages the reference-culling optimization so that the module is only loaded when needed. For this pattern to work, it's important that the symbol defined via import is only used in type positions (i.e. never in a position that would be emitted into the JavaScript).
-$$这一模式的核心思想在于用import id = require('...')获取外部模块暴露出来的类型。就像下面的if语句块那样，模块加载器会被（require）动态触发。由于模块只有在被需要时才会被加载，所以这种做法能够充分发挥reference-culling对性能的提升作用。而要让这种模式能够起作用，关键在于保证我们用import定义的标识只用在类型上（即编译时不会生成JavaScript代码）。
+$$这一模式的核心思想在于用import id = require('...')获取外部模块暴露出来的类型。就像下面的if语句块那样，模块加载器会被（require）动态触发。
+通过利用引用筛选（reference-culling）优化，使得模块可以按需加载。而要让这种模式能够起作用，关键在于保证我们通过import定义的标识只用在类型上（即编译时不会生成JavaScript代码）。
 
 $To maintain type safety, we can use the typeof keyword. The typeof keyword, when used in a type position, produces the type of a value, in this case the type of the external module.
 $$我们可以用typeof关键字来保证类型的安全。用在类型位置上的typeof关键字会生成一个值对应的类型，在这个例子中对应的是外部模块的类型。
@@ -427,11 +429,13 @@ if (needZipValidation) {
 
 ##Working with Other JavaScript Libraries
 $To describe the shape of libraries not written in TypeScript, we need to declare the API that the library exposes. Because most JavaScript libraries expose only a few top-level objects, modules are a good way to represent them. We call declarations that don't define an implementation "ambient". Typically these are defined in .d.ts files. If you're familiar with C/C++, you can think of these as .h files or 'extern'. Let's look at a few examples with both internal and external examples.
-$$为了描述非TypeScript的库的数据的类型，我们需要声明这个库所暴露出来的API。因为大多数JavaScript的库只会暴露出来一些顶层的对象，所以用模块的形式来表示这些库是很合适的。我们在声明的时候，并没有定义一个实现环境。通常这些都被定义在.d.ts的文件中。如果你对C/C++很熟悉的话，你可以把它们当作是.h文件或是"外部的" 。接下来让我们来看一些内部模块和外部模块的例子。
+$$为了描述非TypeScript的库的数据的类型和结构，我们需要声明这个库所暴露出来的API。因为大多数JavaScript的库只会暴露出来一些顶层的对象，所以用模块的形式来表示这些库是很合适的。
+我们在声明的时候，并没有定义一个实现环境。通常这些都被定义在.d.ts的文件中。如果你对C/C++很熟悉的话，你可以把它们当作是.h文件或是"extern" 。接下来让我们来看一些内部模块和外部模块的例子。
 
 ###Ambient Internal Modules
 $The popular library D3 defines its functionality in a global object called 'D3'. Because this library is loaded through a script tag (instead of a module loader), its declaration uses internal modules to define its shape. For the TypeScript compiler to see this shape, we use an ambient internal module declaration. For example:
-$$很流行的库D3把它的功能都定义在了一个名为'D3'的全局对象中。由于这个库是通过一个script标签加载进来的（而不是通过模块加载器），它的声明使用了内部模块来定义它的结构。我们用一个ambient内部模块声明来让TypeScript的编译器可以了解它的结构。举个例子：
+$$很流行的D3库把它的功能都定义在了一个名为'D3'的全局对象中。由于这个库是通过script标签加载的（而不是通过模
+块加载器），它的声明使用了内部模块来定义它的结构。我们用一个ambient内部模块声明来让TypeScript的编译器可以了解它的结构。举个例子：
 
 **D3.d.ts (simplified excerpt)**
 
@@ -459,7 +463,8 @@ declare var d3: D3.Base;
 
 ###Ambient External Modules
 $In node.js, most tasks are accomplished by loading one or more modules. We could define each module in its own .d.ts file with top-level export declarations, but it's more convenient to write them as one larger .d.ts file. To do so, we use the quoted name of the module, which will be available to a later import. For example:
-$$node.js中的大多数的任务是通过加载一个或多个模块来完成的。虽然我们可以在每个文件对应的.d.ts文件中，用顶层输出声明定义这个模块，但把他们写成一个更大的.d.ts文件会更简洁。我们会使用模块的引用名称来实现这一点，这个名称可以在后面的import中使用。举个例子：
+$$node.js中的大多数的任务是通过加载一个或多个模块来完成的。虽然我们可以在每个模块对应的.d.ts文件中，用顶层输出（export）
+声明来定义这个模块，但把它们写成一个更大的.d.ts文件会更方便。我们会使用模块的引用名称来实现这一点，这个名称可以在后面的import中使用。举个例子：
 
 **node.d.ts (simplified excerpt)**
 
@@ -482,7 +487,7 @@ declare module "path" {
 ```
 
 $Now we can /// <reference> node.d.ts and then load the modules using e.g. import url = require('url');.
-$$现在我们可以用"/// <reference>"来引用node.d.ts并用import url = require('url')来读取模块。
+$$现在我们可以用"/// <reference>"来引用node.d.ts并用类似import url = require('url')的语句来加载相应模块。
 
 ```js
 ///<reference path="node.d.ts"/>
@@ -493,20 +498,21 @@ var myUrl = url.parse("http://www.typescriptlang.org");
 
 ##Pitfalls of Modules
 $In this section we'll describe various common pitfalls in using internal and external modules, and how to avoid them.
-$$我们将在这一部分讲述使用内部模块和外部模块时常见的误区，以及如何避免它们。
+$$我们将在这一部分讲述使用内部模块和外部模块时常见的陷阱，以及如何避免它们。
 
 ###/// <reference> to an external module
 $A common mistake is to try to use the /// <reference> syntax to refer to an external module file, rather than using import. To understand the distinction, we first need to understand the three ways that the compiler can locate the type information for an external module.
-$$试图用"/// <reference>"句法来引用一个外部模块的文件而不使用import是一种常见的错误。为了理解它们之间的差异，我们首先需要了解编译器定位一个外部模块中的类型信息的三种方式。
+$$试图用"/// <reference>"句法来引用一个外部模块的文件而不使用import是一种常见的错误。为了理解它们之间的差异，我们
+首先需要了解编译器定位外部模块中类型信息的三种方式。
 
 $The first is by finding a .ts file named by an import x = require(...); declaration. That file should be an implementation file with top-level import or export declarations.
-$$第一种方式是通过"import x = require(...);"声明查找对应的.ts文件。这个文件应该是个有具体实现的文件，并在顶层有import和export声明。
+$$第一种方式是通过"import x = require(...);"声明查找对应的.ts文件。这个文件应该是带有顶层import或export声明的实现文件。
 
 $The second is by finding a .d.ts file, similar to above, except that instead of being an implementation file, it's a declaration file (also with top-level import or export declarations).
-$$第二种方式是查找一个.d.ts文件。这种做法与第一种做法相似，但这个文件是个声明文件（同样有顶层的import或export声明），它没有具体的实现的代码。
+$$第二种方式是查找一个.d.ts文件。这种做法与第一种做法相似，但这个文件是个声明文件（同样有顶层的import或export声明），并没有具体的实现的代码。
 
 $The final way is by seeing an "ambient external module declaration", where we 'declare' a module with a matching quoted name.
-$$最后一种方式是查看一个"ambient外部文件声明"。它用一个配对的引用名称'声明'了一个模块。
+$$最后一种方式是查看"ambient外部模块声明"，在该声明中我们用一个相匹配的引用名称'声明'了一个模块。
 **myModules.d.ts**
 
 ```js
@@ -524,7 +530,7 @@ import m = require("SomeModule");
 ```
 
 $The reference tag here allows us to locate the declaration file that contains the declaration for the ambient external module. This is how the node.d.ts file that several of the TypeScript samples use is consumed, for example.
-$$这里的引用标签允许我们定位包含这个ambient外部模块的声明的声明文件。这是不少TypeScript样例中的node.d.ts文件的用法。
+$$这里的引用标签使得我们能够定位包含ambient外部模块的声明的声明文件。这是不少TypeScript样例中的node.d.ts文件的用法。
 
 ###Needless Namespacing
 $If you're converting a program from internal modules to external modules, it can be easy to end up with a file that looks like this:
@@ -540,7 +546,7 @@ export module Shapes {
 ```
 
 $The top-level module here Shapes wraps up Triangle and Square for no reason. This is confusing and annoying for consumers of your module:
-$$在这个顶层模块中，用Shapes包裹起Triangle和Square是没有必要的。因为这对于你的模块的使用者来说会很费解和麻烦：
+$$在这个例子中，顶层模块Shapes无缘无故地包裹起Triangle和Square。这么做会让该模块的使用者感到很费解和麻烦：
 
 **shapeConsumer.ts**
 
@@ -549,11 +555,11 @@ import shapes = require('./shapes');
 var t = new shapes.Shapes.Triangle(); // shapes.Shapes?
 ```
 
-$A key feature of external modules in TypeScript is that two different external modules will never contribute names to the same scope. Because the consumer of an external module decides what name to assign it, there's no need to proactively wrap up the exported symbols in a namespace.
-$$TypeScript中的外部模块的一个重要的特性，是两个不同的外部模块永远不会让名称声明到同一个作用域上。因为外部模块的用户可以决定使用这个模块时的名称。所以你没有必要事先把要暴露出来的标识用一个命名空间包裹起来。
+$A key feature of external modules in TypeScript is that two different external modules will never contribute names to the same scope. Because the consumer of an external module decides what name to assign it, there's no need to proactively wrap up the exported symbols in a namespace.  
+$$TypeScript中的外部模块有一个重要的特性，即两个不同的外部模块永远不能把名称附着到同一个作用域上。因为外部模块的用户可以决定使用这个模块时的名称。所以你没有必要事先把要暴露出来的标识用一个命名空间包裹起来。
 
 $To reiterate why you shouldn't try to namespace your external module contents, the general idea of namespacing is to provide logical grouping of constructs and to prevent name collisions. Because the external module file itself is already a logical grouping, and its top-level name is defined by the code that imports it, it's unnecessary to use an additional module layer for exported objects.
-$$这里重申一下为什么我们不应该给外部模块的内容一个命名空间。命名空间是为了提供一个有逻辑意义的分组结构，并防止命名冲突。因为外部模块文件本身就已经是根据逻辑进行分组的了，并且它顶层的名称也是由输入它的代码所定义的，所以我们没有必要在输出对象时给他加一个额外的模块层。
+$$这里重申一下为什么我们不应该把外部模块放在命名空间里。命名空间是为了提供一个有逻辑意义的分组结构，并防止命名冲突。因为外部模块文件本身就已经是逻辑分组，并且它的顶层名称是由引入（import）它的代码所定义的，所以我们没有必要用额外的模块层来包裹这些输出对象。
 
 $Revised Example:
 $$修改后的例子：
@@ -574,4 +580,4 @@ var t = new shapes.Triangle();
 
 ###Trade-offs for External Modules
 $Just as there is a one-to-one correspondence between JS files and modules, TypeScript has a one-to-one correspondence between external module source files and their emitted JS files. One effect of this is that it's not possible to use the --out compiler switch to concatenate multiple external module source files into a single JavaScript file.
-$$就像JS文件和模块之间有一一对应的关系那样，TypeScript的外部模块的源码文件和它们生成的JS文件之间也有一一对应的关系。而这中做法所带来的一个影响就是，我们不可能用--out的编译器开关把多个外部文件源码编译连接进同一个JavaScript文件中去。
+$$就像JS文件和模块之间有一一对应的关系那样，TypeScript的外部模块的源码文件和它们生成的JS文件之间也有一一对应的关系。这种做法会产生一个副作用，即我们不可能用--out编译器开关把多个外部文件源码编译连接进同一个JavaScript文件中去。

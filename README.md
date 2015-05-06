@@ -5,9 +5,9 @@
 * Basic Types(翻译 校对) 
 * Interfaces(翻译 校对)
 * Classes(翻译 校对)
-* Modules(翻译)
+* Modules(翻译 校对)
 * Functions(翻译)
-* Generics
+* Generics(翻译)
 * Common Errors
 * Mixins
 * Declaration Merging
