@@ -4,7 +4,6 @@
   "description": "TypeScript chinese",
   "main": "index.js",
   "devDependencies": {
-    "gulp": "^3.8.11",
     "marked": "^0.3.3"
   },
   "scripts": {

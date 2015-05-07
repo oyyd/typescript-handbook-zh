@@ -8,8 +8,8 @@
 * Modules(翻译 校对)
 * Functions(翻译)
 * Generics(翻译)
-* Common Errors
-* Mixins
+* Common Errors(翻译)
+* Mixins(翻译)
 * Declaration Merging
 * Type Inference
 * Type Compatibility
@@ -29,8 +29,13 @@ $ http-server
 然后再浏览器上的http://localhost:8080打开。
 
 __开发__
+需要安装gulp：
 
-运行
+```
+$ npm install -g gulp
+```
+
+运行：
 
 ```
 $ npm install
@@ -45,4 +50,10 @@ $ gulp watch
 $ gulp build
 ```
 
+###TODO
+* **1.5版本新增内容**。
+* 排错，文本润色。
+
 ###Change Log：
+2015-05-07 生硬地翻译到"Mixins"
+2015-05-03 pubilsh

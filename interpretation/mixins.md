@@ -1,8 +1,10 @@
 #Mixins
-Along with traditional OO hierarchies, another popular way of building up classes from reusable components is to build them by combining simpler partial classes. You may be familiar with the idea of mixins or traits for languages like Scala, and the pattern has also reached some popularity in the JavaScript community.
+$Along with traditional OO hierarchies, another popular way of building up classes from reusable components is to build them by combining simpler partial classes. You may be familiar with the idea of mixins or traits for languages like Scala, and the pattern has also reached some popularity in the JavaScript community.
+$$在传统的面向对象继承（OO hierarchies）中，通过组合可复用的组件，即一些更简单的类，来构造新的类的做法是非常流行的。如果你熟悉像Scala这样的语言的话，你对这种做法应该不会陌生。并且这种模式在JavaScript社区中也有一定的流行程度。
 
 ##Mixin sample
-In the code below, we show how you can model mixins in TypeScript. After the code, we'll break down how it works.
+$In the code below, we show how you can model mixins in TypeScript. After the code, we'll break down how it works.
+$$在下面的代码中，我们展示了在TypeScript中模仿混合的构建方式。我们会在后面讲述它是怎么运作的。
 
 ```js
 // Disposable Mixin
@@ -61,7 +63,8 @@ function applyMixins(derivedCtor: any, baseCtors: any[]) {
 ```
 
 ##Understanding the sample
-The code sample starts with the two classes that will act is our mixins. You can see each one is focused on a particular activity or capability. We'll later mix these together to form a new class from both capabilities.
+$The code sample starts with the two classes that will act is our mixins. You can see each one is focused on a particular activity or capability. We'll later mix these together to form a new class from both capabilities.
+$$这个例子先定义了两个将要被我们混合的类。你会发现这两个类每个都只关于于一种特定的功能或活动。然后我们会把这两个类混合起来来构建一个同时带有这两种功能的新的类。
 
 ```js
 // Disposable Mixin
@@ -85,15 +88,18 @@ class Activatable {
 }
 ```
 
-Next, we'll create the class that will handle the combination of the two mixins. Let's look at this in more detail to see how it does this:
+$Next, we'll create the class that will handle the combination of the two mixins. Let's look at this in more detail to see how it does this:
+$$接着，我们将创建一个混合了这二者的类。让我们更仔细地看看这是如何实现的。
 
 ```js
 class SmartObject implements Disposable, Activatable {
 ```
 
-The first thing you may notice in the above is that instead of using 'extends', we use 'implements'. This treats the classes as interfaces, and only uses the types behind Disposable and Activatable rather than the implementation. This means that we'll have to provide the implementation in class. Except, that's exactly what we want to avoid by using mixins. 
+$The first thing you may notice in the above is that instead of using 'extends', we use 'implements'. This treats the classes as interfaces, and only uses the types behind Disposable and Activatable rather than the implementation. This means that we'll have to provide the implementation in class. Except, that's exactly what we want to avoid by using mixins. 
+$$你可能会马上注意到在上面的例子中，我们用'implements'来代替'extends'关键字。这表示我们把这两个类当作是接口。并且与其说我们使用了'Disposable'和'Activatable'的实现，倒不如说是使用了它们的类型。这也意味着我们还需要在类中提供实现。Except, that's exactly what we want to avoid by using mixins. 
 
-To satisfy this requirement, we create stand-in properties and their types for the members that will come from our mixins. This satisfies the compiler that these members will be available at runtime. This lets us still get the benefit of the mixins, albeit with a some bookkeeping overhead.
+$To satisfy this requirement, we create stand-in properties and their types for the members that will come from our mixins. This satisfies the compiler that these members will be available at runtime. This lets us still get the benefit of the mixins, albeit with a some bookkeeping overhead.
+$$为了满足这一需求，我们为要被混合的类的成员创建了替身（stand-in）属性及类型。这使得编译器在运行时可以获得这个类的成员。虽然这种记账式的做法会花费我们些时间，但我们就能从mixins中受益了。
 
 ```js
 // Disposable
@@ -105,13 +111,15 @@ activate: () => void;
 deactivate: () => void;
 ```
 
-Finally, we mix our mixins into the class, creating the full implementation.
+$Finally, we mix our mixins into the class, creating the full implementation.
+$$最后，我们把这两个类混合到了一个类中，完整地实现了这个类。
 
 ```js
 applyMixins(SmartObject, [Disposable, Activatable])
 ```
 
-Lastly, we create a helper function that will do the mixing for us. This will run through the properties of each of the mixins and copy them over to the target of the mixins, filling out the stand-in properties with their implementations.
+$Lastly, we create a helper function that will do the mixing for us. This will run through the properties of each of the mixins and copy them over to the target of the mixins, filling out the stand-in properties with their implementations.
+$$我们最后还创建了一个辅助函数来帮我们完成混合的工作。它会查询并复制每个被混合的类的属性，填充混合实现的类中的每一个属性。
 
 ```js
 function applyMixins(derivedCtor: any, baseCtors: any[]) {
