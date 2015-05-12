@@ -1,11 +1,13 @@
 #TypeScript 1.5
 ##ES6 Modules
 
-TypeScript 1.5 supports ECMAScript 6 (ES6) modules. ES6 modules are effectively TypeScript external modules with a new syntax: ES6 modules are separately loaded source files that possibly import other modules and provide a number of externally accessible exports. ES6 modules feature several new export and import declarations. It is recommended that TypeScript libraries and applications be updated to use the new syntax, but this is not a requirement. The new ES6 module syntax coexists with TypeScript's original internal and external module constructs and the constructs can be mixed and matched at will.
+$TypeScript 1.5 supports ECMAScript 6 (ES6) modules. ES6 modules are effectively TypeScript external modules with a new syntax: ES6 modules are separately loaded source files that possibly import other modules and provide a number of externally accessible exports. ES6 modules feature several new export and import declarations. It is recommended that TypeScript libraries and applications be updated to use the new syntax, but this is not a requirement. The new ES6 module syntax coexists with TypeScript's original internal and external module constructs and the constructs can be mixed and matched at will.
+$$TypeScript 1.5支持ECMAScript 6 （ES6）模块（modules）。ES6模块可以认为是带着新语法的TypeScript外部模块（external modules）：ES6的模块是被零散地载入的源码文件，它们可以引入（import）其他的模块，也可以提供一些内容供外部使用（exports）。ES6的模块提供了一些新的import和export声明的特性。虽然TypeScript并不强制要求项目使用ES6模块，但我们还是推荐你在库和应用上使用新的模块语法，并更新原来的模块。ES6模块的和TypeScript原来的内部模块和外部模块是可以共存的。你甚至可以按你的意愿来构造并混合它们。
 
 __Export Declarations__
 
-In addition to the existing TypeScript support for decorating declarations with export, module members can also be exported using separate export declarations, optionally specifying different names for exports using as clauses.
+$In addition to the existing TypeScript support for decorating declarations with export, module members can also be exported using separate export declarations, optionally specifying different names for exports using as clauses.
+$$除了现有TypeScript支持的export的装饰模式的声明（decorating declarations）外，我们也可以用零散的export声明来输出模块中的成员。我们甚至可以用子句（clauses）来给export的内容指定不同的名称。
 
 ```js
 interface Stream { ... }
@@ -13,7 +15,8 @@ function writeToStream(stream: Stream, data: string) { ... }
 export { Stream, writeToStream as write };  // writeToStream exported as write
 ```
 
-Import declarations, as well, can optionally use as clauses to specify different local names for the imports. For example:
+$Import declarations, as well, can optionally use as clauses to specify different local names for the imports. For example:
+$$import声明同样也可以选择使用子句来给import的内容指定其他的，用于本地的名称。举例来说：
 
 ```js
 import { read, write, standardOutput as stdout } from "./inout";
@@ -21,7 +24,8 @@ var s = read(stdout);
 write(stdout, s);
 ```
 
-As an alternative to individual imports, a namespace import can be used to import an entire module:
+$As an alternative to individual imports, a namespace import can be used to import an entire module:
+$$除了独立的import外，我们也可以通过导入命名空间来导入一整个模块：
 
 ```js
 import * as io from "./inout";
@@ -30,13 +34,15 @@ io.write(io.standardOutput, s);
 Re-exporting
 ```
 
-Using from clause a module can copy the exports of a given module to the current module without introducing local names.
+$Using from clause a module can copy the exports of a given module to the current module without introducing local names.
+$$通过使用from子句，一个模块可以复制给定模块中导出的内容到这个模块中，而不需要生成新的，用于本地的名称。
 
 ```js
 export { read, write, standardOutput as stdout } from "./inout";
 ```
 
-export * can be used to re-export all exports of another module. This is useful for creating modules that aggregate the exports of several other modules.
+$export * can be used to re-export all exports of another module. This is useful for creating modules that aggregate the exports of several other modules.
+$$export *被用在将一个模块的导出再次导出时。在创建专门用来聚集其他模块的导出类型的模块时，这种方式会非常有用。
 
 ```js
 export function transform(s: string): string { ... }
@@ -46,7 +52,8 @@ export * from "./mod2";
 
 __Default Export__
 
-An export default declaration specifies an expression that becomes the default export of a module:
+$An export default declaration specifies an expression that becomes the default export of a module:
+$$export default声明是用来指定一个表达式的。这个表达式的内容会成为模块默认的导出内容：
 
 ```js
 export default class Greeter {
@@ -56,7 +63,8 @@ export default class Greeter {
 }
 ```
 
-Which in tern can be imported using default imports:
+$Which in tern can be imported using default imports:
+$$对应的，我们可以用default imports导入这些内容：
 
 ```js
 import Greeter from "./greeter";
@@ -66,35 +74,42 @@ g.sayHello();
 
 __Bare Import__
 
-A "bare import" can be used to import a module only for its side-effects.
+$A "bare import" can be used to import a module only for its side-effects.
+$$"bare import"在导入一个模块时，只是为了导入这个模块时所带来的附加作用（side-effects）。
 
 ```js
 import "./polyfills";
 ```
 
-For more information about module, please see the ES6 module support spec.
+$For more information about module, please see the ES6 module support spec.
+$$你可以通过查阅ES6 module的支持说明来了解更多关于模块的信息。
 
 ##Destructuring in declarations and assignments
 
-TypeScript 1.5 adds support to ES6 destructuring declarations and assignments.
+$TypeScript 1.5 adds support to ES6 destructuring declarations and assignments.
+$$TypeScript 1.5中添加了对ES6中的解构声明和解构赋值（destructuring declarations and assignments）的支持。
 
 __Declarations__
 
-A destructuring declaration introduces one or more named variables and initializes them with values extracted from properties of an object or elements of an array.
+$A destructuring declaration introduces one or more named variables and initializes them with values extracted from properties of an object or elements of an array.
+$$解构声明会通过从对象中的属性或数组中的元素中抽取出来的值，来引入一个或多个变量，并给它们赋上对应值。
 
-For example, the following sample declares variables x, y, and z, and initializes them to getSomeObject().x, getSomeObject().y and getSomeObject().z respectively:
+$For example, the following sample declares variables x, y, and z, and initializes them to getSomeObject().x, getSomeObject().y and getSomeObject().z respectively:
+$$举例来说，下面的例子声明了x, y, z变量，并将他们的值分别初始化为getSomeObject().x，getSomeObject().y和getSomeObject().z。
 
 ```js
 var { x, y, z} = getSomeObject();
 ```
 
-Destructuring declarations also works for extracting values from arrays:
+$Destructuring declarations also works for extracting values from arrays:
+$$我们同样可以在数组上使用解构声明来抽取出数组中的值：
 
 ```js
 var [x, y, z = 10] = getSomeArray();
 ```
 
-Similarly, destructuring can be used in function parameter declarations:
+$Similarly, destructuring can be used in function parameter declarations:
+$$同样的，解构也可以被用在函数参数的声明上：
 
 ```js
 function drawText({ text = "", location: [x, y] = [0, 0], bold = false }) {  
