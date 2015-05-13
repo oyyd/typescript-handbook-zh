@@ -123,7 +123,8 @@ drawText(item);
 
 __Assignments__
 
-Destructuring patterns can also be used in regular assignment expressions. For instance, swapping two variables can be written as a single destructuring assignment:
+$Destructuring patterns can also be used in regular assignment expressions. For instance, swapping two variables can be written as a single destructuring assignment:
+$$解构的模式也可以用在通常的赋值表达式上。举个例子，我们可以用一个解构赋值来实现交换两个变量的值：
 
 ```js
 var x = 1;  
@@ -133,7 +134,8 @@ var y = 2;
 
 ##`let` and `const` support
 
-ES6 `let` and `const` declarations are now supported when targeting ES3 and ES5.
+$ES6 `let` and `const` declarations are now supported when targeting ES3 and ES5.
+$$现在在ES3和ES5上，我们也可以使用`let`和`const`声明了。
 
 __Const__
 
@@ -161,17 +163,20 @@ alert(a); // Error: a is not defined in this scope
 
 ##for..of support
 
-TypeScript 1.5 adds support to ES6 for..of loops on arrays for ES3/ES5 as well as full support for Iterator interfaces when targetting ES6.
+$TypeScript 1.5 adds support to ES6 for..of loops on arrays for ES3/ES5 as well as full support for Iterator interfaces when targetting ES6.
+$$TypeScript 1.5新增了在ES3/ES5数组上使用ES6 for..of循环的支持。同时它也完整地支持ES6上的迭代器接口（Iterator interfaces）。
 
 __Example:__
 
-The TypeScript compiler will transpile for..of arrays to idiomatic ES3/ES5 JavaScript when targeting those versions:
+$The TypeScript compiler will transpile for..of arrays to idiomatic ES3/ES5 JavaScript when targeting those versions:
+$$当我们想要TypeScript支持ES3/ES5时，编译器会将使用for..of的数组转换成我们惯用的ES3/ES5代码：
 
 ```js
 for (var v of expr) { }
 ```
 
-will be emitted as:
+$will be emitted as:
+$$将会被转换成：
 
 ```js
 for (var _i = 0, _a = expr; _i < _a.length; _i++) {
@@ -181,18 +186,30 @@ for (var _i = 0, _a = expr; _i < _a.length; _i++) {
 
 ##Decorators
 
-TypeScript decorator is based on the ES7 decorator proposal.
-A decorator is:
+$TypeScript decorator is based on the ES7 decorator proposal.
+$$TypeScript装饰器（decorator）是基于ES7装饰器提案实现的。
 
+A decorator is:
+$$装饰器是：
+
+$
 * an expression
 * that evaluates to a function
 * that takes the target, name, and property descriptor as arguments
 * and optionally returns a property descriptor to install on the target object
+$$
+* 一个表达式
+* 它会作为一个函数执行
+* 它把目标，名称，属性描述（property descriptor）作为参数
+* 它可以返回一个属性描述，以作用在目标对象上
 
-For more information, please see the Decorators proposal.
+$For more information, please see the Decorators proposal.
+$$你可以查阅Decorators提案来获取更多信息。
+
 __Example:__
 
-Decorators `readonly` and `enumerable(false)` will be applied to the property method before it is installed on class `C`. This allows the decorator to change the implementation, and in this case, augment the descriptor to be writable: false and enumerable: false.
+$Decorators `readonly` and `enumerable(false)` will be applied to the property method before it is installed on class `C`. This allows the decorator to change the implementation, and in this case, augment the descriptor to be writable: false and enumerable: false.
+$$`readonly`和`enumerable(false)`这两个装饰器会在method属性被放置在类`C`上之前，作用于method。装饰器会改变属性，方法的实现。比如在这个例子中，method的属性描述会添加writable: false和enumerable: false两项。
 
 ```js
 class C {
@@ -214,7 +231,8 @@ function enumerable(value) {
 
 ##Computed properties
 
-Initializing an object with dynamic properties can be a bit of a burden. Take the following example:
+$Initializing an object with dynamic properties can be a bit of a burden. Take the following example:
+$$想要在初始化对象时，带上一些动态的属性可能会很麻烦。举下面的例子来说：
 
 ```js
 type NeighborMap = { [name: string]: Node };
@@ -227,7 +245,8 @@ function makeNode(name: string, initialNeighbor: Node): Node {
 }
 ```
 
-Here we need to create a variable to hold on to the neighbor-map so that we can initialize it. With TypeScript 1.5, we can let the compiler do the heavy lifting:
+$Here we need to create a variable to hold on to the neighbor-map so that we can initialize it. With TypeScript 1.5, we can let the compiler do the heavy lifting:
+$$这里我们需要先为neighbor-map创建一个对象变量，然后再初始化它。在TypeScript 1.5中，我们可以让编译器替我们完成这类工作：
 
 ```js
 function makeNode(name: string, initialNeighbor: Node): Node {
@@ -242,7 +261,8 @@ function makeNode(name: string, initialNeighbor: Node): Node {
 
 ##Unicode codepoint escapes in strings
 
-ES6 introduces escapes that allow users to represent a Unicode codepoint using just a single escape.
+$ES6 introduces escapes that allow users to represent a Unicode codepoint using just a single escape.
+$$ES6引入了escapes来使用户仅需要使用一个
 
 As an example, consider the need to escape a string that contains the character '𠮷'. In UTF-16/UCS2, '𠮷' is represented as a surrogate pair, meaning that it's encoded using a pair of 16-bit code units of values, specifically `0xD842` and `0xDFB7`. Previously this meant that you'd have to escape the codepoint as `"\uD842\uDFB7"`. This has the major downside that it’s difficult to discern two independent characters from a surrogate pair.
 
