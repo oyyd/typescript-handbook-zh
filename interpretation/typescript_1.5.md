@@ -41,8 +41,8 @@ $$通过使用from子句，一个模块可以复制给定模块中导出的内�
 export { read, write, standardOutput as stdout } from "./inout";
 ```
 
-$export * can be used to re-export all exports of another module. This is useful for creating modules that aggregate the exports of several other modules.
-$$export *被用在将一个模块的导出再次导出时。在创建专门用来聚集其他模块的导出类型的模块时，这种方式会非常有用。
+$export \* can be used to re-export all exports of another module. This is useful for creating modules that aggregate the exports of several other modules.
+$$export \*被用在将一个模块的导出再次导出时。在创建专门用来聚集其他模块的导出类型的模块时，这种方式会非常有用。
 
 ```js
 export function transform(s: string): string { ... }
@@ -189,7 +189,7 @@ for (var _i = 0, _a = expr; _i < _a.length; _i++) {
 $TypeScript decorator is based on the ES7 decorator proposal.
 $$TypeScript装饰器（decorator）是基于ES7装饰器提案实现的。
 
-A decorator is:
+$A decorator is:
 $$装饰器是：
 
 $
@@ -325,11 +325,16 @@ define(["require", "exports", "legacy/moduleA"], function (require, exports, mod
 ##Project support through tsconfig.json
 
 $Adding a `tsconfig.json` file in a directory indicates that the directory is the root of a TypeScript project. The tsconfig.json file specifies the root files and the compiler options required to compile the project. A project is compiled in one of the following ways:
-$$给一个文件夹添加一个`tsconfig.json`文件可以表示当前文件夹是一个TypeScript项目的根目录。tsconfig.json这个文件
+$$给一个文件夹添加一个`tsconfig.json`文件可以表示当前文件夹是一个TypeScript项目的根目录。通过tsconfig.json，我们可以指定根文件（root files）以及编译选项。每个项目对会以下面的一种方式进行编译：
 
+$
 * By invoking tsc with no input files, in which case the compiler searches for the tsconfig.json file starting in the current directory and continuing up the parent directory chain.
 
 * By invoking tsc with no input files and a -project (or just -p) command line option that specifies the path of a directory containing a tsconfig.json file.
+$$
+* 如果我们使用tsc指令但是不指定输入文件，编译器会就会从当前文件夹开始，向上寻找tsconfig.json文件。
+
+* 如果我们使用tsc指令但是不指定输入文件，那我们可以使用-project（或 -p）命令行选项来指定包含tsconfig.json文件的文件夹。
 
 __Example:__
 
@@ -343,12 +348,16 @@ __Example:__
 }
 ```
 
-See the tsconfig.json wiki page for more details.
+$See the tsconfig.json wiki page for more details.
+$$你可以查看tsconfig.json的维基页面获取详细信息。
 
 ##`--rootDir` command line option
 
-Option `--outDir` duplicates the input hierarchy in the output. The compiler computes the root of the input files as the longest common path of all input files; and then uses that to replicate all its substructure in the output.
+$Option `--outDir` duplicates the input hierarchy in the output. The compiler computes the root of the input files as the longest common path of all input files; and then uses that to replicate all its substructure in the output.
+$$`--outDir`选项在进行输出文件时会根据输入文件的路径结构来进行。编译器会以根目录下的文件的路径作为所有输入文件的最长路径截点（即路径不会超过根目录），使用每个输入文件的路径来放置输出文件。
 
-Sometimes this is not desirable, for instance inputs `FolderA\FolderB\1.ts` and `FolderA\FolderB\2.ts` would result in output structure mirroring `FolderA\FolderB\`. now if a new file `FolderA\3.ts` is added to the input, the output structure will pop out to mirror `FolderA\`.
+$Sometimes this is not desirable, for instance inputs `FolderA\FolderB\1.ts` and `FolderA\FolderB\2.ts` would result in output structure mirroring `FolderA\FolderB\`. now if a new file `FolderA\3.ts` is added to the input, the output structure will pop out to mirror `FolderA\`.
+$$但有时候我们并不希望这样。比如我们输入`FolderA\FolderB\1.ts`和`FolderA\FolderB\2.ts`，则输出文件都会出现在一个`FolderA\FolderB\`这样的镜像结构的文件中。如果我们再增加一个`FolderA\3.ts`作为输入文件，则这个文件对应的输出文件就会出现在一个`FolderA\`文件中。
 
-`--rootDir` specifies the input directory to be mirrored in output instead of computing it.
+$`--rootDir` specifies the input directory to be mirrored in output instead of computing it.
+$$而`--rootDir`允许我们指定那些输出时，其路径要被镜像的文件夹，来代替计算输出路径。

@@ -14,7 +14,8 @@ var mdFilesArr = [
     'declaration_merging',
     'type_inference',
     'type_compatibility',
-    'writing_.d.ts_files'
+    'writing_.d.ts_files',
+    'typescript_1.5'
 ];
 var prefix = 'interpretation/';
 

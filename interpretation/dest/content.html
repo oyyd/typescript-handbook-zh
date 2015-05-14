@@ -1358,8 +1358,8 @@ deactivate: () =&gt; void;
 }
 </code></pre>
 <hr>
-<h1 class="section-title"><a name="Declaration Merging" class="anchor" href="#Declaration Merging"><span class="header-link"></span></a>Declaration Merging</h1><p>Some of the unique concepts in TypeScript come from the need to describe what is happening to the shape of JavaScript objects at the type level. One example that is especially unique to TypeScript is the concept of &#39;declaration merging&#39;. Understanding this concept will give you an advantage when working with existing JavaScript in your TypeScript. It also opens the door to more advanced abstraction concepts.</p>
-<p>First, before we get into how declarations merge, let&#39;s first describe what we mean by &#39;declaration merging&#39;.</p>
+<h1 class="section-title"><a name="Declaration Merging" class="anchor" href="#Declaration Merging"><span class="header-link"></span></a>Declaration Merging</h1><div role="item"><p>TypeScript上有一些独特的理念，它们来源于描述JavaScript对象的形状TODO。<span class="check-ori" role="check-ori">[查看此处原文]</span></p><p role="ori" class="ori">Some of the unique concepts in TypeScript come from the need to describe what is happening to the shape of JavaScript objects at the type level. One example that is especially unique to TypeScript is the concept of &#39;declaration merging&#39;. Understanding this concept will give you an advantage when working with existing JavaScript in your TypeScript. It also opens the door to more advanced abstraction concepts.
+</p></div><p>First, before we get into how declarations merge, let&#39;s first describe what we mean by &#39;declaration merging&#39;.</p>
 <p>For the purposes of this article, declaration merging specifically means that the compiler is doing the work of merging two separate declarations declared with the same name into a single definition. This merged definition has the features of both of the original declarations. Declaration merging is not limited to just two declarations, as any number of declarations can be merged. </p>
 <h2 class="section-title"><a name="Basic Concepts" class="anchor" href="#Basic Concepts"><span class="header-link"></span></a>Basic Concepts</h2><p>In TypeScript, a declaration exists in one of three groups: namespace/module, type, or value. Declarations that create a namespace/module are accessed using a dotted notation when writing a type. Declarations that create a type do just that, create a type that is visible with the declared shape and bound to the given name. Lastly, declarations create a value are those that are visible in the output JavaScript (eg, functions and variables).</p>
 <p>Declaration Type  Namespace Type  Value
@@ -1820,3 +1820,211 @@ export = eagle;
 function addLater(x: number, y: number, (sum: number) =&gt; void): void;
 </code></pre>
 <hr>
+<h1 class="section-title"><a name="TypeScript 1.5" class="anchor" href="#TypeScript 1.5"><span class="header-link"></span></a>TypeScript 1.5</h1><h2 class="section-title"><a name="ES6 Modules" class="anchor" href="#ES6 Modules"><span class="header-link"></span></a>ES6 Modules</h2><div role="item"><p>TypeScript 1.5支持ECMAScript 6 （ES6）模块（modules）。ES6模块可以认为是带着新语法的TypeScript外部模块（external modules）：ES6的模块是被零散地载入的源码文件，它们可以引入（import）其他的模块，也可以提供一些内容供外部使用（exports）。ES6的模块提供了一些新的import和export声明的特性。虽然TypeScript并不强制要求项目使用ES6模块，但我们还是推荐你在库和应用上使用新的模块语法，并更新原来的模块。ES6模块的和TypeScript原来的内部模块和外部模块是可以共存的。你甚至可以按你的意愿来构造并混合它们。<span class="check-ori" role="check-ori">[查看此处原文]</span></p><p role="ori" class="ori">TypeScript 1.5 supports ECMAScript 6 (ES6) modules. ES6 modules are effectively TypeScript external modules with a new syntax: ES6 modules are separately loaded source files that possibly import other modules and provide a number of externally accessible exports. ES6 modules feature several new export and import declarations. It is recommended that TypeScript libraries and applications be updated to use the new syntax, but this is not a requirement. The new ES6 module syntax coexists with TypeScript&#39;s original internal and external module constructs and the constructs can be mixed and matched at will.
+</p></div><p><strong>Export Declarations</strong></p>
+<div role="item"><p>除了现有TypeScript支持的export的装饰模式的声明（decorating declarations）外，我们也可以用零散的export声明来输出模块中的成员。我们甚至可以用子句（clauses）来给export的内容指定不同的名称。<span class="check-ori" role="check-ori">[查看此处原文]</span></p><p role="ori" class="ori">In addition to the existing TypeScript support for decorating declarations with export, module members can also be exported using separate export declarations, optionally specifying different names for exports using as clauses.
+</p></div><pre><code class="lang-js">interface Stream { ... }
+function writeToStream(stream: Stream, data: string) { ... }
+export { Stream, writeToStream as write };  // writeToStream exported as write
+</code></pre>
+<div role="item"><p>import声明同样也可以选择使用子句来给import的内容指定其他的，用于本地的名称。举例来说：<span class="check-ori" role="check-ori">[查看此处原文]</span></p><p role="ori" class="ori">Import declarations, as well, can optionally use as clauses to specify different local names for the imports. For example:
+</p></div><pre><code class="lang-js">import { read, write, standardOutput as stdout } from &quot;./inout&quot;;
+var s = read(stdout);
+write(stdout, s);
+</code></pre>
+<div role="item"><p>除了独立的import外，我们也可以通过导入命名空间来导入一整个模块：<span class="check-ori" role="check-ori">[查看此处原文]</span></p><p role="ori" class="ori">As an alternative to individual imports, a namespace import can be used to import an entire module:
+</p></div><pre><code class="lang-js">import * as io from &quot;./inout&quot;;
+var s = io.read(io.standardOutput);
+io.write(io.standardOutput, s);
+Re-exporting
+</code></pre>
+<div role="item"><p>通过使用from子句，一个模块可以复制给定模块中导出的内容到这个模块中，而不需要生成新的，用于本地的名称。<span class="check-ori" role="check-ori">[查看此处原文]</span></p><p role="ori" class="ori">Using from clause a module can copy the exports of a given module to the current module without introducing local names.
+</p></div><pre><code class="lang-js">export { read, write, standardOutput as stdout } from &quot;./inout&quot;;
+</code></pre>
+<div role="item"><p>export *被用在将一个模块的导出再次导出时。在创建专门用来聚集其他模块的导出类型的模块时，这种方式会非常有用。<span class="check-ori" role="check-ori">[查看此处原文]</span></p><p role="ori" class="ori">export * can be used to re-export all exports of another module. This is useful for creating modules that aggregate the exports of several other modules.
+</p></div><pre><code class="lang-js">export function transform(s: string): string { ... }
+export * from &quot;./mod1&quot;;
+export * from &quot;./mod2&quot;;
+</code></pre>
+<p><strong>Default Export</strong></p>
+<div role="item"><p>export default声明是用来指定一个表达式的。这个表达式的内容会成为模块默认的导出内容：<span class="check-ori" role="check-ori">[查看此处原文]</span></p><p role="ori" class="ori">An export default declaration specifies an expression that becomes the default export of a module:
+</p></div><pre><code class="lang-js">export default class Greeter {
+    sayHello() {
+        console.log(&quot;Greetings!&quot;);
+    }
+}
+</code></pre>
+<div role="item"><p>对应的，我们可以用default imports导入这些内容：<span class="check-ori" role="check-ori">[查看此处原文]</span></p><p role="ori" class="ori">Which in tern can be imported using default imports:
+</p></div><pre><code class="lang-js">import Greeter from &quot;./greeter&quot;;
+var g = new Greeter();
+g.sayHello();
+</code></pre>
+<p><strong>Bare Import</strong></p>
+<div role="item"><p>&quot;bare import&quot;在导入一个模块时，只是为了导入这个模块时所带来的附加作用（side-effects）。<span class="check-ori" role="check-ori">[查看此处原文]</span></p><p role="ori" class="ori">A &quot;bare import&quot; can be used to import a module only for its side-effects.
+</p></div><pre><code class="lang-js">import &quot;./polyfills&quot;;
+</code></pre>
+<div role="item"><p>你可以通过查阅ES6 module的支持说明来了解更多关于模块的信息。<span class="check-ori" role="check-ori">[查看此处原文]</span></p><p role="ori" class="ori">For more information about module, please see the ES6 module support spec.
+</p></div><h2 class="section-title"><a name="Destructuring in declarations and assignments" class="anchor" href="#Destructuring in declarations and assignments"><span class="header-link"></span></a>Destructuring in declarations and assignments</h2><div role="item"><p>TypeScript 1.5中添加了对ES6中的解构声明和解构赋值（destructuring declarations and assignments）的支持。<span class="check-ori" role="check-ori">[查看此处原文]</span></p><p role="ori" class="ori">TypeScript 1.5 adds support to ES6 destructuring declarations and assignments.
+</p></div><p><strong>Declarations</strong></p>
+<div role="item"><p>解构声明会通过从对象中的属性或数组中的元素中抽取出来的值，来引入一个或多个变量，并给它们赋上对应值。<span class="check-ori" role="check-ori">[查看此处原文]</span></p><p role="ori" class="ori">A destructuring declaration introduces one or more named variables and initializes them with values extracted from properties of an object or elements of an array.
+</p></div><div role="item"><p>举例来说，下面的例子声明了x, y, z变量，并将他们的值分别初始化为getSomeObject().x，getSomeObject().y和getSomeObject().z。<span class="check-ori" role="check-ori">[查看此处原文]</span></p><p role="ori" class="ori">For example, the following sample declares variables x, y, and z, and initializes them to getSomeObject().x, getSomeObject().y and getSomeObject().z respectively:
+</p></div><pre><code class="lang-js">var { x, y, z} = getSomeObject();
+</code></pre>
+<div role="item"><p>我们同样可以在数组上使用解构声明来抽取出数组中的值：<span class="check-ori" role="check-ori">[查看此处原文]</span></p><p role="ori" class="ori">Destructuring declarations also works for extracting values from arrays:
+</p></div><pre><code class="lang-js">var [x, y, z = 10] = getSomeArray();
+</code></pre>
+<div role="item"><p>同样的，解构也可以被用在函数参数的声明上：<span class="check-ori" role="check-ori">[查看此处原文]</span></p><p role="ori" class="ori">Similarly, destructuring can be used in function parameter declarations:
+</p></div><pre><code class="lang-js">function drawText({ text = &quot;&quot;, location: [x, y] = [0, 0], bold = false }) {  
+    // Draw text  
+}
+
+// Call drawText with an object literal
+var item = { text: &quot;someText&quot;, location: [1,2,3], style: &quot;italics&quot; };
+drawText(item);
+</code></pre>
+<p><strong>Assignments</strong></p>
+<div role="item"><p>解构的模式也可以用在通常的赋值表达式上。举个例子，我们可以用一个解构赋值来实现交换两个变量的值：<span class="check-ori" role="check-ori">[查看此处原文]</span></p><p role="ori" class="ori">Destructuring patterns can also be used in regular assignment expressions. For instance, swapping two variables can be written as a single destructuring assignment:
+</p></div><pre><code class="lang-js">var x = 1;  
+var y = 2;  
+[x, y] = [y, x];
+</code></pre>
+<h2 class="section-title"><a name="<code>let</code> and <code>const</code> support" class="anchor" href="#<code>let</code> and <code>const</code> support"><span class="header-link"></span></a><code>let</code> and <code>const</code> support</h2><div role="item"><p>现在在ES3和ES5上，我们也可以使用<code>let</code>和<code>const</code>声明了。<span class="check-ori" role="check-ori">[查看此处原文]</span></p><p role="ori" class="ori">ES6 <code>let</code> and <code>const</code> declarations are now supported when targeting ES3 and ES5.
+</p></div><p><strong>Const</strong></p>
+<pre><code class="lang-js">const MAX = 100;
+
+++MAX; // Error: The operand of an increment or decrement 
+       //        operator cannot be a constant.
+</code></pre>
+<p><strong>Block scoped</strong></p>
+<pre><code class="lang-js">if (true) {
+  let a = 4;
+  // use a
+}
+else {
+  let a = &quot;string&quot;;
+  // use a
+}
+
+alert(a); // Error: a is not defined in this scope
+</code></pre>
+<h2 class="section-title"><a name="for..of support" class="anchor" href="#for..of support"><span class="header-link"></span></a>for..of support</h2><div role="item"><p>TypeScript 1.5新增了在ES3/ES5数组上使用ES6 for..of循环的支持。同时它也完整地支持ES6上的迭代器接口（Iterator interfaces）。<span class="check-ori" role="check-ori">[查看此处原文]</span></p><p role="ori" class="ori">TypeScript 1.5 adds support to ES6 for..of loops on arrays for ES3/ES5 as well as full support for Iterator interfaces when targetting ES6.
+</p></div><p><strong>Example:</strong></p>
+<div role="item"><p>当我们想要TypeScript支持ES3/ES5时，编译器会将使用for..of的数组转换成我们惯用的ES3/ES5代码：<span class="check-ori" role="check-ori">[查看此处原文]</span></p><p role="ori" class="ori">The TypeScript compiler will transpile for..of arrays to idiomatic ES3/ES5 JavaScript when targeting those versions:
+</p></div><pre><code class="lang-js">for (var v of expr) { }
+</code></pre>
+<div role="item"><p>将会被转换成：<span class="check-ori" role="check-ori">[查看此处原文]</span></p><p role="ori" class="ori">will be emitted as:
+</p></div><pre><code class="lang-js">for (var _i = 0, _a = expr; _i &lt; _a.length; _i++) {
+    var v = _a[_i];
+}
+</code></pre>
+<h2 class="section-title"><a name="Decorators" class="anchor" href="#Decorators"><span class="header-link"></span></a>Decorators</h2><div role="item"><p>TypeScript装饰器（decorator）是基于ES7装饰器提案实现的。<span class="check-ori" role="check-ori">[查看此处原文]</span></p><p role="ori" class="ori">TypeScript decorator is based on the ES7 decorator proposal.
+</p></div><div role="item"><p>装饰器是：<span class="check-ori" role="check-ori">[查看此处原文]</span></p><p role="ori" class="ori">A decorator is:
+</p></div><p>$</p>
+<ul>
+<li>an expression</li>
+<li>that evaluates to a function</li>
+<li>that takes the target, name, and property descriptor as arguments</li>
+<li>and optionally returns a property descriptor to install on the target object
+$$</li>
+<li>一个表达式</li>
+<li>它会作为一个函数执行</li>
+<li>它把目标，名称，属性描述（property descriptor）作为参数</li>
+<li>它可以返回一个属性描述，以作用在目标对象上</li>
+</ul>
+<div role="item"><p>你可以查阅Decorators提案来获取更多信息。<span class="check-ori" role="check-ori">[查看此处原文]</span></p><p role="ori" class="ori">For more information, please see the Decorators proposal.
+</p></div><p><strong>Example:</strong></p>
+<div role="item"><p><code>readonly</code>和<code>enumerable(false)</code>这两个装饰器会在method属性被放置在类<code>C</code>上之前，作用于method。装饰器会改变属性，方法的实现。比如在这个例子中，method的属性描述会添加writable: false和enumerable: false两项。<span class="check-ori" role="check-ori">[查看此处原文]</span></p><p role="ori" class="ori">Decorators <code>readonly</code> and <code>enumerable(false)</code> will be applied to the property method before it is installed on class <code>C</code>. This allows the decorator to change the implementation, and in this case, augment the descriptor to be writable: false and enumerable: false.
+</p></div><pre><code class="lang-js">class C {
+  @readonly
+  @enumerable(false)
+  method() { }
+}
+
+function readonly(target, key, descriptor) {
+    descriptor.writable = false;
+}
+
+function enumerable(value) {
+  return function (target, key, descriptor) {
+     descriptor.enumerable = value;
+  }
+}
+</code></pre>
+<h2 class="section-title"><a name="Computed properties" class="anchor" href="#Computed properties"><span class="header-link"></span></a>Computed properties</h2><div role="item"><p>想要在初始化对象时，带上一些动态的属性可能会很麻烦。举下面的例子来说：<span class="check-ori" role="check-ori">[查看此处原文]</span></p><p role="ori" class="ori">Initializing an object with dynamic properties can be a bit of a burden. Take the following example:
+</p></div><pre><code class="lang-js">type NeighborMap = { [name: string]: Node };
+type Node = { name: string; neighbors: NeighborMap;}
+
+function makeNode(name: string, initialNeighbor: Node): Node {
+    var neighbors: NeighborMap = {};
+    neighbors[initialNeighbor.name] = initialNeighbor;
+    return { name: name, neighbors: neighbors };
+}
+</code></pre>
+<div role="item"><p>这里我们需要先为neighbor-map创建一个对象变量，然后再初始化它。在TypeScript 1.5中，我们可以让编译器替我们完成这类工作：<span class="check-ori" role="check-ori">[查看此处原文]</span></p><p role="ori" class="ori">Here we need to create a variable to hold on to the neighbor-map so that we can initialize it. With TypeScript 1.5, we can let the compiler do the heavy lifting:
+</p></div><pre><code class="lang-js">function makeNode(name: string, initialNeighbor: Node): Node {
+    return {
+        name: name,
+        neighbors: {
+            [initialNeighbor.name] = initialNeighbor
+        }
+    }
+}
+</code></pre>
+<h2 class="section-title"><a name="Unicode codepoint escapes in strings" class="anchor" href="#Unicode codepoint escapes in strings"><span class="header-link"></span></a>Unicode codepoint escapes in strings</h2><div role="item"><p>ES6引入了escapes来使用户仅需要使用一次escape就能表示一个Unicode编码点（codepoint）。<span class="check-ori" role="check-ori">[查看此处原文]</span></p><p role="ori" class="ori">ES6 introduces escapes that allow users to represent a Unicode codepoint using just a single escape.
+</p></div><div role="item"><p>举例来说，假设我们需要转义一个包含UTF-16/UCS2字符&#39;𠮷&#39;的字符串。其中&#39;𠮷&#39;由一个代理对（surrogate pair）来表示，这就是说它是由一对16比特的编码单元——<code>0xD842</code>和<code>0xDFB7</code>来表示的。这意味着你必须转义<code>&quot;\uD842\uDFB7&quot;</code>，但实际上我们很难辨别这是两个独立的字符还是一个代理对。<span class="check-ori" role="check-ori">[查看此处原文]</span></p><p role="ori" class="ori">As an example, consider the need to escape a string that contains the character &#39;𠮷&#39;. In UTF-16/UCS2, &#39;𠮷&#39; is represented as a surrogate pair, meaning that it&#39;s encoded using a pair of 16-bit code units of values, specifically <code>0xD842</code> and <code>0xDFB7</code>. Previously this meant that you&#39;d have to escape the codepoint as <code>&quot;\uD842\uDFB7&quot;</code>. This has the major downside that it’s difficult to discern two independent characters from a surrogate pair.
+</p></div><div role="item"><p>通过ES6的编码点转义，你可以通过像<code>&quot;\u{20bb7}&quot;</code>这样的转义来清楚地表达字符串或字符串模板中的字符表达的到底是什么。TypeScript会把这个字符串转换成ES3/ES5中的<code>&quot;\uD842\uDFB7&quot;</code>。<span class="check-ori" role="check-ori">[查看此处原文]</span></p><p role="ori" class="ori">With ES6’s codepoint escapes, you can cleanly represent that exact character in strings and template strings with a single escape: <code>&quot;\u{20bb7}&quot;</code>. TypeScript will emit the string in ES3/ES5 as <code>&quot;\uD842\uDFB7&quot;</code>.
+</p></div><h2 class="section-title"><a name="Tagged template strings in ES3/ES5" class="anchor" href="#Tagged template strings in ES3/ES5"><span class="header-link"></span></a>Tagged template strings in ES3/ES5</h2><div role="item"><p>在TypeScript 1.4中，我们添加了对字符串模板的支持（ES3/ES5/ES6），以及对ES6中的标记模板（tagged templates）的支持。这里要感谢@ivogabe为我们提供的一些深思熟虑的想法和工作，使得我们在ES3和ES5中也可以使用标记模板。<span class="check-ori" role="check-ori">[查看此处原文]</span></p><p role="ori" class="ori">In TypeScript 1.4, we added support for template strings for all targets, and tagged templates for just ES6. Thanks to some considerable work done by @ivogabe, we bridged the gap for for tagged templates in ES3 and ES5.
+</p></div><div role="item"><p>当我们想要将代码转换成ES3/ES5时，下面的代码：<span class="check-ori" role="check-ori">[查看此处原文]</span></p><p role="ori" class="ori">When targeting ES3/ES5, the following code
+</p></div><pre><code class="lang-js">function oddRawStrings(strs: TemplateStringsArray, n1, n2) {
+    return strs.raw.filter((raw, index) =&gt; index % 2 === 1);
+}
+
+oddRawStrings `Hello \n${123} \t ${456}\n world`
+</code></pre>
+<div role="item"><p>会变成：<span class="check-ori" role="check-ori">[查看此处原文]</span></p><p role="ori" class="ori">will be emitted as
+</p></div><pre><code class="lang-js">function oddRawStrings(strs, n1, n2) {
+    return strs.raw.filter(function (raw, index) {
+        return index % 2 === 1;
+    });
+}
+(_a = [&quot;Hello \n&quot;, &quot; \t &quot;, &quot;\n world&quot;], _a.raw = [&quot;Hello \\n&quot;, &quot; \\t &quot;, &quot;\\n world&quot;], oddRawStrings(_a, 123, 456));
+var _a;
+</code></pre>
+<h2 class="section-title"><a name="AMD-dependency optional names" class="anchor" href="#AMD-dependency optional names"><span class="header-link"></span></a>AMD-dependency optional names</h2><div role="item"><p><code>/// &lt;amd-dependency path=&quot;x&quot; /&gt;</code>会告诉编译器，由于当前模块的调用，有一个非TS模块的依赖需要被注入。然而TS代码并不能使用这些代码。<span class="check-ori" role="check-ori">[查看此处原文]</span></p><p role="ori" class="ori"><code>/// &lt;amd-dependency path=&quot;x&quot; /&gt;</code> informs the compiler about a non-TS module dependency that needs to be injected in the resulting module&#39;s require call; however, there was no way to consume this module in the TS code.
+</p></div><div role="item"><p>而新添加的<code>amd-dependency name</code>属性则允许我们给一个amd依赖命名。<span class="check-ori" role="check-ori">[查看此处原文]</span></p><p role="ori" class="ori">The new <code>amd-dependency name</code> property allows passing an optional name for an amd-dependency:
+</p></div><pre><code class="lang-js">/// &lt;amd-dependency path=&quot;legacy/moduleA&quot; name=&quot;moduleA&quot;/&gt;
+declare var moduleA:MyType
+moduleA.callStuff()
+</code></pre>
+<div role="item"><p>上面的代码生成的JS代码是：<span class="check-ori" role="check-ori">[查看此处原文]</span></p><p role="ori" class="ori">Generated JS code:
+</p></div><pre><code class="lang-js">define([&quot;require&quot;, &quot;exports&quot;, &quot;legacy/moduleA&quot;], function (require, exports, moduleA) {
+    moduleA.callStuff()
+});
+</code></pre>
+<h2 class="section-title"><a name="Project support through tsconfig.json" class="anchor" href="#Project support through tsconfig.json"><span class="header-link"></span></a>Project support through tsconfig.json</h2><div role="item"><p>给一个文件夹添加一个<code>tsconfig.json</code>文件可以表示当前文件夹是一个TypeScript项目的根目录。通过tsconfig.json，我们可以指定根文件（root files）以及编译选项。每个项目对会以下面的一种方式进行编译：<span class="check-ori" role="check-ori">[查看此处原文]</span></p><p role="ori" class="ori">Adding a <code>tsconfig.json</code> file in a directory indicates that the directory is the root of a TypeScript project. The tsconfig.json file specifies the root files and the compiler options required to compile the project. A project is compiled in one of the following ways:
+</p></div><p>$</p>
+<ul>
+<li><p>By invoking tsc with no input files, in which case the compiler searches for the tsconfig.json file starting in the current directory and continuing up the parent directory chain.</p>
+</li>
+<li><p>By invoking tsc with no input files and a -project (or just -p) command line option that specifies the path of a directory containing a tsconfig.json file.
+$$</p>
+</li>
+<li><p>如果我们使用tsc指令但是不指定输入文件，编译器会就会从当前文件夹开始，向上寻找tsconfig.json文件。</p>
+</li>
+<li><p>如果我们使用tsc指令但是不指定输入文件，那我们可以使用-project（或 -p）命令行选项来指定包含tsconfig.json文件的文件夹。</p>
+</li>
+</ul>
+<p><strong>Example:</strong></p>
+<pre><code class="lang-js">{
+    &quot;compilerOptions&quot;: {
+        &quot;module&quot;: &quot;commonjs&quot;,
+        &quot;noImplicitAny&quot;: true,
+        &quot;sourceMap&quot;: true,
+    }
+}
+</code></pre>
+<div role="item"><p>你可以查看tsconfig.json的维基页面获取详细信息。<span class="check-ori" role="check-ori">[查看此处原文]</span></p><p role="ori" class="ori">See the tsconfig.json wiki page for more details.
+</p></div><h2 class="section-title"><a name="<code>--rootDir</code> command line option" class="anchor" href="#<code>--rootDir</code> command line option"><span class="header-link"></span></a><code>--rootDir</code> command line option</h2><div role="item"><p><code>--outDir</code>选项在进行输出文件时会根据输入文件的路径结构来进行。编译器会以根目录下的文件的路径作为所有输入文件的最长路径截点（即路径不会超过根目录），使用每个输入文件的路径来放置输出文件。<span class="check-ori" role="check-ori">[查看此处原文]</span></p><p role="ori" class="ori">Option <code>--outDir</code> duplicates the input hierarchy in the output. The compiler computes the root of the input files as the longest common path of all input files; and then uses that to replicate all its substructure in the output.
+</p></div><div role="item"><p>但有时候我们并不希望这样。比如我们输入<code>FolderA\FolderB\1.ts</code>和<code>FolderA\FolderB\2.ts</code>，则输出文件都会出现在一个<code>FolderA\FolderB\</code>这样的镜像结构的文件中。如果我们再增加一个<code>FolderA\3.ts</code>作为输入文件，则这个文件对应的输出文件就会出现在一个<code>FolderA\</code>文件中。<span class="check-ori" role="check-ori">[查看此处原文]</span></p><p role="ori" class="ori">Sometimes this is not desirable, for instance inputs <code>FolderA\FolderB\1.ts</code> and <code>FolderA\FolderB\2.ts</code> would result in output structure mirroring <code>FolderA\FolderB\</code>. now if a new file <code>FolderA\3.ts</code> is added to the input, the output structure will pop out to mirror <code>FolderA\</code>.
+</p></div><div role="item"><p>而<code>--rootDir</code>允许我们指定那些输出时，其路径要被镜像的文件夹，来代替计算输出路径。<span class="check-ori" role="check-ori">[查看此处原文]</span></p><p role="ori" class="ori"><code>--rootDir</code> specifies the input directory to be mirrored in output instead of computing it.
+</p></div><hr>
