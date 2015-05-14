@@ -262,17 +262,21 @@ function makeNode(name: string, initialNeighbor: Node): Node {
 ##Unicode codepoint escapes in strings
 
 $ES6 introduces escapes that allow users to represent a Unicode codepoint using just a single escape.
-$$ES6引入了escapes来使用户仅需要使用一个
+$$ES6引入了escapes来使用户仅需要使用一次escape就能表示一个Unicode编码点（codepoint）。
 
-As an example, consider the need to escape a string that contains the character '𠮷'. In UTF-16/UCS2, '𠮷' is represented as a surrogate pair, meaning that it's encoded using a pair of 16-bit code units of values, specifically `0xD842` and `0xDFB7`. Previously this meant that you'd have to escape the codepoint as `"\uD842\uDFB7"`. This has the major downside that it’s difficult to discern two independent characters from a surrogate pair.
+$As an example, consider the need to escape a string that contains the character '𠮷'. In UTF-16/UCS2, '𠮷' is represented as a surrogate pair, meaning that it's encoded using a pair of 16-bit code units of values, specifically `0xD842` and `0xDFB7`. Previously this meant that you'd have to escape the codepoint as `"\uD842\uDFB7"`. This has the major downside that it’s difficult to discern two independent characters from a surrogate pair.
+$$举例来说，假设我们需要转义一个包含UTF-16/UCS2字符'𠮷'的字符串。其中'𠮷'由一个代理对（surrogate pair）来表示，这就是说它是由一对16比特的编码单元——`0xD842`和`0xDFB7`来表示的。这意味着你必须转义`"\uD842\uDFB7"`，但实际上我们很难辨别这是两个独立的字符还是一个代理对。
 
-With ES6’s codepoint escapes, you can cleanly represent that exact character in strings and template strings with a single escape: `"\u{20bb7}"`. TypeScript will emit the string in ES3/ES5 as `"\uD842\uDFB7"`.
+$With ES6’s codepoint escapes, you can cleanly represent that exact character in strings and template strings with a single escape: `"\u{20bb7}"`. TypeScript will emit the string in ES3/ES5 as `"\uD842\uDFB7"`.
+$$通过ES6的编码点转义，你可以通过像`"\u{20bb7}"`这样的转义来清楚地表达字符串或字符串模板中的字符表达的到底是什么。TypeScript会把这个字符串转换成ES3/ES5中的`"\uD842\uDFB7"`。
 
 ##Tagged template strings in ES3/ES5
 
-In TypeScript 1.4, we added support for template strings for all targets, and tagged templates for just ES6. Thanks to some considerable work done by @ivogabe, we bridged the gap for for tagged templates in ES3 and ES5.
+$In TypeScript 1.4, we added support for template strings for all targets, and tagged templates for just ES6. Thanks to some considerable work done by @ivogabe, we bridged the gap for for tagged templates in ES3 and ES5.
+$$在TypeScript 1.4中，我们添加了对字符串模板的支持（ES3/ES5/ES6），以及对ES6中的标记模板（tagged templates）的支持。这里要感谢@ivogabe为我们提供的一些深思熟虑的想法和工作，使得我们在ES3和ES5中也可以使用标记模板。
 
-When targeting ES3/ES5, the following code
+$When targeting ES3/ES5, the following code
+$$当我们想要将代码转换成ES3/ES5时，下面的代码：
 
 ```js
 function oddRawStrings(strs: TemplateStringsArray, n1, n2) {
@@ -282,7 +286,8 @@ function oddRawStrings(strs: TemplateStringsArray, n1, n2) {
 oddRawStrings `Hello \n${123} \t ${456}\n world`
 ```
 
-will be emitted as
+$will be emitted as
+$$会变成：
 
 ```js
 function oddRawStrings(strs, n1, n2) {
@@ -296,9 +301,11 @@ var _a;
 
 ##AMD-dependency optional names
 
-`/// <amd-dependency path="x" />` informs the compiler about a non-TS module dependency that needs to be injected in the resulting module's require call; however, there was no way to consume this module in the TS code.
+$`/// <amd-dependency path="x" />` informs the compiler about a non-TS module dependency that needs to be injected in the resulting module's require call; however, there was no way to consume this module in the TS code.
+$$`/// <amd-dependency path="x" />`会告诉编译器，由于当前模块的调用，有一个非TS模块的依赖需要被注入。然而TS代码并不能使用这些代码。
 
-The new `amd-dependency name` property allows passing an optional name for an amd-dependency:
+$The new `amd-dependency name` property allows passing an optional name for an amd-dependency:
+$$而新添加的`amd-dependency name`属性则允许我们给一个amd依赖命名。
 
 ```js
 /// <amd-dependency path="legacy/moduleA" name="moduleA"/>
@@ -306,7 +313,8 @@ declare var moduleA:MyType
 moduleA.callStuff()
 ```
 
-Generated JS code:
+$Generated JS code:
+$$上面的代码生成的JS代码是：
 
 ```js
 define(["require", "exports", "legacy/moduleA"], function (require, exports, moduleA) {
@@ -316,7 +324,8 @@ define(["require", "exports", "legacy/moduleA"], function (require, exports, mod
 
 ##Project support through tsconfig.json
 
-Adding a `tsconfig.json` file in a directory indicates that the directory is the root of a TypeScript project. The tsconfig.json file specifies the root files and the compiler options required to compile the project. A project is compiled in one of the following ways:
+$Adding a `tsconfig.json` file in a directory indicates that the directory is the root of a TypeScript project. The tsconfig.json file specifies the root files and the compiler options required to compile the project. A project is compiled in one of the following ways:
+$$给一个文件夹添加一个`tsconfig.json`文件可以表示当前文件夹是一个TypeScript项目的根目录。tsconfig.json这个文件
 
 * By invoking tsc with no input files, in which case the compiler searches for the tsconfig.json file starting in the current directory and continuing up the parent directory chain.
 
