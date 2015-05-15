@@ -14,6 +14,7 @@
 * Type Inference
 * Type Compatibility
 * Writing .d.ts Files
+* TypeScript 1.5(翻译)
 
 ###Contribute
 水平有限，文档中可能会出现各种疏漏，错误。请您发PR或issues来帮助我们改善文档！
