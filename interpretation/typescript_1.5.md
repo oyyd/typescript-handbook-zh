@@ -192,16 +192,10 @@ $$TypeScript装饰器（decorator）是基于ES7装饰器提案实现的。
 $A decorator is:
 $$装饰器是：
 
-$
-* an expression
-* that evaluates to a function
-* that takes the target, name, and property descriptor as arguments
-* and optionally returns a property descriptor to install on the target object
-$$
-* 一个表达式
-* 它会作为一个函数执行
-* 它把目标，名称，属性描述（property descriptor）作为参数
-* 它可以返回一个属性描述，以作用在目标对象上
+* $an expression$$一个表达式
+* $that evaluates to a function$$它会作为一个函数执行
+* $that takes the target, name, and property descriptor as arguments$$它把目标，名称，属性描述（property descriptor）作为参数
+* $and optionally returns a property descriptor to install on the target object$$它可以返回一个属性描述，以作用在目标对象上
 
 $For more information, please see the Decorators proposal.
 $$你可以查阅Decorators提案来获取更多信息。
@@ -327,14 +321,8 @@ define(["require", "exports", "legacy/moduleA"], function (require, exports, mod
 $Adding a `tsconfig.json` file in a directory indicates that the directory is the root of a TypeScript project. The tsconfig.json file specifies the root files and the compiler options required to compile the project. A project is compiled in one of the following ways:
 $$给一个文件夹添加一个`tsconfig.json`文件可以表示当前文件夹是一个TypeScript项目的根目录。通过tsconfig.json，我们可以指定根文件（root files）以及编译选项。每个项目对会以下面的一种方式进行编译：
 
-$
-* By invoking tsc with no input files, in which case the compiler searches for the tsconfig.json file starting in the current directory and continuing up the parent directory chain.
-
-* By invoking tsc with no input files and a -project (or just -p) command line option that specifies the path of a directory containing a tsconfig.json file.
-$$
-* 如果我们使用tsc指令但是不指定输入文件，编译器会就会从当前文件夹开始，向上寻找tsconfig.json文件。
-
-* 如果我们使用tsc指令但是不指定输入文件，那我们可以使用-project（或 -p）命令行选项来指定包含tsconfig.json文件的文件夹。
+* $By invoking tsc with no input files, in which case the compiler searches for the tsconfig.json file starting in the current directory and continuing up the parent directory chain.$$如果我们使用tsc指令但是不指定输入文件，编译器会就会从当前文件夹开始，向上寻找tsconfig.json文件。
+* $By invoking tsc with no input files and a -project (or just -p) command line option that specifies the path of a directory containing a tsconfig.json file.$$如果我们使用tsc指令但是不指定输入文件，那我们可以使用-project（或 -p）命令行选项来指定包含tsconfig.json文件的文件夹。
 
 __Example:__
 

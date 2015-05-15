@@ -24,7 +24,7 @@ var renderer = new marked.Renderer();
 var pRenderer = renderer.paragraph;
 var headingRenderer = renderer.heading;
 
-renderer.paragraph = function(text) {
+renderer.listitem = renderer.paragraph = function(text) {
   if (text[0] === '$' && text.indexOf('$$') > -1) {
     var arr = text.split('$$');
     var oriStr = arr[0].slice(1);

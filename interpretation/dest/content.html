@@ -1919,18 +1919,8 @@ alert(a); // Error: a is not defined in this scope
 </code></pre>
 <h2 class="section-title"><a name="Decorators" class="anchor" href="#Decorators"><span class="header-link"></span></a>Decorators</h2><div role="item"><p>TypeScript装饰器（decorator）是基于ES7装饰器提案实现的。<span class="check-ori" role="check-ori">[查看此处原文]</span></p><p role="ori" class="ori">TypeScript decorator is based on the ES7 decorator proposal.
 </p></div><div role="item"><p>装饰器是：<span class="check-ori" role="check-ori">[查看此处原文]</span></p><p role="ori" class="ori">A decorator is:
-</p></div><p>$</p>
-<ul>
-<li>an expression</li>
-<li>that evaluates to a function</li>
-<li>that takes the target, name, and property descriptor as arguments</li>
-<li>and optionally returns a property descriptor to install on the target object
-$$</li>
-<li>一个表达式</li>
-<li>它会作为一个函数执行</li>
-<li>它把目标，名称，属性描述（property descriptor）作为参数</li>
-<li>它可以返回一个属性描述，以作用在目标对象上</li>
-</ul>
+</p></div><ul>
+<div role="item"><p>一个表达式<span class="check-ori" role="check-ori">[查看此处原文]</span></p><p role="ori" class="ori">an expression</p></div><div role="item"><p>它会作为一个函数执行<span class="check-ori" role="check-ori">[查看此处原文]</span></p><p role="ori" class="ori">that evaluates to a function</p></div><div role="item"><p>它把目标，名称，属性描述（property descriptor）作为参数<span class="check-ori" role="check-ori">[查看此处原文]</span></p><p role="ori" class="ori">that takes the target, name, and property descriptor as arguments</p></div><div role="item"><p>它可以返回一个属性描述，以作用在目标对象上<span class="check-ori" role="check-ori">[查看此处原文]</span></p><p role="ori" class="ori">and optionally returns a property descriptor to install on the target object</p></div></ul>
 <div role="item"><p>你可以查阅Decorators提案来获取更多信息。<span class="check-ori" role="check-ori">[查看此处原文]</span></p><p role="ori" class="ori">For more information, please see the Decorators proposal.
 </p></div><p><strong>Example:</strong></p>
 <div role="item"><p><code>readonly</code>和<code>enumerable(false)</code>这两个装饰器会在method属性被放置在类<code>C</code>上之前，作用于method。装饰器会改变属性，方法的实现。比如在这个例子中，method的属性描述会添加writable: false和enumerable: false两项。<span class="check-ori" role="check-ori">[查看此处原文]</span></p><p role="ori" class="ori">Decorators <code>readonly</code> and <code>enumerable(false)</code> will be applied to the property method before it is installed on class <code>C</code>. This allows the decorator to change the implementation, and in this case, augment the descriptor to be writable: false and enumerable: false.
@@ -2002,18 +1992,8 @@ moduleA.callStuff()
 });
 </code></pre>
 <h2 class="section-title"><a name="Project support through tsconfig.json" class="anchor" href="#Project support through tsconfig.json"><span class="header-link"></span></a>Project support through tsconfig.json</h2><div role="item"><p>给一个文件夹添加一个<code>tsconfig.json</code>文件可以表示当前文件夹是一个TypeScript项目的根目录。通过tsconfig.json，我们可以指定根文件（root files）以及编译选项。每个项目对会以下面的一种方式进行编译：<span class="check-ori" role="check-ori">[查看此处原文]</span></p><p role="ori" class="ori">Adding a <code>tsconfig.json</code> file in a directory indicates that the directory is the root of a TypeScript project. The tsconfig.json file specifies the root files and the compiler options required to compile the project. A project is compiled in one of the following ways:
-</p></div><p>$</p>
-<ul>
-<li><p>By invoking tsc with no input files, in which case the compiler searches for the tsconfig.json file starting in the current directory and continuing up the parent directory chain.</p>
-</li>
-<li><p>By invoking tsc with no input files and a -project (or just -p) command line option that specifies the path of a directory containing a tsconfig.json file.
-$$</p>
-</li>
-<li><p>如果我们使用tsc指令但是不指定输入文件，编译器会就会从当前文件夹开始，向上寻找tsconfig.json文件。</p>
-</li>
-<li><p>如果我们使用tsc指令但是不指定输入文件，那我们可以使用-project（或 -p）命令行选项来指定包含tsconfig.json文件的文件夹。</p>
-</li>
-</ul>
+</p></div><ul>
+<div role="item"><p>如果我们使用tsc指令但是不指定输入文件，编译器会就会从当前文件夹开始，向上寻找tsconfig.json文件。<span class="check-ori" role="check-ori">[查看此处原文]</span></p><p role="ori" class="ori">By invoking tsc with no input files, in which case the compiler searches for the tsconfig.json file starting in the current directory and continuing up the parent directory chain.</p></div><div role="item"><p>如果我们使用tsc指令但是不指定输入文件，那我们可以使用-project（或 -p）命令行选项来指定包含tsconfig.json文件的文件夹。<span class="check-ori" role="check-ori">[查看此处原文]</span></p><p role="ori" class="ori">By invoking tsc with no input files and a -project (or just -p) command line option that specifies the path of a directory containing a tsconfig.json file.</p></div></ul>
 <p><strong>Example:</strong></p>
 <pre><code class="lang-js">{
     &quot;compilerOptions&quot;: {
