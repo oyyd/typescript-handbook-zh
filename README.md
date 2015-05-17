@@ -56,6 +56,8 @@ $ gulp build
 * 排错，文本润色。
 
 ###Change Log：
+2015-05-14 添加TypeScript1.5的内容
+
 2015-05-07 生硬地翻译到"Mixins"
 
 2015-05-03 pubilsh

@@ -30,7 +30,7 @@ renderer.listitem = renderer.paragraph = function(text) {
     var oriStr = arr[0].slice(1);
     var translationStr = arr[1];
     return '<div role="item">' +
-      '<p>' + translationStr + '<span class="check-ori" role="check-ori">[查看此处原文]</span></p>' +
+      '<p>' + translationStr + '<span class="check-ori" role="check-ori">[原文]</span></p>' +
       '<p role="ori" class="ori">' + oriStr + '</p>' +
       '</div>';
   } else {
