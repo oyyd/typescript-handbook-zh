@@ -125,9 +125,11 @@ module Animals {
 }
 ```
 
-This model of module merging is a helpful starting place, but to get a more complete picture we need to also understand what happens with non-exported members. Non-exported members are only visible in the original (un-merged) module. This means that after merging, merged members that came from other declarations can not see non-exported members.
+$This model of module merging is a helpful starting place, but to get a more complete picture we need to also understand what happens with non-exported members. Non-exported members are only visible in the original (un-merged) module. This means that after merging, merged members that came from other declarations can not see non-exported members.
+$$虽然这个模块合并的例子对我们的理解很有帮助，但我们同样也需要知道在未被输出的成员上到底发生了什么，以帮助我们更完整地理解模块合并。未被输出的成员只在原模块（未被合并的模块）中可见。这意味着来自不同声明中的成员即便在合并以后也不能看到未被输出的成员。
 
-We can see this more clearly in this example:
+$We can see this more clearly in this example:
+$$我们可以通过下面的例子更好地理解这一点：
 
 ```js
 module Animal {
@@ -145,12 +147,15 @@ module Animal {
 }
 ```
 
-Because haveMuscles is not exported, only the animalsHaveMuscles function that shares the same un-merged module can see the symbol. The doAnimalsHaveMuscles function, even though it's part of the merged Animal module can not see this un-exported member.
+$Because haveMuscles is not exported, only the animalsHaveMuscles function that shares the same un-merged module can see the symbol. The doAnimalsHaveMuscles function, even though it's part of the merged Animal module can not see this un-exported member.
+$$因为haveMuscles并未被输出，所以只有在未合并前处在同一个模块中的animalsHaveMuscles函数才能知道haveMuscles的存在。虽然在被合并以后，doAnimalsHaveMuscles函数也是Animal模块的一部分，但它无法得知另一个模块中的那些未被输出的成员。
 
 ##Merging Modules with Classes, Functions, and Enums
-Modules are flexible enough to also merge with other types of declarations. To do so, the module declaration must follow the declaration it will merge with. The resulting declaration has properties of both declaration types. TypeScript uses this capability to model some of patterns in JavaScript as well as other programming languages.
+$Modules are flexible enough to also merge with other types of declarations. To do so, the module declaration must follow the declaration it will merge with. The resulting declaration has properties of both declaration types. TypeScript uses this capability to model some of patterns in JavaScript as well as other programming languages.
+$$事实上模块非常灵活，它也可以合并其他类型的声明。想要合并其他类型的声明的话，这个模块的声明就必须要紧跟在它要合并的其他声明的后面。这样声明得到的结果，会同时拥有这两种声明类型的属性。TypeScript正是通过这一能力来模拟JavaScript和其他一些编程语言上的设计模式的。
 
-The first module merge we'll cover is merging a module with a class. This gives the user a way of describing inner classes.
+$The first module merge we'll cover is merging a module with a class. This gives the user a way of describing inner classes.
+$$我们要看的地一个模块合并的例子是用来合并一个模块和一个类的。这让声明内部类成为了可能。
 
 ```js
 class Album {
@@ -161,9 +166,11 @@ module Album {
 }
 ```
 
-The visibility rules for merged members is the same as described in the 'Merging Modules' section, so we must export the AlbumLabel class for the merged class to see it. The end result is a class managed inside of another class. You can also use modules to add more static members to an existing class.
+$The visibility rules for merged members is the same as described in the 'Merging Modules' section, so we must export the AlbumLabel class for the merged class to see it. The end result is a class managed inside of another class. You can also use modules to add more static members to an existing class.
+$$这里合并后的成员的可见性同我们在'Merging Modules'部分中描述的是一样的。所以我们必须把AlbumLabel类输出，以使被合并的类能够看见它。合并的结果便是是一个类出现在了另一个类中。你用样也可以用模块来给一个已经存在的类添加更多的静态成员。
 
-In addition to the pattern of inner classes, you may also be familiar with JavaScript practice of creating a function and then extending the function further by adding properties onto the function. TypeScript uses declaration merging to build up definitions like this in a type-safe way. 
+$In addition to the pattern of inner classes, you may also be familiar with JavaScript practice of creating a function and then extending the function further by adding properties onto the function. TypeScript uses declaration merging to build up definitions like this in a type-safe way. 
+$$除了内部类的模式以外，你可能也很熟悉在JavaScript中的这样的应用：先创建一个函数，然后再给这个函数添加其他的属性。TypeScript通过声明合并，可以以一种对类型安全（type-safe）的方式来实现这种定义。
 
 ```js
 function buildLabel(name: string): string {
@@ -178,7 +185,8 @@ module buildLabel {
 alert(buildLabel("Sam Smith"));
 ```
 
-Similarly, modules can be used to extend enums with static members:
+$Similarly, modules can be used to extend enums with static members:
+$$相似地，模块也可以同静态成员来扩展枚举。
 
 ```js
 enum Color {
@@ -206,4 +214,5 @@ module Color {
 ```
 
 ##Disallowed Merges
-Not all merges are allowed in TypeScript. Currently, classes can not merge with other classes, variables and classes can not merge, nor can interfaces and classes. For information on mimicking classes merging, see the Mixins in TypeScript section.
+$Not all merges are allowed in TypeScript. Currently, classes can not merge with other classes, variables and classes can not merge, nor can interfaces and classes. For information on mimicking classes merging, see the Mixins in TypeScript section.
+$$在TypeScript中，并不是所有类型的合并都是被允许的。到目前为止，一个类不能合并另一个类，变量与类之间不能够合并，接口和类之间也不能够合并。如果你想要模拟类的合并的话，你可以通过Mixins部分来了解更多。
