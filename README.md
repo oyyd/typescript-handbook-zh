@@ -10,7 +10,7 @@
 * Generics(翻译)
 * Common Errors(翻译)
 * Mixins(翻译)
-* Declaration Merging
+* Declaration Merging(翻译)
 * Type Inference
 * Type Compatibility
 * Writing .d.ts Files
@@ -56,6 +56,8 @@ $ gulp build
 * 排错，文本润色。
 
 ###Change Log：
+2015-05-18 生硬地翻译到"Declaration Merging"
+
 2015-05-14 添加TypeScript1.5的内容
 
 2015-05-07 生硬地翻译到"Mixins"
