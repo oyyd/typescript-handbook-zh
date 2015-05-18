@@ -11,7 +11,7 @@
 * Common Errors(翻译)
 * Mixins(翻译)
 * Declaration Merging(翻译)
-* Type Inference
+* Type Inference(翻译)
 * Type Compatibility
 * Writing .d.ts Files
 * TypeScript 1.5(翻译)
