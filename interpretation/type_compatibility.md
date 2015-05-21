@@ -157,10 +157,12 @@ invokeLater([1, 2], (x?, y?) => console.log(x + ', ' + y));
 ```
 
 ###Functions with overloads
-When a function has overloads, each overload in the source type must be matched by a compatible signature on the target type. This ensures that the target function can be called in all the same situations as the source function. Functions with specialized overload signatures (those that use string literals in their overloads) do not use their specialized signatures when checking for compatibility.
+$When a function has overloads, each overload in the source type must be matched by a compatible signature on the target type. This ensures that the target function can be called in all the same situations as the source function. Functions with specialized overload signatures (those that use string literals in their overloads) do not use their specialized signatures when checking for compatibility.
+$$对于有重载的函数来说，源类型上每个重载都需要在目标类型上有一个可兼容的签名（signature）。这可以确保我们在任意状况下都能够像源函数一样调用目标函数。在检查兼容性时，函数上特定的重载签名（使用字面量的重载）并不参与检查。
 
 ##Enums
-Enums are compatible with numbers, and numbers are compatible with enums. Enum values from different enum types are considered incompatible. For example,
+$Enums are compatible with numbers, and numbers are compatible with enums. Enum values from different enum types are considered incompatible. For example,
+$$枚举和数字之间是相互兼容的，不同枚举类型的枚举值之间是不兼容的。举例来说：
 
 ```js
 enum Status { Ready, Waiting };
@@ -171,7 +173,8 @@ status = Color.Green;  //error
 ```
 
 ##Classes
-Classes work similarly to object literal types and interfaces with one exception: they have both a static and an instance type. When comparing two objects of a class type, only members of the instance are compared. Static members and constructors do not affect compatibility. 
+$Classes work similarly to object literal types and interfaces with one exception: they have both a static and an instance type. When comparing two objects of a class type, only members of the instance are compared. Static members and constructors do not affect compatibility. 
+$$类和对象字面量类型及接口相似，但它们同时拥有静态部分和实例部分。当我们在比较同一个类下的两个对象之间兼容性时，我们只比较实例上的成员。静态成员和构造函数不会影响它们的兼容性。
 
 ```js
 class Animal {
@@ -192,10 +195,12 @@ s = a;  //OK
 ```
 
 ###Private members in classes
-Private members in a class affect their compatibility. When an instance of a class is checked for compatibility, if it contains a private member, the target type must also contain a private member that originated from the same class. This allows, for example, a class to be assignment compatible with its super class but not with classes from a different inheritance hierarchy which otherwise have the same shape.
+$Private members in a class affect their compatibility. When an instance of a class is checked for compatibility, if it contains a private member, the target type must also contain a private member that originated from the same class. This allows, for example, a class to be assignment compatible with its super class but not with classes from a different inheritance hierarchy which otherwise have the same shape.
+$$类中的私有成员会影响它们的兼容性。当我们在检查类的实例的兼容性时，如果这个实例包含一个私有成员，那么只有在目标类型上也包含一个来源于同一个类的同一个私有成员，我们才认为它们是兼容的。这意味这一个类和它的超类是兼容的，但和另一个与它结构相同而继承结构不同的类是不兼容的。
 
 ##Generics
-Because TypeScript is a structural type system, type parameters only affect the resulting type when consumed as part of the type of a member. For example,
+$Because TypeScript is a structural type system, type parameters only affect the resulting type when consumed as part of the type of a member. For example,
+$$由于TypeScript是结构性类型系统，当类型参数被用作成员类型的一部分时，他们只会影响结果的类型。举例来说：
 
 ```js
 interface Empty<T> {
@@ -206,7 +211,8 @@ var y: Empty<string>;
 x = y;  // okay, y matches structure of x
 ```
 
-In the above, x and y are compatible because their structures do not use the type argument in a differentiating way. Changing this example by adding a member to Empty<T> shows how this works:
+$In the above, x and y are compatible because their structures do not use the type argument in a differentiating way. Changing this example by adding a member to Empty<T> shows how this works:
+$$在上面的例子中，由于x和y的结构中并没有使用类型参数，所以它们是兼容的。现在让我们给Empty<T>添加一个成员看看结果如何：
 
 ```js
 interface NotEmpty<T> {
@@ -218,11 +224,14 @@ var y: NotEmpty<string>;
 x = y;  // error, x and y are not compatible
 ```
 
-In this way, a generic type that has its type arguments specified acts just like a non-generic type.
+$In this way, a generic type that has its type arguments specified acts just like a non-generic type.
+$$在这种情况下，使用了类型参数，并使其生效的泛型类型和非泛型类型没有什么不同。
 
-For generic types that do not have their type arguments specified, compatibility is checked by specifying 'any' in place of all unspecified type arguments. The resulting types are then checked for compatibility, just as in the non-generic case.
+$For generic types that do not have their type arguments specified, compatibility is checked by specifying 'any' in place of all unspecified type arguments. The resulting types are then checked for compatibility, just as in the non-generic case.
+$$对于没有使用指定的类型参数的泛型类型来说，所有未指定类型的参数都会被当作'any'类型来进行兼容性检查。检查方式和非泛型类型是一样的。
 
-For example,
+$For example,
+$$举例来说：
 
 ```js
 var identity = function<T>(x: T): T { 
@@ -238,6 +247,8 @@ identity = reverse;  // Okay because (x: any)=>any matches (y: any)=>any
 
 ##Advanced Topics
 ###Subtype vs Assignment
-So far, we've used 'compatible', which is not a term defined in the language spec. In TypeScript, there are two kinds of compatibility: subtype and assignment. These differ only in that assignment extends subtype compatibility with rules to allow assignment to and from 'any' and to and from enum with corresponding numeric values. 
+$So far, we've used 'compatible', which is not a term defined in the language spec. In TypeScript, there are two kinds of compatibility: subtype and assignment. These differ only in that assignment extends subtype compatibility with rules to allow assignment to and from 'any' and to and from enum with corresponding numeric values. 
+$$我们一直在使用'兼容'（compatible）这个词，但它本身并不是这门语言规定中的细则。实际上TypeScript中有两种类型的兼容性：子类型上的和赋值上的。它们之间的不同只在于，赋值时会有额外的子类型兼容性。它会允许把'any'或枚举类型赋值为其他类型，或把'any'或枚举类型赋值给其他类型，其中枚举类型的数值必须对应。
 
-Different places in the language use one of the two compatibility mechanisms, depending on the situation. For practical purposes, type compatibility is dictated by assignment compatibility even in the cases of the implements and extends clauses. For more information, see the TypeScript spec.
+$Different places in the language use one of the two compatibility mechanisms, depending on the situation. For practical purposes, type compatibility is dictated by assignment compatibility even in the cases of the implements and extends clauses. For more information, see the TypeScript spec.
+$$TypeScript会根据场景的不用使用两种兼容机制。从实际角度出发，类型兼容性会由赋值兼容性来决定，甚至是在implements和extends子句上。你可以查阅TypeScript上的细则以获取更多信息。
