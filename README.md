@@ -12,8 +12,8 @@
 * Mixins(翻译)
 * Declaration Merging(翻译)
 * Type Inference(翻译)
-* Type Compatibility
-* Writing .d.ts Files
+* Type Compatibility(翻译)
+* Writing .d.ts Files(翻译)
 * TypeScript 1.5(翻译)
 
 ###Contribute
@@ -56,6 +56,8 @@ $ gulp build
 * 排错，文本润色。
 
 ###Change Log：
+2015-05-23 完成初步翻译
+
 2015-05-18 生硬地翻译到"Declaration Merging"
 
 2015-05-14 添加TypeScript1.5的内容
