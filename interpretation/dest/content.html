@@ -50,8 +50,8 @@ list[1] = 100;
 }
 </code></pre>
 <hr>
-<h1 class="section-title"><a name="Interfaces" class="anchor" href="#Interfaces"><span class="header-link"></span></a>Interfaces</h1><div role="item"><p>类型检查将集中关注于数据的“形状”是TypeScript的核心原则之一。这有时又被称作“duck typing”或“structural subtyping”。在TypeScript中，接口起到了罗列这些数据类型的作用，并且接口也是定义你的代码内部，或你的代码和其他项目代码之间的规则的有效方法。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">One of TypeScript&#39;s core principles is that type-checking focuses on the &#39;shape&#39; that values have. This is sometimes called &quot;duck typing&quot; or &quot;structural subtyping&quot;. In TypeScript, interfaces fill the role of naming these types, and are a powerful way of defining contracts within your code as well as contracts with code outside of your project. 
-</p></div><h2 class="section-title"><a name="Our First Interface" class="anchor" href="#Our First Interface"><span class="header-link"></span></a>Our First Interface</h2><div role="item"><p>让我们来看看下面这个简单的例子，来了解接口是如何工作的：<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">The easiest way to see how interfaces work is to start with a simple example:
+<h1 class="section-title"><a name="接口" class="anchor" href="#接口"><span class="header-link"></span></a>接口</h1><div role="item"><p>TypeScript的核心原则之一，是类型检查会集中关注数据的“结构”（shape）。这一行为有时被称作“鸭子类型”（duck typing）或“结构子类型化”（structural subtyping）。在TypeScript中，接口起到了为这些数据类型命名的作用，同时接口也是定义你代码之间的关系，或你的代码和其他项目代码之间关系的有效方法。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">One of TypeScript&#39;s core principles is that type-checking focuses on the &#39;shape&#39; that values have. This is sometimes called &quot;duck typing&quot; or &quot;structural subtyping&quot;. In TypeScript, interfaces fill the role of naming these types, and are a powerful way of defining contracts within your code as well as contracts with code outside of your project. 
+</p></div><h2 class="section-title"><a name="我们的第一个接口" class="anchor" href="#我们的第一个接口"><span class="header-link"></span></a>我们的第一个接口</h2><div role="item"><p>让我们来看看下面这个简单的例子，来了解接口是如何工作的：<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">The easiest way to see how interfaces work is to start with a simple example:
 </p></div><pre><code class="lang-js">function printLabel(labelledObj: {label: string}) {
   console.log(labelledObj.label);
 }
@@ -59,8 +59,8 @@ list[1] = 100;
 var myObj = {size: 10, label: &quot;Size 10 Object&quot;};
 printLabel(myObj);
 </code></pre>
-<div role="item"><p>类型检查器会检查对&#39;printLabel&#39;的调用。其中&#39;printLabel&#39;方法有一个参数，这个参数需要传入一个对象，并且这个对象要有一个字符类型的&#39;label&#39;属性。注意我们传入的这个对象实际上不仅仅只有&#39;label&#39;属性，但编译器只检查那些被指定的属性，并检查它们的类型是否相符。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">The type-checker checks the call to &#39;printLabel&#39;. The &#39;printLabel&#39; function has a single parameter that requires that the object passed in has a property called &#39;label&#39; of type string. Notice that our object actually has more properties than this, but the compiler only checks to that at least the ones required are present and match the types required.
-</p></div><div role="item"><p>让我们重写上面的例子，这次我们将使用接口来描述参数要求，即传入的对象要有字符串类型的label属性。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">We can write the same example again, this time using an interface to describe the requirement of having the &#39;label&#39; property that is a string:
+<div role="item"><p>类型检查器会检查&#39;printLabel&#39;的调用。其中&#39;printLabel&#39;方法有一个参数，我们需要给这个参数传入一个带有名为&#39;label&#39;的字符串类型属性的对象。注意我们传入的这个对象实际上不只有&#39;label&#39;属性，但编译器只检查那些指定的属性，查看它们的类型是否相符。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">The type-checker checks the call to &#39;printLabel&#39;. The &#39;printLabel&#39; function has a single parameter that requires that the object passed in has a property called &#39;label&#39; of type string. Notice that our object actually has more properties than this, but the compiler only checks to that at least the ones required are present and match the types required.
+</p></div><div role="item"><p>让我们重写上面的例子，这次我们将使用接口来描述参数的需求，即传入的对象要有字符串类型的label属性。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">We can write the same example again, this time using an interface to describe the requirement of having the &#39;label&#39; property that is a string:
 </p></div><pre><code class="lang-js">interface LabelledValue {
   label: string;
 }
@@ -72,10 +72,10 @@ function printLabel(labelledObj: LabelledValue) {
 var myObj = {size: 10, label: &quot;Size 10 Object&quot;};
 printLabel(myObj);
 </code></pre>
-<div role="item"><p>我们可以用这个名为&#39;LabelledValue&#39;的接口来描述我们上文例子的需求。它仍旧表示有一个名为&#39;label&#39;的字符串类型的属性。值得注意的是，与其他编程语言不同，我们不需要明确地说
-传给&#39;printLabel&#39;的对象实现了这个接口。这里只关注数据的“形状”。只要我们传给函数的对象满足指定的需求，那这个对象就是被允许的。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">The interface &#39;LabelledValue&#39; is a name we can now use to describe the requirement in the previous example. It still represents having a single property called &#39;label&#39; that is of type string. Notice we didn&#39;t have to explicitly say that the object we pass to &#39;printLabel&#39; implements this interface like we might have to in other languages. Here, it&#39;s only the shape that matters. If the object we pass to the function meets the requirements listed, then it&#39;s allowed.
-</p></div><div role="item"><p>值得指出的是，类型检查器并不要求这些属性遵循一定的顺序。只要接口要求的属性存在，并符合类型即可。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">It&#39;s worth pointing out that the type-checker does not require that these properties come in any sort of order, only that the properties the interface requires are present and have the required type.
-</p></div><h2 class="section-title"><a name="Optional Properties" class="anchor" href="#Optional Properties"><span class="header-link"></span></a>Optional Properties</h2><div role="item"><p>一个接口中的属性并不都是必须的。在一定的条件下，有些属性甚至可以完全不存在。在创建像“option bags”这样的模式时，用户传给函数作为参数的对象，往往只包含部分属性在里面。这时候可选属性就很有用了。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">Not all properties of an interface may be required. Some exist under certain conditions or may not be there at all. These optional properties are popular when creating patterns like &quot;option bags&quot; where the user passes an object to a function that only has a couple properties filled in.
+<div role="item"><p>我们可以用这个名为&#39;LabelledValue&#39;的接口来描述我们前面例子中的需求。它仍旧表示需要有一个名为&#39;label&#39;的字符串属性。值得注意的是，与其他编程语言不同，我们不需要明确地说
+传给&#39;printLabel&#39;的对象实现了这个接口。这里只关注数据的“结构”。只要我们传给函数的对象满足指定的需求，那这个对象就是合法的。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">The interface &#39;LabelledValue&#39; is a name we can now use to describe the requirement in the previous example. It still represents having a single property called &#39;label&#39; that is of type string. Notice we didn&#39;t have to explicitly say that the object we pass to &#39;printLabel&#39; implements this interface like we might have to in other languages. Here, it&#39;s only the shape that matters. If the object we pass to the function meets the requirements listed, then it&#39;s allowed.
+</p></div><div role="item"><p>必须指出的是，类型检查器并不要求这些属性遵循一定的顺序。只要接口要求的属性存在，并符合类型即可。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">It&#39;s worth pointing out that the type-checker does not require that these properties come in any sort of order, only that the properties the interface requires are present and have the required type.
+</p></div><h2 class="section-title"><a name="可选属性（Optional Properties）" class="anchor" href="#可选属性（Optional Properties）"><span class="header-link"></span></a>可选属性（Optional Properties）</h2><div role="item"><p>接口中的属性并不都是必要的。在遵循一定的条件时，有些属性甚至可以不存在。在创建“option bags”这样的模式时，用户传给函数作为参数的对象，往往只包含部分属性在里面。在这种情况下，可选属性就显得很有用了。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">Not all properties of an interface may be required. Some exist under certain conditions or may not be there at all. These optional properties are popular when creating patterns like &quot;option bags&quot; where the user passes an object to a function that only has a couple properties filled in.
 </p></div><div role="item"><p>下面是这种模式的一个例子：<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">Here&#39;s as example of this pattern:
 </p></div><pre><code class="lang-js">interface SquareConfig {
   color?: string;
@@ -95,8 +95,8 @@ function createSquare(config: SquareConfig): {color: string; area: number} {
 
 var mySquare = createSquare({color: &quot;black&quot;});
 </code></pre>
-<div role="item"><p>除了在每个可选属性声明时需要加上&#39;?&#39;作为标识以外，带有可选属性的接口的写法与其他接口相似。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">Interfaces with optional properties are written similar to other interfaces, which each optional property denoted with a &#39;?&#39; as part of the property declaration. 
-</p></div><div role="item"><p>可选属性的优势在于，我们在描述可能存在的属性的同时，仍可以捕捉到那些我们不希望存在的属性。举例来说，如果我们错误地拼写了传给&#39;createSquare&#39;的属性名，会有一条错误信息提示我们：<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">The advantage of optional properties is that you can describe these possibly available properties while still also catching properties that you know are not expected to be available. For example, had we mistyped the name of the property we passed to &#39;createSquare&#39;, we would get an error message letting us know:
+<div role="item"><p>除了在声明可选属性时需要加上&#39;?&#39;作为标识以外，带有可选属性的接口的写法与其他接口相似。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">Interfaces with optional properties are written similar to other interfaces, which each optional property denoted with a &#39;?&#39; as part of the property declaration. 
+</p></div><div role="item"><p>使用可选属性的优势在于，我们可以在描述可能存在的属性的同时，捕捉那些我们不希望存在的属性。举例来说，如果我们错误地拼写了传给&#39;createSquare&#39;方法的属性名的话，就会有一条错误信息提示我们：<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">The advantage of optional properties is that you can describe these possibly available properties while still also catching properties that you know are not expected to be available. For example, had we mistyped the name of the property we passed to &#39;createSquare&#39;, we would get an error message letting us know:
 </p></div><pre><code class="lang-js">interface SquareConfig {
   color?: string;
   width?: number;
@@ -115,13 +115,13 @@ function createSquare(config: SquareConfig): {color: string; area: number} {
 
 var mySquare = createSquare({color: &quot;black&quot;});
 </code></pre>
-<h2 class="section-title"><a name="Function Types" class="anchor" href="#Function Types"><span class="header-link"></span></a>Function Types</h2><div role="item"><p>接口可以描述JavaScript对象各式各样的构成。然而除了描述一个对象的属性以外，接口也可以描述函数类型。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">Interfaces are capable of describing the wide range of shapes that JavaScript objects can take. In addition to describing an object with properties, interfaces are also capable of describing function types.
-</p></div><div role="item"><p>为了用接口来描述函数类型，我们需要给接口一个调用标记。它看起来就像是只有参数列表和返回类型的函数定义。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">To describe a function type with an interface, we give the interface a call signature. This is like a function declaration with only the parameter list and return type given.
+<h2 class="section-title"><a name="函数类型" class="anchor" href="#函数类型"><span class="header-link"></span></a>函数类型</h2><div role="item"><p>接口可以描述各式各样的JavaScript对象。然而我们除了用接口来描述一个对象的属性以外，也可以用它来描述函数类型。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">Interfaces are capable of describing the wide range of shapes that JavaScript objects can take. In addition to describing an object with properties, interfaces are also capable of describing function types.
+</p></div><div role="item"><p>我们需要给接口一个调用标记来描述函数类型。它看起来就像是只有参数列表和返回类型的函数的定义。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">To describe a function type with an interface, we give the interface a call signature. This is like a function declaration with only the parameter list and return type given.
 </p></div><pre><code class="lang-js">interface SearchFunc {
   (source: string, subString: string): boolean;
 }
 </code></pre>
-<div role="item"><p>一旦定义好了以后，我们就可以像用其他接口一样使用这个函数类型接口。下面展示了如何创建一个函数类型变量并给它赋值一个同样类型的函数值。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">Once defined, we can use this function type interface like we would other interfaces. Here, we show how you can create a variable of a function type and assign it a function value of the same type.
+<div role="item"><p>定义好了这个接口以后，我们就可以像使用其他接口一样使用这个函数类型接口。下面展示了我们要如何创建一个函数类型变量并给它赋值一个同样类型的函数值。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">Once defined, we can use this function type interface like we would other interfaces. Here, we show how you can create a variable of a function type and assign it a function value of the same type.
 </p></div><pre><code class="lang-js">var mySearch: SearchFunc;
 mySearch = function(source: string, subString: string) {
   var result = source.search(subString);
@@ -133,7 +133,7 @@ mySearch = function(source: string, subString: string) {
   }
 }
 </code></pre>
-<div role="item"><p>为了能对函数类型进行正确的类型检查，参数名称不需要与接口保持一致。就是说上面的例子也可以这么写：<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">For function types to correctly type-check, the name of the parameters do not need to match. We could have, for example, written the above example like this:
+<div role="item"><p>为了能正确地对函数类型进行类型检查，我们允许参数名称与接口不一致。就是说上面的例子也可以这么写：<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">For function types to correctly type-check, the name of the parameters do not need to match. We could have, for example, written the above example like this:
 </p></div><pre><code class="lang-js">var mySearch: SearchFunc;
 mySearch = function(src: string, sub: string) {
   var result = src.search(sub);
@@ -145,8 +145,8 @@ mySearch = function(src: string, sub: string) {
   }
 }
 </code></pre>
-<div role="item"><p>在对函数的参数进行类型检查时，同一时间只会检查一个参数是否与其在接口对应位置上的类型一致。而我们的函数表达式的返回类型也会通过其返回值对应的类型进行判断（这里是true和false）。如果这里函数返回的是数字或字符串，那类型检查器就会警告我们返回的类型与SearchFunc接口不相符。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">Function parameters are checked one at a time, with the type in each corresponding parameter position checked against each other. Here, also, the return type of our function expression is implied by the values it returns (here false and true). Had the function expression returned numbers or strings, the type-checker would have warned us that return type doesn&#39;t match the return type described in the SearchFunc interface.
-</p></div><h2 class="section-title"><a name="Array Types" class="anchor" href="#Array Types"><span class="header-link"></span></a>Array Types</h2><div role="item"><p>我们也可以用接口来描述数组类型，它的声明方式与函数类型相似。数组类型会有一个&#39;index&#39;类型，它用来表示数组的索引（数组下标）的类型，以及索引对应的返回值的类型。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">Similarly to how we can use interfaces to describe function types, we can also describe array types. Array types have an &#39;index&#39; type that describes the types allowed to index the object, along with the corresponding return type for accessing the index.
+<div role="item"><p>在对函数的参数进行类型检查时，同一时间我们只会对一个参数进行类型检查，检查在接口对应位置上的参数的类型与其是否一致。而我们也会对函数表达式的返回类型进行检查（这里是true和false）。如果这里函数返回的是数字或字符串，那类型检查器就会警告我们返回的类型与SearchFunc接口不相符。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">Function parameters are checked one at a time, with the type in each corresponding parameter position checked against each other. Here, also, the return type of our function expression is implied by the values it returns (here false and true). Had the function expression returned numbers or strings, the type-checker would have warned us that return type doesn&#39;t match the return type described in the SearchFunc interface.
+</p></div><h2 class="section-title"><a name="数组类型" class="anchor" href="#数组类型"><span class="header-link"></span></a>数组类型</h2><div role="item"><p>我们也可以用接口来描述数组类型，它的声明方式与函数类型相似。数组类型会有一个&#39;index&#39;类型，我们用它来表示数组索引（数组下标）的类型。用样我们也需要索引所对应的返回值的类型。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">Similarly to how we can use interfaces to describe function types, we can also describe array types. Array types have an &#39;index&#39; type that describes the types allowed to index the object, along with the corresponding return type for accessing the index.
 </p></div><pre><code class="lang-js">interface StringArray {
   [index: number]: string;
 }
@@ -154,14 +154,14 @@ mySearch = function(src: string, sub: string) {
 var myArray: StringArray;
 myArray = [&quot;Bob&quot;, &quot;Fred&quot;];
 </code></pre>
-<div role="item"><p>TypeScript支持两种索引类型：string和number。而同时使用两种类型的索引也是可能的，只要我们保证数字类型的索引所对应的值的类型，必须是字符串索引对应的值的类型的子类型。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">There are two types of supported index types: string and number. It is possible to support both types of index, with the restriction that the type returned from the numeric index must be a subtype of the type returned from the string index.
+<div role="item"><p>TypeScript支持两种索引类型：string和number。同时使用这两种类型的索引也是可能的，只要我们保证数字类型的索引所对应的值的类型，必须是字符串索引对应的值的类型的子类型。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">There are two types of supported index types: string and number. It is possible to support both types of index, with the restriction that the type returned from the numeric index must be a subtype of the type returned from the string index.
 </p></div><div role="item"><p>虽然索引标识是描述数组和字典类型的数据的好方法，它同时也会强迫其他所有属性都与索引的返回类型相同。在下面的例子中，&#39;length&#39;属性的类型不符合索引的返回类型，这会导致类型检查抛出错误：<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">While index signatures are a powerful way to describe the array and &#39;dictionary&#39; pattern, they also enforce that all properties match their return type. In this example, the property does not match the more general index, and the type-checker gives an error:
 </p></div><pre><code class="lang-js">interface Dictionary {
   [index: string]: string;
   length: number;    // error, the type of &#39;length&#39; is not a subtype of the indexer
 }
 </code></pre>
-<h2 class="section-title"><a name="Class Types" class="anchor" href="#Class Types"><span class="header-link"></span></a>Class Types</h2><h3 class="section-title"><a name="Implementing an interface" class="anchor" href="#Implementing an interface"><span class="header-link"></span></a>Implementing an interface</h3><div role="item"><p>使一个类符合某种特定的约定，是另一种在C#和Java中很常见的接口的使用方式。在TypeScript中我们也可以这样使用接口。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">One of the most common uses of interfaces in languages like C# and Java, that of explicitly enforcing that a class meets a particular contract, is also possible in TypeScript.
+<h2 class="section-title"><a name="类的类型" class="anchor" href="#类的类型"><span class="header-link"></span></a>类的类型</h2><h3 class="section-title"><a name="实现一个接口" class="anchor" href="#实现一个接口"><span class="header-link"></span></a>实现一个接口</h3><div role="item"><p>在C#和Java中，让一个类符合某种特定的约定，是一种很常见的接口的使用方式。在TypeScript中我们也可以这样使用接口。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">One of the most common uses of interfaces in languages like C# and Java, that of explicitly enforcing that a class meets a particular contract, is also possible in TypeScript.
 </p></div><pre><code class="lang-js">interface ClockInterface {
     currentTime: Date;
 }
@@ -186,7 +186,7 @@ class Clock implements ClockInterface  {
 }
 </code></pre>
 <div role="item"><p>接口只能描述类的公共部分，而不关注私有部分。这种机制不允许我们通过接口来检查一个类的实例的私有部分。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">Interfaces describe the public side of the class, rather than both the public and private side. This prohibits you from using them to check that a class also has particular types for the private side of the class instance.
-</p></div><h3 class="section-title"><a name="Difference between static/instance side of class" class="anchor" href="#Difference between static/instance side of class"><span class="header-link"></span></a>Difference between static/instance side of class</h3><div role="item"><p>当使用类和接口时，我们应该要记得一个类有静态部分和实例特有的部分。你可能注意到了，如果创建一个带有构造函数标记的接口，并尝试创建一个类来实现这个接口的话，我们会收到个错误：<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">When working with classes and interfaces, it helps to keep in mind that a class has two types: the type of the static side and the type of the instance side. You may notice that if you create an interface with a construct signature and try to create a class that implements this interface you get an error:
+</p></div><h3 class="section-title"><a name="类中的静态部分和实例部分的区别" class="anchor" href="#类中的静态部分和实例部分的区别"><span class="header-link"></span></a>类中的静态部分和实例部分的区别</h3><div role="item"><p>当使用类和接口时，我们应该要记得一个类有静态部分和实例特有的部分。你可能注意到了，如果创建一个带有构造函数标记的接口，并尝试创建一个类来实现这个接口的话，我们会收到个错误：<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">When working with classes and interfaces, it helps to keep in mind that a class has two types: the type of the static side and the type of the instance side. You may notice that if you create an interface with a construct signature and try to create a class that implements this interface you get an error:
 </p></div><pre><code class="lang-js">interface ClockInterface {
     new (hour: number, minute: number);
 }
@@ -196,7 +196,7 @@ class Clock implements ClockInterface  {
     constructor(h: number, m: number) { }
 }
 </code></pre>
-<div role="item"><p>这是因为当一个类实现了一个接口，只有实例的部分会被进行检查。构造函数属于静态的部分，它并不在检查的范围之内。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">This is because when a class implements an interface, only the instance side of the class is checked. Since the constructor sits in the static side, it is not included in this check.
+<div role="item"><p>这是因为当一个类实现一个接口时，只有实例的部分会被进行检查。构造函数属于静态的部分，它并不在检查的范围之内。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">This is because when a class implements an interface, only the instance side of the class is checked. Since the constructor sits in the static side, it is not included in this check.
 </p></div><div role="item"><p>对应地，我们应该直接检查类的静态部分。就像在下面的例子中，我直接检查类本身：<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">Instead, you would need to work with the &#39;static&#39; side of the class directly. In this example, we work with the class directly:
 </p></div><pre><code class="lang-js">interface ClockStatic {
     new (hour: number, minute: number);
@@ -210,7 +210,7 @@ class Clock  {
 var cs: ClockStatic = Clock;
 var newClock = new cs(7, 30);
 </code></pre>
-<h2 class="section-title"><a name="Extending Interfaces" class="anchor" href="#Extending Interfaces"><span class="header-link"></span></a>Extending Interfaces</h2><div role="item"><p>同类一样，接口也可以相互扩展。扩展机制负责将一个接口中的成员拷贝到另一个接口中，这将允许我们根据自己的意愿把接口分离成可重用的组件。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">Like classes, interfaces can extend each other. This handles the task of copying the members of one interface into another, allowing you more freedom in how you separate your interfaces into reusable components.
+<h2 class="section-title"><a name="扩展接口" class="anchor" href="#扩展接口"><span class="header-link"></span></a>扩展接口</h2><div role="item"><p>同类一样，接口也可以相互扩展。扩展机制负责将一个接口中的成员拷贝到另一个接口中，这意味着我们可以根据自己的意愿把接口分离成可重用的组件。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">Like classes, interfaces can extend each other. This handles the task of copying the members of one interface into another, allowing you more freedom in how you separate your interfaces into reusable components.
 </p></div><pre><code class="lang-js">interface Shape {
     color: string;
 }
@@ -223,7 +223,7 @@ var square = &lt;Square&gt;{};
 square.color = &quot;blue&quot;;
 square.sideLength = 10;
 </code></pre>
-<div role="item"><p>一个接口可以扩展多个接口，从而形成一个多接口的组合。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">An interface can extend multiple interfaces, creating a combination of all of the interfaces.
+<div role="item"><p>一个接口可以扩展多个接口，从而成为多接口的组合。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">An interface can extend multiple interfaces, creating a combination of all of the interfaces.
 </p></div><pre><code class="lang-js">interface Shape {
     color: string;
 }
@@ -241,8 +241,8 @@ square.color = &quot;blue&quot;;
 square.sideLength = 10;
 square.penWidth = 5.0;
 </code></pre>
-<h2 class="section-title"><a name="Hybrid Types" class="anchor" href="#Hybrid Types"><span class="header-link"></span></a>Hybrid Types</h2><div role="item"><p>就像我们之前提到过的，接口可以描述现实世界中的JavaScript所表现的丰富的数据类型。由于JavaScript动态、灵活的特性，我们有时可能会碰到需要综合使用前面描述的接口的使用方法，来处理一个对象的情景。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">As we mentioned earlier, interfaces can describe the rich types present in real world JavaScript. Because of JavaScript&#39;s dynamic and flexible nature, you may occasionally encounter an object that works as a combination of some of the types described above. 
-</p></div><div role="item"><p>举个例子，一个同时可以作为函数，并带有额外属性的对象：<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">One such example is an object that acts as both a function and an object, with additional properties:
+<h2 class="section-title"><a name="混合类型（Hybrid Types）" class="anchor" href="#混合类型（Hybrid Types）"><span class="header-link"></span></a>混合类型（Hybrid Types）</h2><div role="item"><p>就像我们之前提到过的，接口可以描述现实中JavaScript所能表现的丰富的数据类型。由于JavaScript动态、灵活的特性，我们有时可能会碰到需要综合使用前面描述的接口的使用方法，来处理一个对象的情景。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">As we mentioned earlier, interfaces can describe the rich types present in real world JavaScript. Because of JavaScript&#39;s dynamic and flexible nature, you may occasionally encounter an object that works as a combination of some of the types described above. 
+</p></div><div role="item"><p>举个例子，一个带有额外属性的函数：<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">One such example is an object that acts as both a function and an object, with additional properties:
 </p></div><pre><code class="lang-js">interface Counter {
     (start: number): string;
     interval: number;
@@ -254,7 +254,7 @@ c(10);
 c.reset();
 c.interval = 5.0;
 </code></pre>
-<div role="item"><p>当同第三方JavaScript代码进行交互时，我们可能就需要使用上面的模式，以完整地描述一个数据的类型和结构。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">When interacting with 3rd-party JavaScript, you may need to use patterns like the above to fully-describe the shape of the type.
+<div role="item"><p>当同第三方JavaScript代码进行交互时，我们可能就需要使用上面的模式，来完整地描述一个数据的类型和结构。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">When interacting with 3rd-party JavaScript, you may need to use patterns like the above to fully-describe the shape of the type.
 </p></div><hr>
 <h1 class="section-title"><a name="Classes" class="anchor" href="#Classes"><span class="header-link"></span></a>Classes</h1><div role="item"><p>传统的JavaScript专注于使用函数和基于原型的继承作为构建可重用部件的基本方法。然而这对于习惯于面向对象方法的程序员来说显得有点别扭，在面向对象编程中类继承功能并生成对象。从下一个版本的JavaScript，即ECMAScript 6开始，JavaScript程序员将可以用基于类的面向对象的方式来构建应用。而TypeScript则允许开发者现在就使用这些新技术，并将它们编译成可在主流浏览器和平台上运行的JavaScript，而不必等待下一个版本的JavaScript。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">Traditional JavaScript focuses on functions and prototype-based inheritance as the basic means of building up reusable components, but this may feel a bit awkward to programmers more comfortable with an object-oriented approach, where classes inherit functionality and objects are built from these classes. Starting with ECMAScript 6, the next version of JavaScript, JavaScript programmers will be able to build their applications using this object-oriented class-based approach. In TypeScript, we allow developers to use these techniques now, and compile them down to JavaScript that works across all major browsers and platforms, without having to wait for the next version of JavaScript.
 </p></div><h2 class="section-title"><a name="Classes" class="anchor" href="#Classes"><span class="header-link"></span></a>Classes</h2><div role="item"><p>让我们来看一个基于类的简单例子：<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">Let&#39;s take a look at a simple class-based example:
