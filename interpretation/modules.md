@@ -1,12 +1,12 @@
-#Modules
+#模块
 $This post outlines the various ways to organize your code using modules in TypeScript. We'll be covering internal and external modules and we'll discuss when each is appropriate and how to use them. We'll also go over some advanced topics of how to use external modules, and address some common pitfalls when using modules in TypeScript.
-$$本部分将概述在TypeScript中，用模块来组织代码的各种方式。内容不仅会覆盖内部模块和外部模块，我们还将讨论每种模块应当在何时使用以及如何使用。同时我们也会对如何使用外部模块，以及在TypeScript中使用模块可能会产生的隐患等进阶话题进行讨论。
+$$本部分将概述TypeScript中的各种用模块组织代码的方式。内容不仅会覆盖内部模块和外部模块，我们还将讨论每种模块应当在何时使用以及如何使用。同时我们也会对如何使用外部模块，以及在TypeScript中使用模块可能会产生的隐患等进阶话题进行讨论。
 
-###First steps
+###第一步
 $Let's start with the program we'll be using as our example throughout this page. We've written a small set of simplistic string validators, like you might use when checking a user's input on a form in a webpage or checking the format of an externally-provided data file.
-$$首先从下面这个会被我们通篇使用的程序讲起。我们已经写了一些最简单的字符串验证方法，你平时可能也会用这类方法来检查用户在网页表单上的输入，或是用来检查外部提供的数据的格式。
+$$我们首先从下面这段程序讲起，我们通篇都会用到它。我们写了一些非常简单的字符串验证方法，你平时可能也会用这些方法来检查网页用户在表单上的输入，或是用它们检查来自外部的数据的格式。
 
-**Validators in a single file**
+**写在一个文件中的验证器**
 
 ```js
 interface StringValidator {
@@ -42,15 +42,14 @@ strings.forEach(s => {
 });
 ```
 
-###Adding Modularity
+###加入模块
 $As we add more validators, we're going to want to have some kind of organization scheme so that we can keep track of our types and not worry about name collisions with other objects. Instead of putting lots of different names into the global namespace, let's wrap up our objects into a module.
-$$当我们添加更多的验证方法时，我们会想要有某种组织我们的代码的方式，好让我们能够追踪我们创建的类型，同时也不用担心与其他对象在命名上有冲突。我们将把所创建的对象包裹进一个模块中，而非将它们放在全局环境，取一堆不同的名字。
+$$当我们添加了更多的验证方法以后，我们会想要以某种方式来组织我们的代码，好让我们能够追踪我们创建的这类类型，同时也不用担心它们与其他对象发生命名冲突。我们应该把所创建的对象包裹进一个模块中，而不在全局环境给它们取一堆不同的名字。
 
 $In this example, we've moved all the Validator-related types into a module called Validation. Because we want the interfaces and classes here to be visible outside the module, we preface them with export. Conversely, the variables lettersRegexp and numberRegexp are implementation details, so they are left unexported and will not be visible to code outside the module. In the test code at the bottom of the file, we now need to qualify the names of the types when used outside the module, e.g. Validation.LettersOnlyValidator.
-$$在这个例子中，我们已经把所有和验证相关的类型都放进了一个名为'Validation'的模块中。为了让这里的接口和类在模块外部也是可见的，我们用关键词export做开头修饰它们。相反的，变量'lettersRegexp'和'numberRegexp'都是验证实现的细节部分，我们将保持它们的非输出的状态，使其在外部不可见。正如文件最后的测试代码，当用在模块外面时，
-我们需要限定验证类型的名字，如：Validation.LettersOnlyValidator。
+$$在这个例子中，我们已经把所有和验证相关的类型都放进了一个名为'Validation'的模块中。为了使这里的接口和类对模块外部可见，我们在开头用export关键词修饰它们。相反的，变量'lettersRegexp'和'numberRegexp'都是验证中的细节部分，我们将保持它们的非输出的状态，使其在外部不可见。由下面例子后面的测试代码我们可以知道，当在模块外面使用时，我们需要指定验证类型，如：Validation.LettersOnlyValidator。
 
-**Modularized Validators**
+**模块化后的验证器**
 
 ```js
 module Validation {
@@ -88,14 +87,14 @@ strings.forEach(s => {
 });
 ```
 
-##Splitting Across Files
+##分割成多个文件
 $As our application grows, we'll want to split the code across multiple files to make it easier to maintain.
-$$随着应用的逐渐增大，我们会想要将代码分割成多个文件，好使其更容易维护。
+$$随着应用规模的逐渐扩大，我们需要将代码分割成多个文件，以使其更易维护。
 
 $Here, we've split our Validation module across many files. Even though the files are separate, they can each contribute to the same module and can be consumed as if they were all defined in one place. Because there are dependencies between files, we've added reference tags to tell the compiler about the relationships between the files. Our test code is otherwise unchanged.
-$$在这里，我们将验证模块分成了多个文件。尽管这些文件是分散开的，但它们都像是定义在同一个地方一样，作用于同一个模块中。因为这些文件之间互有依赖关系，所以我们添加了引用标签来告诉编译器不同文件之间的关系。测试代码没有变化。
+$$在这里，我们将验证模块分成了多个文件。尽管这些文件是分散开的，但它们都像是定义在同一个地方一样，作用于同一个模块中。因为这些文件之间互有依赖关系，所以我们添加了引用标签来告诉编译器这些文件之间的关系。测试代码并没有变化。
 
-###Multi-file internal modules
+###多文件的内部模块
 **Validation.ts**
 
 ```js
@@ -155,27 +154,26 @@ strings.forEach(s => {
 ```
 
 $Once there are multiple files involved, we'll need to make sure all of the compiled code gets loaded. There are two ways of doing this.
-$$当项目涉及多个文件时，我们就必须保证所有被编译后的代码都能被加载进来。我们有两种方法来实现这一点。
+$$当项目涉及到多个文件时，我们就必须保证所有编译后的代码都能被加载进来。我们有两种方法来实现这一点。
 
 $First, we can use concatenated output using the --out flag to compile all of the input files into a single JavaScript output file:
-$$第一中方法是通过--out flag来将所有输入的文件内容连接起来，并将结果输出到单个JavaScript文件中：
-
+$$第一种方法是通过--out flag来将输入的所有文件内容连接起来，并将结果输出到单个JavaScript文件中：
 
 ```
 tsc --out sample.js Test.ts
 ```
 
 $The compiler will automatically order the output file based on the reference tags present in the files. You can also specify each file individually:
-$$编译器将会根据出现在文件中的引用标签自动地排序输出文件中的内容。而你也可以手动指定每个文件的顺序：
+$$编译器将会根据在文件中出现的引用标签自动地排序输出文件的内容。但你也可以手动指定每个文件的输出顺序：
 
 ```
 tsc --out sample.js Validation.ts LettersOnlyValidator.ts ZipCodeValidator.ts Test.ts
 ```
 
 $Alternatively, we can use per-file compilation (the default) to emit one JavaScript file for each input file. If multiple JS files get produced, we'll need to use &lt;script&gt; tags on our webpage to load each emitted file in the appropriate order, for example:
-$$另外，我们也可以使用每个文件分别输出的编译方式（这是默认选项）。生成多个JS文件以后，我们需要在网页上用&lt;script&gt;标签按恰当的顺序加载每个文件，像是下面的例子：
+$$另外，我们也可以使用分别输出每个文件的编译方式（这是默认选项）。生成多个JS文件以后，我们需要在网页上用&lt;script&gt;标签按恰当的顺序加载每个文件，像是下面的例子：
 
-**MyTestPage.html (excerpt)**
+**MyTestPage.html (部分代码)**
 
 ```html
     <script src="Validation.js" type="text/javascript" />
@@ -184,36 +182,36 @@ $$另外，我们也可以使用每个文件分别输出的编译方式（这是
     <script src="Test.js" type="text/javascript" />
 ```
 
-##Going External
+##使用外部代码
 
 $TypeScript also has the concept of an external module. External modules are used in two cases: node.js and require.js. Applications not using node.js or require.js do not need to use external modules and can best be organized using the internal module concept outlined above.
-$$TypeScript同样也有外部模块的概念。在用到node.js或require.js时我们会使用外部模块。而不使用node.js或require.js的应用则不需要使用外部模块，前面讲述过的内部模块的概念就能够很好地组织起这类应用。
+$$TypeScript同样也有外部模块的概念。在用到node.js或require.js时我们需要使用外部模块。对于没有用到node.js或require.js的应用则不需要使用外部模块，因为前面讲到的内部模块就能够很好地组织起这类应用的代码。
 
 $In external modules, relationships between files are specified in terms of imports and exports at the file level. In TypeScript, any file containing a top-level import or export is considered an external module.
-$$在外部模块中，文件之间的关系是通过文件级别的输入和输出来指定的。在TypeSciprt中，任何包含顶级import和export的文件都被认为是外部模块。
+$$在外部模块中，文件之间的关系是通过文件级别的输入和输出来指定的。在TypeSciprt中，任何包含顶级import和export关键字的文件都被认为是外部模块。
 
 $Below, we have converted the previous example to use external modules. Notice that we no longer use the module keyword – the files themselves constitute a module and are identified by their filenames.
-$$下面的例子中，我们将前面的例子转换成了使用外部模块的形式。注意这里我们不再使用module关键字，文件本身就构成了一个模块，并根据它们的文件名进行识别。
+$$在下面的例子中，我们将前面的例子转换成了使用外部模块的形式。注意这里我们不再使用module关键字，文件本身就构成了一个模块。我们通过它们的文件名来识别它们。
 
 $The reference tags have been replaced with import statements that specify the dependencies between modules. The import statement has two parts: the name that the module will be known by in this file, and the require keyword that specifies the path to the required module:
-$$指定了模块间依赖的import声明替代了引用标签。import声明由两部分构成：这个模块在这个文件中的名称和用来指定依赖模块路径的require关键字。
+$$这里我们用import声明替代了引用标签，import指定了模块间的依赖关系。import声明由两部分构成：require关键字用来指定当前文件所依赖的模块的路径，import后面指定的输入的模块在这个文件中的名称。
 
 ```js
 import someMod = require('someModule');
 ```
 
 $We specify which objects are visible outside the module by using the export keyword on a top-level declaration, similarly to how export defined the public surface area of an internal module.
-$$与我们是如何用export定义一个内部模块的公共部分相似，这里我们在顶级声明上用export关键字来指定哪些对象是外部可见的。
+$$与我们用export定义一个内部模块的公共部分相似，这里我们在顶级声明上用export关键字来指定哪些对象对外部是可见的。
 
 $To compile, we must specify a module target on the command line. For node.js, use --module commonjs; for require.js, use --module amd. For example:
-$$编译时，我们必须在命令行上指定该模块要被编译的类型。对于node.js来说，要用 --module commonjs；对于require.js来说，要用--module amd。来看下面的例子：
+$$编译时，我们需要在命令行上指定该模块的编译类型。对于node.js来说，要用 --module commonjs；对于require.js来说，要用--module amd。来看下面的例子：
 
 ```
 tsc --module commonjs Test.ts
 ```
 
 $When compiled, each external module will become a separate .js file. Similar to reference tags, the compiler will follow import statements to compile dependent files.
-$$编译以后，每个外部模块都会变成一个分离的.js文件。和引用标签相似，编译器会根据import声明来编译相互依赖的文件。
+$$编译以后，每个外部模块都会变成一个分离的.js文件。类似引用标签，编译器会根据import声明来编译相互依赖的文件。
 
 **Validation.ts**
 
