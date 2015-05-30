@@ -7,7 +7,7 @@
 * Classes(翻译 校对)
 * Modules(翻译 校对)
 * Functions(翻译 校对)
-* Generics(翻译)
+* Generics(翻译 校对)
 * Common Errors(翻译)
 * Mixins(翻译)
 * Declaration Merging(翻译)
