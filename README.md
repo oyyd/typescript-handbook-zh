@@ -9,7 +9,7 @@
 * Functions(翻译 校对)
 * Generics(翻译 校对)
 * Common Errors(翻译)
-* Mixins(翻译)
+* Mixins(翻译 校对)
 * Declaration Merging(翻译)
 * Type Inference(翻译)
 * Type Compatibility(翻译)
