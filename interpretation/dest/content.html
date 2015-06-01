@@ -1824,14 +1824,14 @@ export = eagle;
 function addLater(x: number, y: number, (sum: number) =&gt; void): void;
 </code></pre>
 <hr>
-<h1 class="section-title"><a name="TypeScript 1.5" class="anchor" href="#TypeScript 1.5"><span class="header-link"></span></a>TypeScript 1.5</h1><h2 class="section-title"><a name="ES6模块" class="anchor" href="#ES6模块"><span class="header-link"></span></a>ES6模块</h2><div role="item"><p>TypeScript 1.5支持ECMAScript 6 （ES6）模块（modules）。ES6模块可以认为是带着新语法的TypeScript外部模块（external modules）：ES6的模块是被零散地载入的源码文件，它们可以引入（import）其他的模块，也可以提供一些内容供外部使用（exports）。ES6的模块提供了一些新的import和export声明的特性。虽然TypeScript并不强制要求项目使用ES6模块，但我们还是推荐你在库和应用上使用新的模块语法，并更新原来的模块。ES6模块的和TypeScript原来的内部模块和外部模块是可以共存的。你甚至可以按你的意愿来构造并混合它们。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">TypeScript 1.5 supports ECMAScript 6 (ES6) modules. ES6 modules are effectively TypeScript external modules with a new syntax: ES6 modules are separately loaded source files that possibly import other modules and provide a number of externally accessible exports. ES6 modules feature several new export and import declarations. It is recommended that TypeScript libraries and applications be updated to use the new syntax, but this is not a requirement. The new ES6 module syntax coexists with TypeScript&#39;s original internal and external module constructs and the constructs can be mixed and matched at will.
-</p></div><p><strong>Export Declarations</strong></p>
-<div role="item"><p>除了现有TypeScript支持的export的装饰模式的声明（decorating declarations）外，我们也可以用零散的export声明来输出模块中的成员。我们甚至可以用子句（clauses）来给export的内容指定不同的名称。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">In addition to the existing TypeScript support for decorating declarations with export, module members can also be exported using separate export declarations, optionally specifying different names for exports using as clauses.
+<h1 class="section-title"><a name="TypeScript 1.5" class="anchor" href="#TypeScript 1.5"><span class="header-link"></span></a>TypeScript 1.5</h1><h2 class="section-title"><a name="ES6模块" class="anchor" href="#ES6模块"><span class="header-link"></span></a>ES6模块</h2><div role="item"><p>TypeScript 1.5支持ECMAScript 6 （ES6）模块（modules）。你可以把ES6模块当作是带着新语法的TypeScript外部模块（external modules）：ES6的模块是被零散载入的源码文件，它们可以输入（import）其他的模块，也可以输出内容供外部使用（exports）。ES6模块给import和export声明提供了一些新的特性。虽然TypeScript并不强制要求在项目使用ES6模块，但我们还是推荐你在库和应用上使用这种新的模块语法，并更新原来的模块。ES6模块的和TypeScript原来的内部模块和外部模块是可以共存的。你甚至可以按你的意愿来构造并混合它们。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">TypeScript 1.5 supports ECMAScript 6 (ES6) modules. ES6 modules are effectively TypeScript external modules with a new syntax: ES6 modules are separately loaded source files that possibly import other modules and provide a number of externally accessible exports. ES6 modules feature several new export and import declarations. It is recommended that TypeScript libraries and applications be updated to use the new syntax, but this is not a requirement. The new ES6 module syntax coexists with TypeScript&#39;s original internal and external module constructs and the constructs can be mixed and matched at will.
+</p></div><p><strong>Export声明</strong></p>
+<div role="item"><p>除了TypeScript现有的export装饰声明（decorating declarations）外，我们也可以零散地用export声明来输出模块中的成员。我们甚至可以用子句（clauses）来给export中的内容替换名称。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">In addition to the existing TypeScript support for decorating declarations with export, module members can also be exported using separate export declarations, optionally specifying different names for exports using as clauses.
 </p></div><pre><code class="lang-js">interface Stream { ... }
 function writeToStream(stream: Stream, data: string) { ... }
 export { Stream, writeToStream as write };  // writeToStream exported as write
 </code></pre>
-<div role="item"><p>import声明同样也可以选择使用子句来给import的内容指定其他的，用于本地的名称。举例来说：<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">Import declarations, as well, can optionally use as clauses to specify different local names for the imports. For example:
+<div role="item"><p>import声明也可以使用子句来给import后面的内容指定用于本地的名称。举例来说：<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">Import declarations, as well, can optionally use as clauses to specify different local names for the imports. For example:
 </p></div><pre><code class="lang-js">import { read, write, standardOutput as stdout } from &quot;./inout&quot;;
 var s = read(stdout);
 write(stdout, s);
@@ -1842,16 +1842,16 @@ var s = io.read(io.standardOutput);
 io.write(io.standardOutput, s);
 Re-exporting
 </code></pre>
-<div role="item"><p>通过使用from子句，一个模块可以复制给定模块中导出的内容到这个模块中，而不需要生成新的，用于本地的名称。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">Using from clause a module can copy the exports of a given module to the current module without introducing local names.
+<div role="item"><p>通过使用from子句，一个模块可以复制给定的模块所输出的内容到当前模块中，而不需要生成用于本地的名称。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">Using from clause a module can copy the exports of a given module to the current module without introducing local names.
 </p></div><pre><code class="lang-js">export { read, write, standardOutput as stdout } from &quot;./inout&quot;;
 </code></pre>
-<div role="item"><p>export *被用在将一个模块的导出再次导出时。在创建专门用来聚集其他模块的导出类型的模块时，这种方式会非常有用。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">export * can be used to re-export all exports of another module. This is useful for creating modules that aggregate the exports of several other modules.
+<div role="item"><p>export * 常被用在将一个模块的输出再次进行输出。在创建专门用来聚集其他模块输出的模块时，这种方式非常有用。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">export * can be used to re-export all exports of another module. This is useful for creating modules that aggregate the exports of several other modules.
 </p></div><pre><code class="lang-js">export function transform(s: string): string { ... }
 export * from &quot;./mod1&quot;;
 export * from &quot;./mod2&quot;;
 </code></pre>
 <p><strong>Default Export</strong></p>
-<div role="item"><p>export default声明是用来指定一个表达式的。这个表达式的内容会成为模块默认的导出内容：<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">An export default declaration specifies an expression that becomes the default export of a module:
+<div role="item"><p>export default声明是用来指定一个表达式的。这个表达式的内容会成为模块默认的输出内容：<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">An export default declaration specifies an expression that becomes the default export of a module:
 </p></div><pre><code class="lang-js">export default class Greeter {
     sayHello() {
         console.log(&quot;Greetings!&quot;);
@@ -1864,13 +1864,13 @@ var g = new Greeter();
 g.sayHello();
 </code></pre>
 <p><strong>Bare Import</strong></p>
-<div role="item"><p>&quot;bare import&quot;在导入一个模块时，只是为了导入这个模块时所带来的附加作用（side-effects）。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">A &quot;bare import&quot; can be used to import a module only for its side-effects.
+<div role="item"><p>我们可以用&quot;bare import&quot;导入一个模块，以获得导入这个模块时所带来的附加作用（side-effects）。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">A &quot;bare import&quot; can be used to import a module only for its side-effects.
 </p></div><pre><code class="lang-js">import &quot;./polyfills&quot;;
 </code></pre>
 <div role="item"><p>你可以通过查阅ES6 module的支持说明来了解更多关于模块的信息。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">For more information about module, please see the ES6 module support spec.
-</p></div><h2 class="section-title"><a name="Destructuring in declarations and assignments" class="anchor" href="#Destructuring in declarations and assignments"><span class="header-link"></span></a>Destructuring in declarations and assignments</h2><div role="item"><p>TypeScript 1.5中添加了对ES6中的解构声明和解构赋值（destructuring declarations and assignments）的支持。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">TypeScript 1.5 adds support to ES6 destructuring declarations and assignments.
-</p></div><p><strong>Declarations</strong></p>
-<div role="item"><p>解构声明会通过从对象中的属性或数组中的元素中抽取出来的值，来引入一个或多个变量，并给它们赋上对应值。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">A destructuring declaration introduces one or more named variables and initializes them with values extracted from properties of an object or elements of an array.
+</p></div><h2 class="section-title"><a name="声明和赋值时的解构" class="anchor" href="#声明和赋值时的解构"><span class="header-link"></span></a>声明和赋值时的解构</h2><div role="item"><p>TypeScript 1.5添加了对ES6中的解构声明和解构赋值（destructuring declarations and assignments）的支持。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">TypeScript 1.5 adds support to ES6 destructuring declarations and assignments.
+</p></div><p><strong>声明</strong></p>
+<div role="item"><p>解构声明会把从对象的属性（或数组的元素）中抽取出来的值，赋值给一个或多个变量。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">A destructuring declaration introduces one or more named variables and initializes them with values extracted from properties of an object or elements of an array.
 </p></div><div role="item"><p>举例来说，下面的例子声明了x, y, z变量，并将他们的值分别初始化为getSomeObject().x，getSomeObject().y和getSomeObject().z。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">For example, the following sample declares variables x, y, and z, and initializes them to getSomeObject().x, getSomeObject().y and getSomeObject().z respectively:
 </p></div><pre><code class="lang-js">var { x, y, z} = getSomeObject();
 </code></pre>
@@ -1886,20 +1886,20 @@ g.sayHello();
 var item = { text: &quot;someText&quot;, location: [1,2,3], style: &quot;italics&quot; };
 drawText(item);
 </code></pre>
-<p><strong>Assignments</strong></p>
+<p><strong>赋值</strong></p>
 <div role="item"><p>解构的模式也可以用在通常的赋值表达式上。举个例子，我们可以用一个解构赋值来实现交换两个变量的值：<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">Destructuring patterns can also be used in regular assignment expressions. For instance, swapping two variables can be written as a single destructuring assignment:
 </p></div><pre><code class="lang-js">var x = 1;  
 var y = 2;  
 [x, y] = [y, x];
 </code></pre>
-<h2 class="section-title"><a name="<code>let</code> and <code>const</code> support" class="anchor" href="#<code>let</code> and <code>const</code> support"><span class="header-link"></span></a><code>let</code> and <code>const</code> support</h2><div role="item"><p>现在在ES3和ES5上，我们也可以使用<code>let</code>和<code>const</code>声明了。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">ES6 <code>let</code> and <code>const</code> declarations are now supported when targeting ES3 and ES5.
-</p></div><p><strong>Const</strong></p>
+<h2 class="section-title"><a name="支持<code>let</code>和<code>const</code>" class="anchor" href="#支持<code>let</code>和<code>const</code>"><span class="header-link"></span></a>支持<code>let</code>和<code>const</code></h2><div role="item"><p>现在我们也可以在ES3和ES5上使用<code>let</code>和<code>const</code>声明了。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">ES6 <code>let</code> and <code>const</code> declarations are now supported when targeting ES3 and ES5.
+</p></div><p><strong>常量</strong></p>
 <pre><code class="lang-js">const MAX = 100;
 
 ++MAX; // Error: The operand of an increment or decrement 
        //        operator cannot be a constant.
 </code></pre>
-<p><strong>Block scoped</strong></p>
+<p><strong>块级作用域</strong></p>
 <pre><code class="lang-js">if (true) {
   let a = 4;
   // use a
@@ -1911,9 +1911,9 @@ else {
 
 alert(a); // Error: a is not defined in this scope
 </code></pre>
-<h2 class="section-title"><a name="for..of support" class="anchor" href="#for..of support"><span class="header-link"></span></a>for..of support</h2><div role="item"><p>TypeScript 1.5新增了在ES3/ES5数组上使用ES6 for..of循环的支持。同时它也完整地支持ES6上的迭代器接口（Iterator interfaces）。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">TypeScript 1.5 adds support to ES6 for..of loops on arrays for ES3/ES5 as well as full support for Iterator interfaces when targetting ES6.
-</p></div><p><strong>Example:</strong></p>
-<div role="item"><p>当我们想要TypeScript支持ES3/ES5时，编译器会将使用for..of的数组转换成我们惯用的ES3/ES5代码：<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">The TypeScript compiler will transpile for..of arrays to idiomatic ES3/ES5 JavaScript when targeting those versions:
+<h2 class="section-title"><a name="支持for..of" class="anchor" href="#支持for..of"><span class="header-link"></span></a>支持for..of</h2><div role="item"><p>你现在可以在TypeScript 1.5的ES3/ES5数组上使用ES6 for..of循环了。同时它也完整支持ES6上的迭代器接口（Iterator interfaces）。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">TypeScript 1.5 adds support to ES6 for..of loops on arrays for ES3/ES5 as well as full support for Iterator interfaces when targetting ES6.
+</p></div><p><strong>例子:</strong></p>
+<div role="item"><p>当我们让TypeScript支持ES3/ES5时，编译器会将使用for..of的数组转换成我们惯用的ES3/ES5代码：<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">The TypeScript compiler will transpile for..of arrays to idiomatic ES3/ES5 JavaScript when targeting those versions:
 </p></div><pre><code class="lang-js">for (var v of expr) { }
 </code></pre>
 <div role="item"><p>将会被转换成：<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">will be emitted as:

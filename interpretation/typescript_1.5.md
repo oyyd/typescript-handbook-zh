@@ -1,12 +1,12 @@
 #TypeScript 1.5
 ##ES6模块
 $TypeScript 1.5 supports ECMAScript 6 (ES6) modules. ES6 modules are effectively TypeScript external modules with a new syntax: ES6 modules are separately loaded source files that possibly import other modules and provide a number of externally accessible exports. ES6 modules feature several new export and import declarations. It is recommended that TypeScript libraries and applications be updated to use the new syntax, but this is not a requirement. The new ES6 module syntax coexists with TypeScript's original internal and external module constructs and the constructs can be mixed and matched at will.
-$$TypeScript 1.5支持ECMAScript 6 （ES6）模块（modules）。ES6模块可以认为是带着新语法的TypeScript外部模块（external modules）：ES6的模块是被零散地载入的源码文件，它们可以引入（import）其他的模块，也可以提供一些内容供外部使用（exports）。ES6的模块提供了一些新的import和export声明的特性。虽然TypeScript并不强制要求项目使用ES6模块，但我们还是推荐你在库和应用上使用新的模块语法，并更新原来的模块。ES6模块的和TypeScript原来的内部模块和外部模块是可以共存的。你甚至可以按你的意愿来构造并混合它们。
+$$TypeScript 1.5支持ECMAScript 6 （ES6）模块（modules）。你可以把ES6模块当作是带着新语法的TypeScript外部模块（external modules）：ES6的模块是被零散载入的源码文件，它们可以输入（import）其他的模块，也可以输出内容供外部使用（exports）。ES6模块给import和export声明提供了一些新的特性。虽然TypeScript并不强制要求在项目使用ES6模块，但我们还是推荐你在库和应用上使用这种新的模块语法，并更新原来的模块。ES6模块的和TypeScript原来的内部模块和外部模块是可以共存的。你甚至可以按你的意愿来构造并混合它们。
 
-__Export Declarations__
+__Export声明__
 
 $In addition to the existing TypeScript support for decorating declarations with export, module members can also be exported using separate export declarations, optionally specifying different names for exports using as clauses.
-$$除了现有TypeScript支持的export的装饰模式的声明（decorating declarations）外，我们也可以用零散的export声明来输出模块中的成员。我们甚至可以用子句（clauses）来给export的内容指定不同的名称。
+$$除了TypeScript现有的export装饰声明（decorating declarations）外，我们也可以零散地用export声明来输出模块中的成员。我们甚至可以用子句（clauses）来给export中的内容替换名称。
 
 ```js
 interface Stream { ... }
@@ -15,7 +15,7 @@ export { Stream, writeToStream as write };  // writeToStream exported as write
 ```
 
 $Import declarations, as well, can optionally use as clauses to specify different local names for the imports. For example:
-$$import声明同样也可以选择使用子句来给import的内容指定其他的，用于本地的名称。举例来说：
+$$import声明也可以使用子句来给import后面的内容指定用于本地的名称。举例来说：
 
 ```js
 import { read, write, standardOutput as stdout } from "./inout";
@@ -34,14 +34,14 @@ Re-exporting
 ```
 
 $Using from clause a module can copy the exports of a given module to the current module without introducing local names.
-$$通过使用from子句，一个模块可以复制给定模块中导出的内容到这个模块中，而不需要生成新的，用于本地的名称。
+$$通过使用from子句，一个模块可以复制给定的模块所输出的内容到当前模块中，而不需要生成用于本地的名称。
 
 ```js
 export { read, write, standardOutput as stdout } from "./inout";
 ```
 
 $export \* can be used to re-export all exports of another module. This is useful for creating modules that aggregate the exports of several other modules.
-$$export \*被用在将一个模块的导出再次导出时。在创建专门用来聚集其他模块的导出类型的模块时，这种方式会非常有用。
+$$export \* 常被用在将一个模块的输出再次进行输出。在创建专门用来聚集其他模块输出的模块时，这种方式非常有用。
 
 ```js
 export function transform(s: string): string { ... }
@@ -52,7 +52,7 @@ export * from "./mod2";
 __Default Export__
 
 $An export default declaration specifies an expression that becomes the default export of a module:
-$$export default声明是用来指定一个表达式的。这个表达式的内容会成为模块默认的导出内容：
+$$export default声明是用来指定一个表达式的。这个表达式的内容会成为模块默认的输出内容：
 
 ```js
 export default class Greeter {
@@ -74,7 +74,7 @@ g.sayHello();
 __Bare Import__
 
 $A "bare import" can be used to import a module only for its side-effects.
-$$"bare import"在导入一个模块时，只是为了导入这个模块时所带来的附加作用（side-effects）。
+$$我们可以用"bare import"导入一个模块，以获得导入这个模块时所带来的附加作用（side-effects）。
 
 ```js
 import "./polyfills";
@@ -83,15 +83,15 @@ import "./polyfills";
 $For more information about module, please see the ES6 module support spec.
 $$你可以通过查阅ES6 module的支持说明来了解更多关于模块的信息。
 
-##Destructuring in declarations and assignments
+##声明和赋值时的解构
 
 $TypeScript 1.5 adds support to ES6 destructuring declarations and assignments.
-$$TypeScript 1.5中添加了对ES6中的解构声明和解构赋值（destructuring declarations and assignments）的支持。
+$$TypeScript 1.5添加了对ES6中的解构声明和解构赋值（destructuring declarations and assignments）的支持。
 
-__Declarations__
+__声明__
 
 $A destructuring declaration introduces one or more named variables and initializes them with values extracted from properties of an object or elements of an array.
-$$解构声明会通过从对象中的属性或数组中的元素中抽取出来的值，来引入一个或多个变量，并给它们赋上对应值。
+$$解构声明会把从对象的属性（或数组的元素）中抽取出来的值，赋值给一个或多个变量。
 
 $For example, the following sample declares variables x, y, and z, and initializes them to getSomeObject().x, getSomeObject().y and getSomeObject().z respectively:
 $$举例来说，下面的例子声明了x, y, z变量，并将他们的值分别初始化为getSomeObject().x，getSomeObject().y和getSomeObject().z。
@@ -120,7 +120,7 @@ var item = { text: "someText", location: [1,2,3], style: "italics" };
 drawText(item);
 ```
 
-__Assignments__
+__赋值__
 
 $Destructuring patterns can also be used in regular assignment expressions. For instance, swapping two variables can be written as a single destructuring assignment:
 $$解构的模式也可以用在通常的赋值表达式上。举个例子，我们可以用一个解构赋值来实现交换两个变量的值：
@@ -131,12 +131,12 @@ var y = 2;
 [x, y] = [y, x];
 ```
 
-##`let` and `const` support
+##支持`let`和`const`
 
 $ES6 `let` and `const` declarations are now supported when targeting ES3 and ES5.
-$$现在在ES3和ES5上，我们也可以使用`let`和`const`声明了。
+$$现在我们也可以在ES3和ES5上使用`let`和`const`声明了。
 
-__Const__
+__常量__
 
 ```js
 const MAX = 100;
@@ -145,7 +145,7 @@ const MAX = 100;
        //        operator cannot be a constant.
 ```
 
-__Block scoped__
+__块级作用域__
 
 ```js
 if (true) {
@@ -160,15 +160,15 @@ else {
 alert(a); // Error: a is not defined in this scope
 ```
 
-##for..of support
+##支持for..of
 
 $TypeScript 1.5 adds support to ES6 for..of loops on arrays for ES3/ES5 as well as full support for Iterator interfaces when targetting ES6.
-$$TypeScript 1.5新增了在ES3/ES5数组上使用ES6 for..of循环的支持。同时它也完整地支持ES6上的迭代器接口（Iterator interfaces）。
+$$你现在可以在TypeScript 1.5的ES3/ES5数组上使用ES6 for..of循环了。同时它也完整支持ES6上的迭代器接口（Iterator interfaces）。
 
-__Example:__
+__例子:__
 
 $The TypeScript compiler will transpile for..of arrays to idiomatic ES3/ES5 JavaScript when targeting those versions:
-$$当我们想要TypeScript支持ES3/ES5时，编译器会将使用for..of的数组转换成我们惯用的ES3/ES5代码：
+$$当我们让TypeScript支持ES3/ES5时，编译器会将使用for..of的数组转换成我们惯用的ES3/ES5代码：
 
 ```js
 for (var v of expr) { }
