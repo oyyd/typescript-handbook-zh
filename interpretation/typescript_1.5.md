@@ -183,10 +183,10 @@ for (var _i = 0, _a = expr; _i < _a.length; _i++) {
 }
 ```
 
-##Decorators
+##装饰器(Decorators)
 
 $TypeScript decorator is based on the ES7 decorator proposal.
-$$TypeScript装饰器（decorator）是基于ES7装饰器提案实现的。
+$$TypeScript装饰器（decorator）是基于ES7的装饰器提案实现的。
 
 $A decorator is:
 $$装饰器是：
@@ -199,10 +199,10 @@ $$装饰器是：
 $For more information, please see the Decorators proposal.
 $$你可以查阅Decorators提案来获取更多信息。
 
-__Example:__
+__例子:__
 
 $Decorators `readonly` and `enumerable(false)` will be applied to the property method before it is installed on class `C`. This allows the decorator to change the implementation, and in this case, augment the descriptor to be writable: false and enumerable: false.
-$$`readonly`和`enumerable(false)`这两个装饰器会在method属性被放置在类`C`上之前，作用于method。装饰器会改变属性，方法的实现。比如在这个例子中，method的属性描述会添加writable: false和enumerable: false两项。
+$$`readonly`和`enumerable(false)`这两个装饰器会在method属性被放置在类`C`上之前作用于method。装饰器会改变属性和方法的实现。比如在这个例子中，method的属性会被添加writable: false和enumerable: false两项属性描述。
 
 ```js
 class C {
@@ -222,10 +222,10 @@ function enumerable(value) {
 }
 ```
 
-##Computed properties
+##动态计算的属性
 
 $Initializing an object with dynamic properties can be a bit of a burden. Take the following example:
-$$想要在初始化对象时，带上一些动态的属性可能会很麻烦。举下面的例子来说：
+$$如果你想在初始化对象时给对象添加一些动态的属性的话，可能会碰上些小麻烦。举下面的例子来说：
 
 ```js
 type NeighborMap = { [name: string]: Node };
@@ -239,7 +239,7 @@ function makeNode(name: string, initialNeighbor: Node): Node {
 ```
 
 $Here we need to create a variable to hold on to the neighbor-map so that we can initialize it. With TypeScript 1.5, we can let the compiler do the heavy lifting:
-$$这里我们需要先为neighbor-map创建一个对象变量，然后再初始化它。在TypeScript 1.5中，我们可以让编译器替我们完成这类工作：
+$$我们需要先为neighbor-map创建一个对象变量，然后才能动态初始化它。在TypeScript 1.5中，我们可以让编译器替我们完成这类工作：
 
 ```js
 function makeNode(name: string, initialNeighbor: Node): Node {
@@ -252,10 +252,10 @@ function makeNode(name: string, initialNeighbor: Node): Node {
 }
 ```
 
-##Unicode codepoint escapes in strings
+##字符串中的Unicode编码点转义
 
 $ES6 introduces escapes that allow users to represent a Unicode codepoint using just a single escape.
-$$ES6引入了escapes来使用户仅需要使用一次escape就能表示一个Unicode编码点（codepoint）。
+$$ES6引入了escapes，使得用户仅需要使用一次escape就能表示一个Unicode编码点（codepoint）。
 
 $As an example, consider the need to escape a string that contains the character '𠮷'. In UTF-16/UCS2, '𠮷' is represented as a surrogate pair, meaning that it's encoded using a pair of 16-bit code units of values, specifically `0xD842` and `0xDFB7`. Previously this meant that you'd have to escape the codepoint as `"\uD842\uDFB7"`. This has the major downside that it’s difficult to discern two independent characters from a surrogate pair.
 $$举例来说，假设我们需要转义一个包含UTF-16/UCS2字符'𠮷'的字符串。其中'𠮷'由一个代理对（surrogate pair）来表示，这就是说它是由一对16比特的编码单元——`0xD842`和`0xDFB7`来表示的。这意味着你必须转义`"\uD842\uDFB7"`，但实际上我们很难辨别这是两个独立的字符还是一个代理对。
@@ -263,7 +263,7 @@ $$举例来说，假设我们需要转义一个包含UTF-16/UCS2字符'𠮷'的�
 $With ES6’s codepoint escapes, you can cleanly represent that exact character in strings and template strings with a single escape: `"\u{20bb7}"`. TypeScript will emit the string in ES3/ES5 as `"\uD842\uDFB7"`.
 $$通过ES6的编码点转义，你可以通过像`"\u{20bb7}"`这样的转义来清楚地表达字符串或字符串模板中的字符表达的到底是什么。TypeScript会把这个字符串转换成ES3/ES5中的`"\uD842\uDFB7"`。
 
-##Tagged template strings in ES3/ES5
+##在ES3/ES5中实现加标记的模板字符串
 
 $In TypeScript 1.4, we added support for template strings for all targets, and tagged templates for just ES6. Thanks to some considerable work done by @ivogabe, we bridged the gap for for tagged templates in ES3 and ES5.
 $$在TypeScript 1.4中，我们添加了对字符串模板的支持（ES3/ES5/ES6），以及对ES6中的标记模板（tagged templates）的支持。这里要感谢@ivogabe为我们提供的一些深思熟虑的想法和工作，使得我们在ES3和ES5中也可以使用标记模板。
@@ -292,7 +292,7 @@ function oddRawStrings(strs, n1, n2) {
 var _a;
 ```
 
-##AMD-dependency optional names
+##可选给AMD依赖添加名称
 
 $`/// <amd-dependency path="x" />` informs the compiler about a non-TS module dependency that needs to be injected in the resulting module's require call; however, there was no way to consume this module in the TS code.
 $$`/// <amd-dependency path="x" />`会告诉编译器，由于当前模块的调用，有一个非TS模块的依赖需要被注入。然而TS代码并不能使用这些代码。
@@ -315,15 +315,15 @@ define(["require", "exports", "legacy/moduleA"], function (require, exports, mod
 });
 ```
 
-##Project support through tsconfig.json
+##支持用tsconfig.json配置项目
 
 $Adding a `tsconfig.json` file in a directory indicates that the directory is the root of a TypeScript project. The tsconfig.json file specifies the root files and the compiler options required to compile the project. A project is compiled in one of the following ways:
-$$给一个文件夹添加一个`tsconfig.json`文件可以表示当前文件夹是一个TypeScript项目的根目录。通过tsconfig.json，我们可以指定根文件（root files）以及编译选项。每个项目对会以下面的一种方式进行编译：
+$$我们可以给一个文件夹添加一个`tsconfig.json`文件来表示当前文件夹是一个TypeScript项目的根目录。通过tsconfig.json，我们可以指定根文件（root files）以及编译选项。每个项目对会以下面的方式之一进行编译：
 
 * $By invoking tsc with no input files, in which case the compiler searches for the tsconfig.json file starting in the current directory and continuing up the parent directory chain.$$如果我们使用tsc指令但是不指定输入文件，编译器会就会从当前文件夹开始，向上寻找tsconfig.json文件。
 * $By invoking tsc with no input files and a -project (or just -p) command line option that specifies the path of a directory containing a tsconfig.json file.$$如果我们使用tsc指令但是不指定输入文件，那我们可以使用-project（或 -p）命令行选项来指定包含tsconfig.json文件的文件夹。
 
-__Example:__
+__例子:__
 
 ```js
 {
@@ -338,10 +338,10 @@ __Example:__
 $See the tsconfig.json wiki page for more details.
 $$你可以查看tsconfig.json的维基页面获取详细信息。
 
-##`--rootDir` command line option
+##`--rootDir`命令行
 
 $Option `--outDir` duplicates the input hierarchy in the output. The compiler computes the root of the input files as the longest common path of all input files; and then uses that to replicate all its substructure in the output.
-$$`--outDir`选项在进行输出文件时会根据输入文件的路径结构来进行。编译器会以根目录下的文件的路径作为所有输入文件的最长路径截点（即路径不会超过根目录），使用每个输入文件的路径来放置输出文件。
+$$在进行输出文件时使用`--outDir`选项会根据输入文件的路径结构来进行。编译器会以根目录下的文件的路径作为所有输入文件的最长路径截点（即路径不会超过根目录），使用每个输入文件的路径来放置输出文件。
 
 $Sometimes this is not desirable, for instance inputs `FolderA\FolderB\1.ts` and `FolderA\FolderB\2.ts` would result in output structure mirroring `FolderA\FolderB\`. now if a new file `FolderA\3.ts` is added to the input, the output structure will pop out to mirror `FolderA\`.
 $$但有时候我们并不希望这样。比如我们输入`FolderA\FolderB\1.ts`和`FolderA\FolderB\2.ts`，则输出文件都会出现在一个`FolderA\FolderB\`这样的镜像结构的文件中。如果我们再增加一个`FolderA\3.ts`作为输入文件，则这个文件对应的输出文件就会出现在一个`FolderA\`文件中。
