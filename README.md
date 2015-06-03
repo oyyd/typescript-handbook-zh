@@ -10,11 +10,11 @@
 * Generics(翻译 校对)
 * Common Errors(翻译)
 * Mixins(翻译 校对)
-* Declaration Merging(翻译)
+* Declaration Merging(翻译 校对)
 * Type Inference(翻译)
 * Type Compatibility(翻译)
 * Writing .d.ts Files(翻译)
-* TypeScript 1.5(翻译)
+* TypeScript 1.5(翻译 校对)
 
 ###Contribute
 水平有限，文档中可能会出现各种疏漏，错误。请您发PR或issues来帮助我们改善文档！
