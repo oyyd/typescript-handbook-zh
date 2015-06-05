@@ -1686,15 +1686,15 @@ identity = reverse;  // Okay because (x: any)=&gt;any matches (y: any)=&gt;any
 </code></pre>
 <h2 class="section-title"><a name="进阶话题" class="anchor" href="#进阶话题"><span class="header-link"></span></a>进阶话题</h2><h3 class="section-title"><a name="子类型 vs 赋值" class="anchor" href="#子类型 vs 赋值"><span class="header-link"></span></a>子类型 vs 赋值</h3><div role="item"><p>我们一直在使用&#39;兼容&#39;（compatible）这个词，但它本身并不是这门语言规定中的细则。实际上TypeScript中有两种类型的兼容：子类型上的和赋值上的。它们之间的不同只在于，赋值时会有额外的子类型兼容性。它会允许把&#39;any&#39;或枚举类型赋值为其他类型，或把&#39;any&#39;或枚举类型赋值给其他类型，其中枚举类型的数值必须对应。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">So far, we&#39;ve used &#39;compatible&#39;, which is not a term defined in the language spec. In TypeScript, there are two kinds of compatibility: subtype and assignment. These differ only in that assignment extends subtype compatibility with rules to allow assignment to and from &#39;any&#39; and to and from enum with corresponding numeric values. 
 </p></div><p>$Different places in the language use one of the two compatibility mechanisms, depending on the situation. For practical purposes, type compatibility is dictated by assignment compatibility even in the cases of the implements and extends clauses. For more information, see the TypeScript spec.</p>
-<h2 class="section-title"><a name="$$TypeScript会根据场景的不同使用两种兼容机制。从实际角度出发，类型兼容性会由赋值兼容性来决定，甚至是在implements和extends子句上。你可以查阅TypeScript上的细则以获取更多信息。" class="anchor" href="#$$TypeScript会根据场景的不同使用两种兼容机制。从实际角度出发，类型兼容性会由赋值兼容性来决定，甚至是在implements和extends子句上。你可以查阅TypeScript上的细则以获取更多信息。"><span class="header-link"></span></a>$$TypeScript会根据场景的不同使用两种兼容机制。从实际角度出发，类型兼容性会由赋值兼容性来决定，甚至是在implements和extends子句上。你可以查阅TypeScript上的细则以获取更多信息。</h2><h1 class="section-title"><a name="Writing .d.ts files" class="anchor" href="#Writing .d.ts files"><span class="header-link"></span></a>Writing .d.ts files</h1><div role="item"><p>当我们在使用一个外部的JavaScript库或是新的API时，我们需要用一个声明文件（.d.ts）来描述这个库的结构。本节指引将会涵盖我们在写这种定义文件（definition files）时会涉及到的一些高级理念，并辅以一些例子，来展示这些理念是如何通过定义文件中对应的描述实现的。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">When using an external JavaScript library, or new host API, you&#39;ll need to use a declaration file (.d.ts) to describe the shape of that library. This guide covers a few high-level concepts specific to writing definition files, then proceeds with a number of examples that show how to transcribe various concepts to their matching definition file descriptions.
-</p></div><h2 class="section-title"><a name="Guidelines and Specifics" class="anchor" href="#Guidelines and Specifics"><span class="header-link"></span></a>Guidelines and Specifics</h2><h3 class="section-title"><a name="Workflow" class="anchor" href="#Workflow"><span class="header-link"></span></a>Workflow</h3><div role="item"><p>写.d.ts文件最好的方式不是根据代码来写，而是根据文档来写。根据文档来写代码能够保证你要表达的东西不会被实现细节所影响。而且文档通常也比JS代码要容易理解。所以我们后面的例子都会通过以你正在读一个用文档来表达由代码组成的例子的情景来写。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">The best way to write a .d.ts file is to start from the documentation of the library, not the code. Working from the documentation ensures the surface you present isn&#39;t muddied with implementation details, and is typically much easier to read than JS code. The examples below will be written as if you were reading documentation that presented example calling code.
-</p></div><h3 class="section-title"><a name="Namespacing" class="anchor" href="#Namespacing"><span class="header-link"></span></a>Namespacing</h3><div role="item"><p>当你在定义接口时（比如说&quot;options&quot;对象），你可以决定是否要把这些类型放到一个模块中。你需要根据具体情况来做这个决定 -- 如果用户很可能会时常需要声明这个类型的变量或参数，并且需要它的命名不与其他类型冲突的话，那你大可把它放到一个全局命名空间中。如果这个类型很可能不需要被直接引用，或是不太适合以一个独特的名字来命名的话，那你应该把它放在模块内以避免与其他类型发生冲突。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">When defining interfaces (for example, &quot;options&quot; objects), you have a choice about whether to put these types inside a module or not. This is largely a judgement call -- if the consumer is likely to often declare variables or parameters of that type, and the type can be named without risk of colliding with other types, prefer placing it in the global namespace. If the type is not likely to be referenced directly, or can&#39;t be named with a reasonably unique name, do use a module to prevent it from colliding with other types.
-</p></div><h3 class="section-title"><a name="Callbacks" class="anchor" href="#Callbacks"><span class="header-link"></span></a>Callbacks</h3><div role="item"><p>很多JavaScript的库会事先把一个函数作为参数，并在之后用获取到的参数来调用它。当我们在写这种类型的函数签名（function signatures）时，我们不应该把它们当作是可选参数。我们需要认真考虑&quot;我们需要传入什么参数&quot;而不是&quot;我们要用什么参数&quot;。虽然TypeScript 从0.9.7版本开始不再限制我们传入函数作为可选参数，我们仍旧可以通过外部工具在参数的可选性上强制进行双向协变（bivariance）。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">Many JavaScript libraries take a function as a parameter, then invoke that function later with a known set of arguments. When writing the function signatures for these types, do not mark those parameters as optional. The right way to think of this is &quot;What parameters will be provided?&quot;, not &quot;What parameters will be consumed?&quot;. While TypeScript 0.9.7 and above does not enforce that the optionality, bivariance on argument optionality might be enforced by an external linter.
-</p></div><h3 class="section-title"><a name="Extensibility and Declaration Merging" class="anchor" href="#Extensibility and Declaration Merging"><span class="header-link"></span></a>Extensibility and Declaration Merging</h3><div role="item"><p>当我们在写定义文件时，我们需要格外注意TypeScript在扩展已有对象时的规则。你可以用匿名类型或接口来声明一个变量：<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">When writing definition files, it&#39;s important to remember TypeScript&#39;s rules for extending existing objects. You might have a choice of declaring a variable using an anonymous type or an interface type:
-</p></div><p><strong>Anonymously-typed var</strong></p>
+<h2 class="section-title"><a name="$$TypeScript会根据场景的不同使用两种兼容机制。从实际角度出发，类型兼容性会由赋值兼容性来决定，甚至是在implements和extends子句上。你可以查阅TypeScript上的细则以获取更多信息。" class="anchor" href="#$$TypeScript会根据场景的不同使用两种兼容机制。从实际角度出发，类型兼容性会由赋值兼容性来决定，甚至是在implements和extends子句上。你可以查阅TypeScript上的细则以获取更多信息。"><span class="header-link"></span></a>$$TypeScript会根据场景的不同使用两种兼容机制。从实际角度出发，类型兼容性会由赋值兼容性来决定，甚至是在implements和extends子句上。你可以查阅TypeScript上的细则以获取更多信息。</h2><h1 class="section-title"><a name="编写.d.ts文件" class="anchor" href="#编写.d.ts文件"><span class="header-link"></span></a>编写.d.ts文件</h1><div role="item"><p>当我们要使用一个外部JavaScript库或是新的API时，我们需要用一个声明文件（.d.ts）来描述这个库的结构。本节会讲述写这种定义文件（definition files）时会涉及到的一些高级概念。之后会用一些例子，来展示这些概念所对应的定义文件描述。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">When using an external JavaScript library, or new host API, you&#39;ll need to use a declaration file (.d.ts) to describe the shape of that library. This guide covers a few high-level concepts specific to writing definition files, then proceeds with a number of examples that show how to transcribe various concepts to their matching definition file descriptions.
+</p></div><h2 class="section-title"><a name="指导与细则" class="anchor" href="#指导与细则"><span class="header-link"></span></a>指导与细则</h2><h3 class="section-title"><a name="工作流" class="anchor" href="#工作流"><span class="header-link"></span></a>工作流</h3><div role="item"><p>写.d.ts文件最好的方式不是根据代码来写，而是根据文档来写。根据文档来写代码能够保证你要表达的东西不会被实现细节所影响。而且文档通常也比JS代码要容易理解。所以我们后面的例子都会假设你正在读一个解释表达代码例子的文档的情景来写。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">The best way to write a .d.ts file is to start from the documentation of the library, not the code. Working from the documentation ensures the surface you present isn&#39;t muddied with implementation details, and is typically much easier to read than JS code. The examples below will be written as if you were reading documentation that presented example calling code.
+</p></div><h3 class="section-title"><a name="命名空间" class="anchor" href="#命名空间"><span class="header-link"></span></a>命名空间</h3><div role="item"><p>当你在定义接口时（比如说&quot;options&quot;对象），你可以决定是否要把这些类型放到一个模块中。你需要根据具体情况来做这个决定 -- 如果用户很可能时常需要声明这个类型的变量或参数，并且需要它的命名不与其他类型冲突的话，那你大可把它放到一个全局命名空间中。如果这个类型很可能不需要被直接引用，或是不太适合以一个独特的名字来命名的话，那你应该把它放在模块内以避免与其他类型发生冲突。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">When defining interfaces (for example, &quot;options&quot; objects), you have a choice about whether to put these types inside a module or not. This is largely a judgement call -- if the consumer is likely to often declare variables or parameters of that type, and the type can be named without risk of colliding with other types, prefer placing it in the global namespace. If the type is not likely to be referenced directly, or can&#39;t be named with a reasonably unique name, do use a module to prevent it from colliding with other types.
+</p></div><h3 class="section-title"><a name="回调" class="anchor" href="#回调"><span class="header-link"></span></a>回调</h3><div role="item"><p>很多JavaScript的库会事先把一个函数作为参数，并在之后用获取到的参数来调用它。当我们在写这种类型的函数签名（function signatures）时，我们不应该把它们当作是可选参数。我们需要认真考虑&quot;我们需要传入什么参数&quot;而不是&quot;我们要用什么参数&quot;。虽然TypeScript 从0.9.7版本开始不再限制我们传入函数作为可选参数，我们仍旧可以通过外部工具在参数的可选性上强制进行双向协变（bivariance）。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">Many JavaScript libraries take a function as a parameter, then invoke that function later with a known set of arguments. When writing the function signatures for these types, do not mark those parameters as optional. The right way to think of this is &quot;What parameters will be provided?&quot;, not &quot;What parameters will be consumed?&quot;. While TypeScript 0.9.7 and above does not enforce that the optionality, bivariance on argument optionality might be enforced by an external linter.
+</p></div><h3 class="section-title"><a name="扩展性和声明合并" class="anchor" href="#扩展性和声明合并"><span class="header-link"></span></a>扩展性和声明合并</h3><div role="item"><p>当我们在写定义文件时，我们需要格外注意TypeScript在扩展已有对象时的规则。你可以用匿名类型或接口来声明一个变量：<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">When writing definition files, it&#39;s important to remember TypeScript&#39;s rules for extending existing objects. You might have a choice of declaring a variable using an anonymous type or an interface type:
+</p></div><p><strong>匿名类型变量</strong></p>
 <pre><code class="lang-js">declare var MyPoint: { x: number; y: number; };
 </code></pre>
-<p><strong>Interfaced-typed var</strong></p>
+<p><strong>接口类型变量</strong></p>
 <pre><code class="lang-js">interface SomePoint { x: number; y: number; }
 declare var MyPoint: SomePoint;
 </code></pre>
@@ -1702,18 +1702,18 @@ declare var MyPoint: SomePoint;
 </p></div><pre><code class="lang-js">interface SomePoint { z: number; }
 MyPoint.z = 4; // OK
 </code></pre>
-<div role="item"><p>你需要根据实际情况来决定是否允许你的声明通过这种方式被扩展。从这里也可以显示出你对这个库的想法。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">Whether or not you want your declarations to be extensible in this way is a bit of a judgement call. As always, try to represent the intent of the library here.
-</p></div><h3 class="section-title"><a name="Class Decomposition" class="anchor" href="#Class Decomposition"><span class="header-link"></span></a>Class Decomposition</h3><div role="item"><p>TypeScript中的类会创建出两种独立的类型：一种是实例类型，它定义了类实例上的成员；另一种是构造函数类型，它定义了构造函数的成员。因为构造函数类型包括了类中的静态成员，我们可以把当作是&quot;静态的&quot;类型。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">Classes in TypeScript create two separate types: the instance type, which defines what members an instance of a class has, and the constructor function type, which defines what members the class constructor function has. The constructor function type is also known as the &quot;static side&quot; type because it includes static members of the class.
+<div role="item"><p>你需要根据实际情况来决定是否允许你的声明通过这种方式被扩展。从这里也可以展示出你对这个库的想法。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">Whether or not you want your declarations to be extensible in this way is a bit of a judgement call. As always, try to represent the intent of the library here.
+</p></div><h3 class="section-title"><a name="解构类" class="anchor" href="#解构类"><span class="header-link"></span></a>解构类</h3><div role="item"><p>TypeScript中的类会创建出两种独立的类型：一种是实例类型，它定义了类实例上的成员；另一种是构造函数类型，它定义了构造函数的成员。因为构造函数类型包括了类中的静态成员，我们可以把当作是&quot;静态的&quot;类型。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">Classes in TypeScript create two separate types: the instance type, which defines what members an instance of a class has, and the constructor function type, which defines what members the class constructor function has. The constructor function type is also known as the &quot;static side&quot; type because it includes static members of the class.
 </p></div><div role="item"><p>虽然我们可以使用typeof关键字来引用一个类中的静态部分，但在写定义文件时，我们有时候需要用被解构过的类。它能明确地将类中的实例部分和静态部分分开。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">While you can reference the static side of a class using the typeof keyword, it is sometimes useful or necessary when writing definition files to use the decomposed class pattern which explicitly separates the instance and static types of class.
 </p></div><div role="item"><p>举个例子，从一个使用者的角度来看，下面的两种声明方式几乎是等价的：<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">As an example, the following two declarations are nearly equivalent from a consumption perspective:
-</p></div><p><strong>Standard</strong></p>
+</p></div><p><strong>标准声明方式</strong></p>
 <pre><code class="lang-js">class A {
     static st: string;
     inst: number;
     constructor(m: any) {}
 }
 </code></pre>
-<p><strong>Decomposed</strong></p>
+<p><strong>解构方式</strong></p>
 <pre><code class="lang-js">interface A_Static {
     new(m: any): A_Instance;
     st: string;
@@ -1724,20 +1724,20 @@ interface A_Instance {
 declare var A: A_Static;
 </code></pre>
 <div role="item"><p>它们的不同之处在于：<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">The trade-offs here are as follows:
-</p></div><div role="item"><p>我们可以用extends继承标准的类，而不能集成解构过的类。除非下一个版本的TypeScript允许这种继承这种表达式。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">Standard classes can be inherited from using extends; decomposed classes cannot. This might change in later version of TypeScript if arbitrary extends expressions are allowed.
-It is possible to add members later (through declaration merging) to the static side of both standard and decomposed classes
+</p></div><div role="item"><p>我们可以用extends继承标准的类，但不能继承解构过的类。除非下一个版本的TypeScript允许这种继承表达式。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">Standard classes can be inherited from using extends; decomposed classes cannot. This might change in later version of TypeScript if arbitrary extends expressions are allowed.
+</p></div><div role="item"><p>我们可以（通过声明合并）给标准的类和解构类上的静态部分添加成员。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">It is possible to add members later (through declaration merging) to the static side of both standard and decomposed classes.
 </p></div><div role="item"><p>我们可以给解构过的类添加新的实例成员，但不能给标准类添加。在写解构类的时候，如果你想要添加更多类型的话，你可能需要想一些更有意义的名字。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">It is possible to add instance members to decomposed classes, but not standard classes
 You&#39;ll need to come up with sensible names for more types when writing a decomposed class
-</p></div><h3 class="section-title"><a name="Naming Conventions" class="anchor" href="#Naming Conventions"><span class="header-link"></span></a>Naming Conventions</h3><div role="item"><p>总的来说，不要在接口前加I（比如：IColor）。因为TypeScript中接口的概念要比C#或Java更宽泛。IFoo这类命名习惯没有太多作用。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">In general, do not prefix interfaces with I (e.g. IColor). Because the concept of an interface in TypeScript is much more broad than in C# or Java, the IFoo naming convention is not broadly useful.
-</p></div><h2 class="section-title"><a name="Examples" class="anchor" href="#Examples"><span class="header-link"></span></a>Examples</h2><div role="item"><p>来看看下面的这些例子。每个例子都先给出了一个库的使用用法，然后再给出对于这样的库来说比较合适的类型定义。如果一个库有多种比较合适的定义方式的话，这里会把它们都列举出来。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">Let&#39;s jump in to the examples section. For each example, sample usage of the library is provided, followed by the definition code that accurately types the usage. When there are multiple good representations, more than one definition sample might be listed.
-</p></div><h3 class="section-title"><a name="Options Objects" class="anchor" href="#Options Objects"><span class="header-link"></span></a>Options Objects</h3><p><strong>Usage</strong></p>
+</p></div><h3 class="section-title"><a name="命名习惯" class="anchor" href="#命名习惯"><span class="header-link"></span></a>命名习惯</h3><div role="item"><p>总的来说，不要在接口前加I（比如：IColor）。因为TypeScript中接口的概念要比C#或Java更宽泛。IFoo这类命名习惯没有太多作用。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">In general, do not prefix interfaces with I (e.g. IColor). Because the concept of an interface in TypeScript is much more broad than in C# or Java, the IFoo naming convention is not broadly useful.
+</p></div><h2 class="section-title"><a name="例子" class="anchor" href="#例子"><span class="header-link"></span></a>例子</h2><div role="item"><p>来看看下面的这些例子。每个例子都先给出了一个库的使用方式，然后再给出对于这样的库来说比较合适的类型定义。如果一个库有多种比较合适的定义方式的话，这里会把它们都列举出来。<span class="check-ori" role="check-ori">[原文]</span></p><p role="ori" class="ori">Let&#39;s jump in to the examples section. For each example, sample usage of the library is provided, followed by the definition code that accurately types the usage. When there are multiple good representations, more than one definition sample might be listed.
+</p></div><h3 class="section-title"><a name="Options对象" class="anchor" href="#Options对象"><span class="header-link"></span></a>Options对象</h3><p><strong>用法</strong></p>
 <pre><code class="lang-js">animalFactory.create(&quot;dog&quot;);
 animalFactory.create(&quot;giraffe&quot;, { name: &quot;ronald&quot; });
 animalFactory.create(&quot;panda&quot;, { name: &quot;bob&quot;, height: 400 });
 // Invalid: name must be provided if options is given
 animalFactory.create(&quot;cat&quot;, { height: 32 });
 </code></pre>
-<p><strong>Typing</strong></p>
+<p><strong>类型声明</strong></p>
 <pre><code class="lang-js">module animalFactory {
     interface AnimalOptions {
         name: string;
@@ -1747,25 +1747,25 @@ animalFactory.create(&quot;cat&quot;, { height: 32 });
     function create(name: string, animalOptions?: AnimalOptions): Animal;
 }
 </code></pre>
-<h3 class="section-title"><a name="Functions with Properties" class="anchor" href="#Functions with Properties"><span class="header-link"></span></a>Functions with Properties</h3><p><strong>Usage</strong></p>
+<h3 class="section-title"><a name="带有属性的函数" class="anchor" href="#带有属性的函数"><span class="header-link"></span></a>带有属性的函数</h3><p><strong>用法</strong></p>
 <pre><code class="lang-js">zooKeeper.workSchedule = &quot;morning&quot;;
 zooKeeper(giraffeCage);
 </code></pre>
-<p><strong>Typing</strong></p>
+<p><strong>类型声明</strong></p>
 <pre><code class="lang-js">// Note: Function must precede module
 function zooKeeper(cage: AnimalCage);
 module zooKeeper {
     var workSchedule: string;
 }
 </code></pre>
-<h3 class="section-title"><a name="New + callable methods" class="anchor" href="#New + callable methods"><span class="header-link"></span></a>New + callable methods</h3><p><strong>Usage</strong></p>
+<h3 class="section-title"><a name="用new调用的函数" class="anchor" href="#用new调用的函数"><span class="header-link"></span></a>用new调用的函数</h3><p><strong>用法</strong></p>
 <pre><code class="lang-js">var w = widget(32, 16);
 var y = new widget(&quot;sprocket&quot;);
 // w and y are both widgets
 w.sprock();
 y.sprock();
 </code></pre>
-<p><strong>Typing</strong></p>
+<p><strong>类型声明</strong></p>
 <pre><code class="lang-js">interface Widget {
     sprock(): void;
 }
@@ -1777,14 +1777,14 @@ interface WidgetFactory {
 
 declare var widget: WidgetFactory;
 </code></pre>
-<h3 class="section-title"><a name="Global / External-agnostic Libraries" class="anchor" href="#Global / External-agnostic Libraries"><span class="header-link"></span></a>Global / External-agnostic Libraries</h3><p><strong>Usage</strong></p>
+<h3 class="section-title"><a name="全局/对外部不可知的（external-agnostic）函数库" class="anchor" href="#全局/对外部不可知的（external-agnostic）函数库"><span class="header-link"></span></a>全局/对外部不可知的（external-agnostic）函数库</h3><p><strong>用法</strong></p>
 <pre><code class="lang-js">// Either
 import x = require(&#39;zoo&#39;);
 x.open();
 // or
 zoo.open();
 </code></pre>
-<p><strong>Typing</strong></p>
+<p><strong>类型声明</strong></p>
 <pre><code class="lang-js">module zoo {
   function open(): void;
 }
@@ -1793,7 +1793,7 @@ declare module &quot;zoo&quot; {
     export = zoo;
 }
 </code></pre>
-<h3 class="section-title"><a name="Single Complex Object in External Modules" class="anchor" href="#Single Complex Object in External Modules"><span class="header-link"></span></a>Single Complex Object in External Modules</h3><p><strong>Usage</strong></p>
+<h3 class="section-title"><a name="外部模块中的单个复杂的对象" class="anchor" href="#外部模块中的单个复杂的对象"><span class="header-link"></span></a>外部模块中的单个复杂的对象</h3><p><strong>用法</strong></p>
 <pre><code class="lang-js">// Super-chainable library for eagles
 import eagle = require(&#39;./eagle&#39;);
 // Call directly
@@ -1803,7 +1803,7 @@ var eddie = new eagle(1000);
 // Set properties
 eagle.favorite = &#39;golden&#39;;
 </code></pre>
-<p><strong>Typing</strong></p>
+<p><strong>类型声明</strong></p>
 <pre><code class="lang-js">// Note: can use any name here, but has to be the same throughout this file
 declare function eagle(name: string): eagle;
 declare module eagle {
@@ -1816,10 +1816,10 @@ interface eagle {
 
 export = eagle;
 </code></pre>
-<h3 class="section-title"><a name="Callbacks" class="anchor" href="#Callbacks"><span class="header-link"></span></a>Callbacks</h3><p><strong>Usage</strong></p>
+<h3 class="section-title"><a name="回调" class="anchor" href="#回调"><span class="header-link"></span></a>回调</h3><p><strong>用法</strong></p>
 <pre><code class="lang-js">addLater(3, 4, (x) =&gt; console.log(&#39;x = &#39; + x));
 </code></pre>
-<p><strong>Typing</strong></p>
+<p><strong>类型声明</strong></p>
 <pre><code class="lang-js">// Note: &#39;void&#39; return type is preferred here
 function addLater(x: number, y: number, (sum: number) =&gt; void): void;
 </code></pre>

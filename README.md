@@ -13,7 +13,7 @@
 * Declaration Merging(翻译 校对)
 * Type Inference(翻译 校对)
 * Type Compatibility(翻译 校对)
-* Writing .d.ts Files(翻译)
+* Writing .d.ts Files(翻译 校对)
 * TypeScript 1.5(翻译 校对)
 
 ###Contribute
