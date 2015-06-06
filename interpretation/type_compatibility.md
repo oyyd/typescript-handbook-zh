@@ -246,7 +246,9 @@ identity = reverse;  // Okay because (x: any)=>any matches (y: any)=>any
 ```
 
 ##进阶话题
+
 ###子类型 vs 赋值
+
 $So far, we've used 'compatible', which is not a term defined in the language spec. In TypeScript, there are two kinds of compatibility: subtype and assignment. These differ only in that assignment extends subtype compatibility with rules to allow assignment to and from 'any' and to and from enum with corresponding numeric values. 
 $$我们一直在使用'兼容'（compatible）这个词，但它本身并不是这门语言规定中的细则。实际上TypeScript中有两种类型的兼容：子类型上的和赋值上的。它们之间的不同只在于，赋值时会有额外的子类型兼容性。它会允许把'any'或枚举类型赋值为其他类型，或把'any'或枚举类型赋值给其他类型，其中枚举类型的数值必须对应。
 
