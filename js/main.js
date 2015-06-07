@@ -1,5 +1,5 @@
 (function() {
-  var prefix = '/interpretation/';
+  var prefix = 'interpretation/';
 
   var isOriginal = function(node) {
     if ($(node).text()[0] === '$') {
@@ -21,7 +21,7 @@
       bindEvents($file);
       cb && cb();
     }).fail(function() {
-      console.err('failed to load content');
+      console.error('failed to load content');
     });
   };
 
