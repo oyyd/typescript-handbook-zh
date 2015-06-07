@@ -1,0 +1,89 @@
+/*global*/
+body{
+  position: relative;
+  font-family: SegoeUILight, 'Segoe UI Light', SegoeUI, 'Segoe UI', Arial, sans-serif;
+}
+
+.thz .header{
+  text-align: center;
+}
+
+.thz pre code{
+  background: none;
+  font-family: sans-serif;
+}
+
+.thz .hide{
+  display: none;
+}
+
+.thz h1.section-title{
+  font: 27pt;
+  color: rgb(66, 139, 202);
+}
+
+.thz .content .ori{
+  display: none;
+}
+
+.thz .check-ori{
+  cursor: pointer;
+  font-size: 10px;
+  color: #aaa;
+}
+
+.thz p{
+  font-size: 18px;
+  line-height: 1.8em;
+}
+
+/*header*/
+.thz .thz-nav{
+  padding: 10px 0;
+}
+
+.thz .content-container{
+  padding: 0 10px;
+}
+
+/*side nav*/
+.thz .content-container .side-bar{
+  position: relative;  
+}
+
+.thz .content-container .side-bar .side-bar-nav{
+  position: absolute;
+  width: 320px;
+}
+
+.thz .content-container .side-bar.scroll .side-bar-nav{
+  position: fixed;
+  top: 35px;
+  left: 25px;
+}
+
+.thz .content-container .side-bar .side-bar-nav .item .list{
+  padding-left: 10px;
+  display: none;
+}
+
+.thz .content-container .side-bar .side-bar-nav .item.active .list{
+  display: block;
+}
+
+.thz .content-container .side-bar .side-bar-nav .item h3{
+  margin-top: 10px;
+  font-size: 20px;
+}
+
+ .thz .content-container .side-bar .side-bar-nav .item h5{
+   margin-top: 10px;
+ }
+
+.thz .thz-nav .title{
+  font-size: 22px;
+  vertical-align: bottom;
+  display: inline-block;
+  padding-left: 7px;
+}
+
