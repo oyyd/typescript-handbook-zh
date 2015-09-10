@@ -1,6 +1,6 @@
 #接口
 
-$One of TypeScript's core principles is that type-checking focuses on the 'shape' that values have. This is sometimes called "duck typing" or "structural subtyping". In TypeScript, interfaces fill the role of naming these types, and are a powerful way of defining contracts within your code as well as contracts with code outside of your project. 
+$One of TypeScript's core principles is that type-checking focuses on the 'shape' that values have. This is sometimes called "duck typing" or "structural subtyping". In TypeScript, interfaces fill the role of naming these types, and are a powerful way of defining contracts within your code as well as contracts with code outside of your project.
 $$TypeScript的核心原则之一，是类型检查会集中关注数据的“结构”（shape）。这一行为有时被称作“鸭子类型”（duck typing）或“结构子类型化”（structural subtyping）。在TypeScript中，接口起到了为这些数据类型命名的作用，同时接口也是定义你代码之间的关系，或你的代码和其他项目代码之间关系的有效方法。
 
 ##我们的第一个接口
@@ -69,7 +69,7 @@ function createSquare(config: SquareConfig): {color: string; area: number} {
 var mySquare = createSquare({color: "black"});
 ```
 
-$Interfaces with optional properties are written similar to other interfaces, which each optional property denoted with a '?' as part of the property declaration. 
+$Interfaces with optional properties are written similar to other interfaces, which each optional property denoted with a '?' as part of the property declaration.
 $$除了在声明可选属性时需要加上'?'作为标识以外，带有可选属性的接口的写法与其他接口相似。
 
 $The advantage of optional properties is that you can describe these possibly available properties while still also catching properties that you know are not expected to be available. For example, had we mistyped the name of the property we passed to 'createSquare', we would get an error message letting us know:
@@ -92,7 +92,7 @@ function createSquare(config: SquareConfig): {color: string; area: number} {
   return newSquare;
 }
 
-var mySquare = createSquare({color: "black"});  
+var mySquare = createSquare({color: "black"});
 ```
 ##函数类型
 $Interfaces are capable of describing the wide range of shapes that JavaScript objects can take. In addition to describing an object with properties, interfaces are also capable of describing function types.
@@ -144,7 +144,7 @@ $$在对函数的参数进行类型检查时，同一时间我们只会对一个
 
 ##数组类型
 $Similarly to how we can use interfaces to describe function types, we can also describe array types. Array types have an 'index' type that describes the types allowed to index the object, along with the corresponding return type for accessing the index.
-$$我们也可以用接口来描述数组类型，它的声明方式与函数类型相似。数组类型会有一个'index'类型，我们用它来表示数组索引（数组下标）的类型。用样我们也需要索引所对应的返回值的类型。
+$$我们也可以用接口来描述数组类型，它的声明方式与函数类型相似。数组类型会有一个'index'类型，我们用它来表示数组索引（数组下标）的类型。这样我们也需要索引所对应的返回值的类型。
 
 ```js
 interface StringArray {
@@ -166,7 +166,7 @@ $$虽然索引标识是描述数组和字典类型的数据的好方法，它同
 interface Dictionary {
   [index: string]: string;
   length: number;    // error, the type of 'length' is not a subtype of the indexer
-} 
+}
 ```
 
 ##类的类型
@@ -283,7 +283,7 @@ square.penWidth = 5.0;
 ```
 
 ##混合类型（Hybrid Types）
-$As we mentioned earlier, interfaces can describe the rich types present in real world JavaScript. Because of JavaScript's dynamic and flexible nature, you may occasionally encounter an object that works as a combination of some of the types described above. 
+$As we mentioned earlier, interfaces can describe the rich types present in real world JavaScript. Because of JavaScript's dynamic and flexible nature, you may occasionally encounter an object that works as a combination of some of the types described above.
 $$就像我们之前提到过的，接口可以描述现实中JavaScript所能表现的丰富的数据类型。由于JavaScript动态、灵活的特性，我们有时可能会碰到需要综合使用前面描述的接口的使用方法，来处理一个对象的情景。
 
 $One such example is an object that acts as both a function and an object, with additional properties:

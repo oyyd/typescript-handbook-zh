@@ -5,7 +5,7 @@ $$TypeScript上的一些独特的理念，源自我们从类型上描述JavaScri
 $First, before we get into how declarations merge, let's first describe what we mean by 'declaration merging'.
 $$在理解声明是如何合并的之前，先让我们了解到底什么是'声明合并'。
 
-$For the purposes of this article, declaration merging specifically means that the compiler is doing the work of merging two separate declarations declared with the same name into a single definition. This merged definition has the features of both of the original declarations. Declaration merging is not limited to just two declarations, as any number of declarations can be merged. 
+$For the purposes of this article, declaration merging specifically means that the compiler is doing the work of merging two separate declarations declared with the same name into a single definition. This merged definition has the features of both of the original declarations. Declaration merging is not limited to just two declarations, as any number of declarations can be merged.
 $$在这篇文章中，声明合并特指由编译器完成的，将拥有同样名称的，两个独立的的声明合并成一个定义（a single definition）的工作。这个合并而来的定义将同时拥有原来的两个声明的特性。声明合并不限于合并两个声明，符合条件的任意个声明都可以被合并。
 
 ##基本概念
@@ -56,7 +56,7 @@ var box: Box = {height: 5, width: 6, scale: 10};
 $Non-function members of the interfaces must be unique. The compiler will issue an error if the interfaces both declare a non-function member of the same name.
 $$接口的非函数的成员必须是独特的。如果两个接口同时声明了一个有着同样名子的非函数的成员的话，编译器会抛出一个错误。
 
-$For function members, each function member of the same name is treated as describing an overload of the same function. Of note, too, is that in the case of interface A merging with later interface A (here called A'), the overload set of A' will have a higher precedence than that of interface A. 
+$For function members, each function member of the same name is treated as describing an overload of the same function. Of note, too, is that in the case of interface A merging with later interface A (here called A'), the overload set of A' will have a higher precedence than that of interface A.
 $$而对于函数成员来说，拥有同样名称的每个函数成员都会被当作是同一个函数的重载情况。同样值得注意的是，当一个接口A在融合另一个接口A时（这里称为A'），A'上的重载的集合将会比接口A上的拥有更高优先级。
 
 $That is, in the example:
@@ -70,7 +70,7 @@ interface Document {
     createElement(tagName: string): HTMLElement;
 }
 interface Document {
-    createElement(tagName: "div"): HTMLDivElement; 
+    createElement(tagName: "div"): HTMLDivElement;
     createElement(tagName: "span"): HTMLSpanElement;
     createElement(tagName: "canvas"): HTMLCanvasElement;
 }
@@ -81,7 +81,7 @@ $$这两个接口将会合并创造出一个声明。注意每个接口中的元
 
 ```js
 interface Document {
-    createElement(tagName: "div"): HTMLDivElement; 
+    createElement(tagName: "div"): HTMLDivElement;
     createElement(tagName: "span"): HTMLSpanElement;
     createElement(tagName: "canvas"): HTMLCanvasElement;
     createElement(tagName: string): HTMLElement;
@@ -96,7 +96,7 @@ $$和接口相似，拥有相同名称的模块也会合并它们的成员。由
 $To merge the namespaces, type definitions from exported interfaces declared in each module are themselves merged, forming a single namespace with merged interface definitions inside.
 $$当合并两名命名空间时，每个模块输出的接口的声明中所创建的类型的定义会相互合并。它们会创建一个带有合并后的接口的命名空间。
 
-$To merge the value, at each declaration site, if a module already exists with the given name, it is further extended by taking the existing module and adding the exported members of the second module to the first. 
+$To merge the value, at each declaration site, if a module already exists with the given name, it is further extended by taking the existing module and adding the exported members of the second module to the first.
 $$当合并值时，两个模块中的值会合并在一起。如果两个模块中有同名称的值，则第二个模块中的值优先。
 
 $The declaration merge of 'Animals' in this example:
@@ -119,7 +119,7 @@ $$等同于：
 ```js
 module Animals {
     export interface Legged { numberOfLegs: number; }
-    
+
     export class Zebra { }
     export class Dog { }
 }
@@ -169,7 +169,7 @@ module Album {
 $The visibility rules for merged members is the same as described in the 'Merging Modules' section, so we must export the AlbumLabel class for the merged class to see it. The end result is a class managed inside of another class. You can also use modules to add more static members to an existing class.
 $$这里合并后的成员的可见性同我们在'Merging Modules'部分中描述的是一样的。所以我们必须输出AlbumLabel类，来使被合并的类能够看见它。合并的结果便是是一个类出现在了另一个类中。你用样也可以用模块来给一个已经存在的类添加更多的静态成员。
 
-$In addition to the pattern of inner classes, you may also be familiar with JavaScript practice of creating a function and then extending the function further by adding properties onto the function. TypeScript uses declaration merging to build up definitions like this in a type-safe way. 
+$In addition to the pattern of inner classes, you may also be familiar with JavaScript practice of creating a function and then extending the function further by adding properties onto the function. TypeScript uses declaration merging to build up definitions like this in a type-safe way.
 $$除了内部类的模式以外，你可能也很熟悉下面这种JavaScript应用：先创建一个函数，然后再给这个函数添加其他的属性。通过TypeScript的声明合并，你可以在保障类型安全（type-safe）的情况下来实现这种定义。
 
 ```js
@@ -186,7 +186,7 @@ alert(buildLabel("Sam Smith"));
 ```
 
 $Similarly, modules can be used to extend enums with static members:
-$$相似地，模块也可以同静态成员来扩展枚举。
+$$相似地，模块也可以用静态成员来扩展枚举。
 
 ```js
 enum Color {

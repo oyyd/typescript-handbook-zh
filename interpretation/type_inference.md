@@ -24,7 +24,7 @@ $$当我们需要从多个表达式中推断类型时，我们会通过这些表
 var x = [0, 1, null];
 ```
 
-$To infer the type of x in the example above, we must consider the type of each array element. Here we are given two choices for the type of the array: number and null. The best common type algorithm considers each candidate type, and picks the type that is compatible with all the other candidates. 
+$To infer the type of x in the example above, we must consider the type of each array element. Here we are given two choices for the type of the array: number and null. The best common type algorithm considers each candidate type, and picks the type that is compatible with all the other candidates.
 $$在推断上面例子中x的类型时，我们必须要考虑到数组中每个元素的类型。这里我们有数字和null两种可能，而最佳通用类型算法会根据每种类型的情况，选择一种可以兼容所有其他选择的类型。
 
 $Because the best common type has to be chosen from the provided candidate types, there are some cases where types share a common structure, but no one type is the super type of all candidate types. For example:
@@ -35,7 +35,7 @@ var zoo = [new Rhino(), new Elephant(), new Snake()];
 ```
 
 $Ideally, we may want zoo to be inferred as an Animal[], but because there is no object that is strictly of type Animal in the array, we make no inference about the array element type. To correct this, instead explicitly provide the type when no one type is a super type of all other candidates:
-$$在理想的状况下，我们会希望把Animal[]的类型推断为zoo。但是由于数组中并没有Animal类型，我们无法推断出这个数组元素的类型。为了应对这类情况，在数组中如果没有一个元素的类型是其他类型的超类型（super type）的话，我们需要明确提供这个数组的类型：
+$$在理想的状况下，我们希望zoo 被推断为Animal[]。但是由于数组中并没有Animal类型，我们无法推断出这个数组元素的类型。为了应对这类情况，在数组中如果没有一个元素的类型是其他类型的超类型（super type）的话，我们需要明确提供这个数组的类型：
 
 ```js
 var zoo: Animal[] = [new Rhino(), new Elephant(), new Snake()];
@@ -45,12 +45,12 @@ $When no best common type is found, the resulting inference is the empty object 
 $$当找不到最佳通用类型时，类型推断的结果就会变成空对象类型，即{}。因为这种类型并没有成员，所以尝试使用该类型上的任何属性都会产生错误。但在这种我们不能隐式推断出对象的类型的情况下，你仍旧能够通过不涉及类型的操作来安全地使用这个对象。
 
 ##上下文类型
-$Type inference also works in "the other direction" in some cases in TypeScript. This is known as "contextual typing". Contextual typing occurs when the type of an expression is implied by its location. For example: 
+$Type inference also works in "the other direction" in some cases in TypeScript. This is known as "contextual typing". Contextual typing occurs when the type of an expression is implied by its location. For example:
 $$类型推断也能作用于TypeScript中的一些其他情况，其中一种情况便是"上下文类型"（"contextual typing"）。上下文类型作用在“一个表达式的类型可以通过它出现的位置被推断出”的情况下。举例来说：
 
 ```js
-window.onmousedown = function(mouseEvent) { 
-    console.log(mouseEvent.buton);  //<- Error  
+window.onmousedown = function(mouseEvent) {
+    console.log(mouseEvent.buton);  //<- Error
 };
 ```
 
@@ -61,8 +61,8 @@ $If the contextually typed expression contains explicit type information, the co
 $$如果我们明确地指定了这个表达式的类型的话，上下文类型就会被忽略。我们可以这样来写上面的例子：
 
 ```js
-window.onmousedown = function(mouseEvent: any) { 
-    console.log(mouseEvent.buton);  //<- Now, no error is given  
+window.onmousedown = function(mouseEvent: any) {
+    console.log(mouseEvent.buton);  //<- Now, no error is given
 };
 ```
 
