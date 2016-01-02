@@ -1,22 +1,22 @@
-#基本类型
+# 基本类型
 
 程序的运行离不开基本的数据类型，如：numbers, strings, structures, boolean等。TypeScript支持所有你在JavaScript中会用到的数据类型的同时，还添加了便利的枚举类型（enumeration type）以供使用。
 
-##布尔类型
+## 布尔类型
 真/假值是最基本的数据类型，这种数据类型在JavaScript和TypeScript中（以及其他语言）称为布尔类型（boolean）。
 
 ```js
 var isDone: boolean = false;
 ```
 
-##数字
+## 数字
 同JavaScript一样，TypeScript中数字都是浮点数。这些浮点数都被称作数字类型（number）。
 
 ```js
 var height: number = 6;
 ```
 
-##字符串
+## 字符串
 文本类型的数据是用JavaScript编写网页和服务器等程序的基础。同其他语言一样，我们使用字符串（string）来指代这些文本类型的数据。在TypeScript中，你可以像在JavaScript中那样，使用双引号（""）或单引号（''）来表示字符串。
 
 ```js
@@ -24,7 +24,7 @@ var name: string = "bob";
 name = 'smith';
 ```
 
-##数组
+## 数组
 同JavaScript一样，TypeScript中我们也可以使用数组。我们可以使用两种不同的方式来写数组。第一种是在元素类型后面附上中括号（[]），来表示这种类型元素的数组：
 
 ```js
@@ -37,7 +37,7 @@ var list:number[] = [1, 2, 3];
 var list:Array<number> = [1, 2, 3];
 ```
 
-##枚举
+## 枚举
 TypeScript拓展了JavaScript原生的标准数据类型集，增加了枚举类型（enum）。枚举是一种很有用的数据类型，就像C#等语言中一样，它提供了一种给数字类型的值，设置易于辨别的名字的方法。
 
 ```js
@@ -68,7 +68,7 @@ var colorName: string = Color[2];
 alert(colorName);
 ```
 
-##Any
+## Any
 当我们编写应用时，我们可能会需要描述一些类型不明确的变量。因为这些变量的值可能来源于一些动态的内容，如用户或第三方提供的库。在这种情况下，我们需要略过对这些变量进行的类型检查，让它们直接通过编译时的检查。为了实现这一目的，我们可以把它们标识为'any'类型：
 
 ```js

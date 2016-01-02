@@ -1,7 +1,7 @@
-#函数
+# 函数
 函数是构建JavaScript应用的基础。通过函数，我们可以把我们的业务逻辑抽象成多层，可以模仿类的实现，可以隐藏信息，可以构建模块。虽然TypeScript中已经有了类和模块，但在描述事物的执行过程时，函数仍旧起着关键的作用。TypeScript给标准的JavaScript函数添加了新的特性以方便我们更好地使用。
 
-##函数
+## 函数
 首先，TypeScript和JavaScript一样，既可以创建有名称的函数也可以创建匿名函数。这允许我们在实现应用时选择最合适的方式。你既可以在API中生成一堆函数，也可以先构建个一次性的函数，之后再把它替换成另一个函数。
 
 让我们看看JavaScript中这两种应用方式的例子：
@@ -26,8 +26,8 @@ function addToZ(x, y) {
 }
 ```
 
-##函数类型
-###给函数添加类型
+## 函数类型
+### 给函数添加类型
 让我们给前面的例子加上类型：
 
 ```js
@@ -40,7 +40,7 @@ var myAdd = function(x: number, y: number): number { return x+y; };
 
 我们可以给函数的每个参数和返回值指定类型。TypeScript可以通过返回的语句知道返回值的类型。所以在很多情况下，我们也可以不指定类型。
 
-###书写函数类型
+### 书写函数类型
 既然我们已经给函数定义了类型，现在让我们完整地写出这个函数各个部分的类型：
 
 ```js
@@ -61,7 +61,7 @@ var myAdd: (baseValue:number, increment:number)=>number =
 
 记住，参数类型和返回值的类型共同构成了函数的类型。函数中被捕获的变量并不会影响函数的类型。这些变量实际上是被当作函数的'隐藏状态'，它们并不会成为函数API的一部分。
 
-###推断类型
+### 推断类型
 通过前面的例子你可能注意到了，虽然等号的一边有指定类型而另一边没有，但TypeScript的编译器仍能够理解这二者的类型。
 
 ```js
@@ -75,7 +75,7 @@ var myAdd: (baseValue:number, increment:number)=>number =
 
 这种类型被称作'语境类型'（'contextual typing'），是一种类型推断。它有助于减少我们维护类型的工作。
 
-##可选参数和默认参数
+## 可选参数和默认参数
 与JavaScript不同，TypeScript函数中的每个参数都被认为是必须的。但这并不是说参数的值不能是'null'，只是当一个函数被调用时，编译器会检查用户提供的参数。编译器同样也会假设这些参数是传入函数的唯一参数。简而言之，我们必须保证传给函数的参数的数量和函数指定的参数数量是一致的。
 
 ```js
@@ -133,7 +133,7 @@ function buildName(firstName: string, lastName = "Smith") {
 
 享有同样的类型"(firstName: string, lastName?: string)=>string"。默认参数的的默认值不会生效，它表明了这个参数是可选的。
 
-##剩余参数
+## 剩余参数
 必选参数，可选参数和默认参数有一个共同点：这些参数一次只描述一个参数。有时候你可能希望把多个参数设成一组，或者你没法确定一个函数最终会有多少个参数。在JavaScript中处理这些情况时，你可以直接使用函数体中可以获取的arguments来获得每一个参数。
 
 而在TypeScript中，你可以把这些参数聚集到一个变量中：
@@ -213,7 +213,7 @@ alert("card: " + pickedCard.card + " of " + pickedCard.suit);
 
 你可以阅读Yahuda Katz的Understanding JavaScript Function Invocation and “this”来获取更多的信息。
 
-##重载
+## 重载
 JavaScript本质上是一门动态性极强的语言。一个JavaScript函数可以根据传入参数的类型和数量来返回不同类型的对象，并且这样的使用方式并不少见。
 
 ```js
