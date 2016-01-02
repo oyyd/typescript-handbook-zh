@@ -10,5 +10,5 @@
 * [混合](gitbook/mixins.md)
 * [声明合并](gitbook/declaration_merging.md)
 * [类型推断](gitbook/type_inference.md)
-* [类型兼容性](gitbook/type_compatibilitity.md)
+* [类型兼容性](gitbook/type_compatibility.md)
 * [TypeScript 1.5](gitbook/typescript_1.5.md)
