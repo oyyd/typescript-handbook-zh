@@ -169,10 +169,10 @@ TypeScript装饰器（decorator）是基于ES7的装饰器提案实现的。
 
 装饰器是：
 
-* $an expression一个表达式
-* $that evaluates to a function它会作为一个函数执行
-* $that takes the target, name, and property descriptor as arguments它把目标，名称，属性描述（property descriptor）作为参数
-* $and optionally returns a property descriptor to install on the target object它可以返回一个属性描述，以作用在目标对象上
+* 一个表达式
+* 它会作为一个函数执行
+* 它把目标，名称，属性描述（property descriptor）作为参数
+* 它可以返回一个属性描述，以作用在目标对象上
 
 你可以查阅Decorators提案来获取更多信息。
 
@@ -284,8 +284,8 @@ define(["require", "exports", "legacy/moduleA"], function (require, exports, mod
 
 我们可以给一个文件夹添加一个`tsconfig.json`文件来表示当前文件夹是一个TypeScript项目的根目录。通过tsconfig.json，我们可以指定根文件（root files）以及编译选项。每个项目对会以下面的方式之一进行编译：
 
-* $By invoking tsc with no input files, in which case the compiler searches for the tsconfig.json file starting in the current directory and continuing up the parent directory chain.如果我们使用tsc指令但是不指定输入文件，编译器会就会从当前文件夹开始，向上寻找tsconfig.json文件。
-* $By invoking tsc with no input files and a -project (or just -p) command line option that specifies the path of a directory containing a tsconfig.json file.如果我们使用tsc指令但是不指定输入文件，那我们可以使用-project（或 -p）命令行选项来指定包含tsconfig.json文件的文件夹。
+* 如果我们使用tsc指令但是不指定输入文件，编译器会就会从当前文件夹开始，向上寻找tsconfig.json文件。
+* 如果我们使用tsc指令但是不指定输入文件，那我们可以使用-project（或 -p）命令行选项来指定包含tsconfig.json文件的文件夹。
 
 __例子:__
 
